@@ -23,7 +23,7 @@ if __name__ == "__main__":
             success = True
 
             while success:
-                success, image = vidcap.read()
                 output_name = "{0}-frame{1}.jpg".format(file_name, one_based_index)
                 cv2.imwrite(os.path.join(output_directory, output_name), image)
+                success, image = vidcap.read()
                 one_based_index += 1
