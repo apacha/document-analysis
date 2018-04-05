@@ -26,8 +26,8 @@ class DirectoryIteratorWithTarget(DirectoryIterator):
             index_array = next(self.index_generator)
         # The transformation of images is not under thread lock
         # so it can be done in parallel
-        batch_x = np.zeros((batch_size,) + self.image_shape, dtype=backend.floatx())
-        batch_y = np.zeros((batch_size,) + (8,), dtype=backend.floatx())
+        batch_x = np.zeros((self.batch_size,) + self.image_shape, dtype=backend.floatx())
+        batch_y = np.zeros((self.batch_size,) + (8,), dtype=backend.floatx())
 
         # build batch of image data
         for i, j in enumerate(index_array):
