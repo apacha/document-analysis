@@ -24,8 +24,10 @@ if __name__ == "__main__":
     history = model.fit_generator(
         generator=training_data_generator,
         steps_per_epoch=training_steps_per_epoch,
-        epochs=training_configuration.number_of_epochs,
+        epochs=10,
         workers=4
     )
+
+    model.save("trained_model.h5")
 
 
