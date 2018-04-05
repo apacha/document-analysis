@@ -16,14 +16,9 @@ class DirectoryIteratorWithTarget(DirectoryIterator):
                          shuffle, seed, data_format, False, None, None, follow_links)
         self.filename_to_target_mapping = filename_to_target_mapping
 
-    def next(self):
-        """
+    def _get_batches_of_transformed_samples(self, index_array):
+        """ Returns the next batch. """
 
-        # Returns
-            The next batch.
-        """
-        with self.lock:
-            index_array = next(self.index_generator)
         # The transformation of images is not under thread lock
         # so it can be done in parallel
         batch_x = np.zeros((self.batch_size,) + self.image_shape, dtype=backend.floatx())
