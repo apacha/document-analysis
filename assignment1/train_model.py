@@ -25,7 +25,7 @@ if __name__ == "__main__":
         generator=training_data_generator,
         steps_per_epoch=training_steps_per_epoch,
         epochs=training_configuration.number_of_epochs,
-        workers=0
+        workers=4
     )
 
 
