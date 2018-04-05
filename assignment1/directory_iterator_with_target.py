@@ -26,15 +26,19 @@ class DirectoryIteratorWithTarget(DirectoryIterator):
 
         # build batch of image data
         for i, j in enumerate(index_array):
-            fname = self.filenames[j]
-            img = image.load_img(os.path.join(self.directory, fname),
-                                 target_size=self.target_size)
-            x = image.img_to_array(img, data_format=self.data_format)
-            x = self.image_data_generator.random_transform(x)
-            x = self.image_data_generator.standardize(x)
-            if fname in self.filename_to_target_mapping:
-                batch_x[i] = x
-                batch_y[i] = np.asarray(self.filename_to_target_mapping[fname])
+            try:
+                fname = self.filenames[j]
+                img = image.load_img(os.path.join(self.directory, fname),
+                                     target_size=self.target_size)
+                x = image.img_to_array(img, data_format=self.data_format)
+                x = self.image_data_generator.random_transform(x)
+                x = self.image_data_generator.standardize(x)
+                if fname in self.filename_to_target_mapping:
+                    batch_x[i] = x
+                    batch_y[i] = np.asarray(self.filename_to_target_mapping[fname])
+            except:
+                print("Error when loading {0}".format(self.filenames[j]))
+                pass
 
         return batch_x, batch_y
 
