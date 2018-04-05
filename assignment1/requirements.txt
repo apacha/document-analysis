@@ -4,9 +4,9 @@ Pillow >= 4.1.1
 graphviz == 0.8 # for graphviz, installation via the system might be required, e.g. sudo apt-get install graphviz
 
 # Use pip install ... to install these
-keras == 2.1.3
-tensorflow == 1.5.0
-# tensorflow-gpu == 1.5.0 # Alternatively if available to run vastly faster trainings. See https://github.com/philferriere/dlwin
+keras == 2.1.5
+tensorflow == 1.7.0
+# tensorflow-gpu == 1.7.0 # Alternatively if available to run vastly faster trainings. See https://github.com/philferriere/dlwin
 tqdm
 omrdatasettools == 0.9
 opencv-python
