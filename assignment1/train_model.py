@@ -30,7 +30,7 @@ if __name__ == "__main__":
     validation_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
 
     best_model_path = "trained_model.h5"
-    monitor_variable = 'val_mae'
+    monitor_variable = 'val_mean_absolute_error'
     model_checkpoint = ModelCheckpoint(best_model_path, monitor=monitor_variable, save_best_only=True, verbose=1)
     early_stop = EarlyStopping(monitor=monitor_variable,
                                patience=training_configuration.number_of_epochs_before_early_stopping,
@@ -58,5 +58,6 @@ if __name__ == "__main__":
         validation_steps=validation_steps_per_epoch,
         steps_per_epoch=training_steps_per_epoch,
         epochs=training_configuration.number_of_epochs,
-        workers=4
+        workers=4,
+        callbacks=callbacks
     )
