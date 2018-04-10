@@ -2,6 +2,7 @@ import datetime
 from glob import glob
 import os
 
+import keras
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras.preprocessing.image import ImageDataGenerator
 from tqdm import tqdm
@@ -24,10 +25,16 @@ if __name__ == "__main__":
                                                             filename_to_target_mapping,
                                                             target_size=(224, 400),
                                                             batch_size=batch_size)
+    test_data_generator = DirectoryIteratorWithTarget("data/images-test",
+                                                            ImageDataGenerator(),
+                                                            filename_to_target_mapping,
+                                                            target_size=(224, 400),
+                                                            batch_size=batch_size)
 
     training_configuration = ConfigurationFactory.get_configuration_by_name("res_net_50", 400, 224)
     training_steps_per_epoch = np.math.ceil(training_data_generator.samples / training_data_generator.batch_size)
     validation_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
+    test_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
 
     best_model_path = "trained_model.h5"
     monitor_variable = 'val_mean_absolute_error'
@@ -61,3 +68,11 @@ if __name__ == "__main__":
         workers=4,
         callbacks=callbacks
     )
+
+    print("Loading best model from check-point and testing...")
+    best_model = keras.models.load_model(best_model_path)
+    evaluation = best_model.evaluate_generator(test_data_generator, steps=test_steps_per_epoch)
+
+    for i in range(len(best_model.metrics_names)):
+        current_metric = best_model.metrics_names[i]
+        print("{0}: {1:.5f}".format(current_metric, evaluation[i]))
