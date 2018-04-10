@@ -49,6 +49,9 @@ if __name__ == "__main__":
                                                       batch_size=batch_size)
 
     training_configuration = ConfigurationFactory.get_configuration_by_name(model_name, image_width, image_height)
+    print("Model {0} loaded.".format(training_configuration.name()))
+    print(training_configuration.summary())
+
     training_steps_per_epoch = np.math.ceil(training_data_generator.samples / training_data_generator.batch_size)
     validation_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
     test_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
