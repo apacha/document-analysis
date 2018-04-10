@@ -1,5 +1,6 @@
 from typing import List
 
+from models.DenseNetPretrainedConfiguration import DenseNetPretrainedConfiguration
 from models.ResNet50PretrainedConfiguration import ResNet50PretrainedConfiguration
 from models.TrainingConfiguration import TrainingConfiguration
 
@@ -10,18 +11,19 @@ class ConfigurationFactory:
                                   width: int,
                                   height: int) -> TrainingConfiguration:
 
-        configurations = ConfigurationFactory.get_all_configurations(width, height)
+        all_configurations = ConfigurationFactory.get_all_configurations(width, height)
 
-        for i in range(len(configurations)):
-            if configurations[i].name() == name:
-                return configurations[i]
+        for i in range(len(all_configurations)):
+            if all_configurations[i].name() == name:
+                return all_configurations[i]
 
         raise Exception("No configuration found by name {0}".format(name))
 
     @staticmethod
     def get_all_configurations(width, height) -> List[TrainingConfiguration]:
-        configurations = [ResNet50PretrainedConfiguration(width, height)]
-        return configurations
+        all_configurations = [ResNet50PretrainedConfiguration(width, height),
+                              DenseNetPretrainedConfiguration(width, height)]
+        return all_configurations
 
 
 if __name__ == "__main__":
