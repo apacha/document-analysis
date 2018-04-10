@@ -20,7 +20,7 @@ class TrainingConfiguration(ABC):
                  minimum_learning_rate: float = 0.00001,
                  weight_decay: float = 0.0001,
                  nesterov_momentum: float = 0.9,
-                 zoom_range=0.2,
+                 zoom_range=0,
                  rotation_range=0,
                  optimizer: str = "Adadelta",
                  ):
