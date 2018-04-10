@@ -1,6 +1,6 @@
 from keras.applications import ResNet50
 from keras.engine import Model
-from keras.layers import Activation, Convolution2D, GlobalAveragePooling2D, Dense, Flatten
+from keras.layers import Activation, Convolution2D, GlobalAveragePooling2D, Dense, Flatten, Dropout
 from keras.utils import plot_model
 
 from models.TrainingConfiguration import TrainingConfiguration
@@ -17,7 +17,10 @@ class ResNet50PretrainedConfiguration(TrainingConfiguration):
         base_model = ResNet50(include_top=False, weights='imagenet', input_shape=self.data_shape, pooling=None)
         x = base_model.output
         x = Flatten()(x)
-        x = Dense(100)(x)
+        x = Dense(1000)(x)
+        x = Dropout(0.5)(x)
+        x = Dense(1000)(x)
+        x = Dropout(0.5)(x)
         x = Dense(8, activation='linear', name='output_class')(x)
         model = Model(inputs=base_model.inputs, outputs=x)
         model.compile(self.get_optimizer(), loss="mean_squared_error", metrics=["mae"])
