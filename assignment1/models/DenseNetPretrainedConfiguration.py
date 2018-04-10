@@ -15,7 +15,7 @@ class DenseNetPretrainedConfiguration(TrainingConfiguration):
 
     def classifier(self) -> Model:
         """ Returns the model of this configuration """
-        base_model = DenseNet(include_top=False, weights='imagenet', input_shape=self.data_shape, pooling=None)
+        base_model = DenseNet([6, 12, 24, 16], include_top=False, weights='imagenet', input_shape=self.data_shape, pooling=None)
         x = base_model.output
         x = Flatten()(x)
         x = Dense(500)(x)
