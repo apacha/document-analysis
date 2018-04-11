@@ -14,6 +14,7 @@ from models.ConfigurationFactory import ConfigurationFactory
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.register("type", "bool", lambda v: v.lower() == "true")
     parser.add_argument("--dataset_directory", type=str, default="data",
                         help="The directory, that is used for storing the images during training")
     parser.add_argument("--model_name", type=str, default="res_net_50",
@@ -23,14 +24,19 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", default=16, type=int,
                         help="The minibatch-size for training. Reduce to 8 or 4 if your graphics card runs out of "
                              "memory, but keep high otherwise to speed up training")
+    parser.add_argument("--use_relative_coordinates", dest="use_relative_coordinates",
+                        action="store_true", help="Specify, if relative coordinates should be used instead of absolute")
+    parser.set_defaults(use_relative_coordinates=False)
     flags, unparsed = parser.parse_known_args()
+
     dataset_directory = flags.dataset_directory
     model_name = flags.model_name
     image_width = flags.width
     image_height = flags.height
     batch_size = flags.batch_size
+    use_relative_coordinates = flags.use_relative_coordinates
 
-    filename_to_target_mapping = load_mapping()
+    filename_to_target_mapping = load_mapping(dataset_directory, use_relative_coordinates)
     start_of_training = datetime.date.today()
     training_data_generator = DirectoryIteratorWithTarget(os.path.join(dataset_directory, "images-training"),
                                                           ImageDataGenerator(),
