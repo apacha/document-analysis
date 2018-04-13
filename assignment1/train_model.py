@@ -62,8 +62,9 @@ if __name__ == "__main__":
     validation_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
     test_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
 
-    best_model_path = "{0}_{1}_{2}.h5".format(start_of_training, training_configuration.name(),
-                                              "relative" if use_relative_coordinates else "absolute")
+    best_model_path = "{0}_{1}_{2}x{3}_{4}.h5".format(start_of_training, training_configuration.name(), image_width,
+                                                      image_height,
+                                                      "relative" if use_relative_coordinates else "absolute")
     monitor_variable = 'val_mean_absolute_error'
     model_checkpoint = ModelCheckpoint(best_model_path, monitor=monitor_variable, save_best_only=True, verbose=1)
     early_stop = EarlyStopping(monitor=monitor_variable,
