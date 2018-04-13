@@ -4,6 +4,7 @@ from models.DenseNetPretrainedConfiguration import DenseNetPretrainedConfigurati
 from models.InceptionResNetV2PretrainedConfiguration import InceptionResNetV2PretrainedConfiguration
 from models.ResNet50PretrainedConfiguration import ResNet50PretrainedConfiguration
 from models.ResNet50_2_PretrainedConfiguration import ResNet50_2_PretrainedConfiguration
+from models.ResNet50_GAP_PretrainedConfiguration import ResNet50_GAP_PretrainedConfiguration
 from models.TrainingConfiguration import TrainingConfiguration
 
 
@@ -25,6 +26,7 @@ class ConfigurationFactory:
     def get_all_configurations(width, height) -> List[TrainingConfiguration]:
         all_configurations = [ResNet50PretrainedConfiguration(width, height),
                               ResNet50_2_PretrainedConfiguration(width, height),
+                              ResNet50_GAP_PretrainedConfiguration(width, height),
                               DenseNetPretrainedConfiguration(width, height),
                               InceptionResNetV2PretrainedConfiguration(width, height),
                               ]

@@ -36,5 +36,5 @@ if __name__ == "__main__":
     configuration = ResNet50_2_PretrainedConfiguration(400, 224)
     classifier = configuration.classifier()
     classifier.summary()
-    plot_model(classifier, to_file="res_net_50.png")
+    plot_model(classifier, to_file="{0}.png".format(configuration.name()))
     print(configuration.summary())
