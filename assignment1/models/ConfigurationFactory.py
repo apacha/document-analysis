@@ -1,11 +1,13 @@
 from typing import List
 
-from models.DenseNetPretrainedConfiguration import DenseNetPretrainedConfiguration
-from models.InceptionResNetV2PretrainedConfiguration import InceptionResNetV2PretrainedConfiguration
-from models.ResNet50PretrainedConfiguration import ResNet50PretrainedConfiguration
-from models.ResNet50_2_PretrainedConfiguration import ResNet50_2_PretrainedConfiguration
-from models.ResNet50_GAP_PretrainedConfiguration import ResNet50_GAP_PretrainedConfiguration
+from models.DenseNetConfiguration import DenseNetConfiguration
+from models.InceptionResNetV2Configuration import InceptionResNetV2Configuration
+from models.InceptionResNetV2GapConfiguration import InceptionResNetV2GapConfiguration
+from models.ResNet50Configuration import ResNet50Configuration
+from models.ResNet50LargeBackendConfiguration import ResNet50LargeBackendConfiguration
+from models.ResNet50GapConfiguration import ResNet50GapConfiguration
 from models.TrainingConfiguration import TrainingConfiguration
+from models.XceptionGapConfiguration import Xception_GAP_PretrainedConfiguration
 
 
 class ConfigurationFactory:
@@ -24,11 +26,13 @@ class ConfigurationFactory:
 
     @staticmethod
     def get_all_configurations(width, height) -> List[TrainingConfiguration]:
-        all_configurations = [ResNet50PretrainedConfiguration(width, height),
-                              ResNet50_2_PretrainedConfiguration(width, height),
-                              ResNet50_GAP_PretrainedConfiguration(width, height),
-                              DenseNetPretrainedConfiguration(width, height),
-                              InceptionResNetV2PretrainedConfiguration(width, height),
+        all_configurations = [ResNet50Configuration(width, height),
+                              ResNet50LargeBackendConfiguration(width, height),
+                              ResNet50GapConfiguration(width, height),
+                              Xception_GAP_PretrainedConfiguration(width, height),
+                              DenseNetConfiguration(width, height),
+                              InceptionResNetV2Configuration(width, height),
+                              InceptionResNetV2GapConfiguration(width, height),
                               ]
         return all_configurations
 

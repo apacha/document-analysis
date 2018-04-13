@@ -8,15 +8,15 @@ class TrainingConfiguration(ABC):
     """ The base class for a configuration that specifies the hyperparameters of a training """
 
     def __init__(self,
-                 data_shape: tuple = (448, 128, 3),  # Rows = Height, columns = Width, channels = typically 3 (RGB)
-                 number_of_classes: int = 20,
+                 data_shape: tuple = (1080, 1920, 3),  # Rows = Height, columns = Width, channels = typically 3 (RGB)
+                 number_of_classes: int = 1,
                  number_of_epochs: int = 200,
                  number_of_epochs_before_early_stopping: int = 20,
                  number_of_epochs_before_reducing_learning_rate: int = 8,
                  training_minibatch_size: int = 8,
                  initialization: str = "glorot_uniform",
                  learning_rate: float = 0.01,
-                 learning_rate_reduction_factor: float = 0.5,
+                 learning_rate_reduction_factor: float = 0.7,
                  minimum_learning_rate: float = 0.00001,
                  weight_decay: float = 0.0001,
                  nesterov_momentum: float = 0.9,

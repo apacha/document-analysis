@@ -6,7 +6,7 @@ from keras.utils import plot_model
 from models.TrainingConfiguration import TrainingConfiguration
 
 
-class ResNet50_GAP_PretrainedConfiguration(TrainingConfiguration):
+class ResNet50Configuration(TrainingConfiguration):
     """ A network with residual modules """
 
     def __init__(self, width: int, height: int):
@@ -16,9 +16,12 @@ class ResNet50_GAP_PretrainedConfiguration(TrainingConfiguration):
         """ Returns the model of this configuration """
         base_model = ResNet50(include_top=False, weights='imagenet', input_shape=self.data_shape, pooling=None)
         x = base_model.output
-        x = Convolution2D(8, kernel_size=(1,1), padding='same')(x)
-        x = GlobalAveragePooling2D()(x)
-        x = Activation('linear', name='output_coordinates')(x)
+        x = Flatten()(x)
+        x = Dense(1000)(x)
+        x = Dropout(0.5)(x)
+        x = Dense(1000)(x)
+        x = Dropout(0.5)(x)
+        x = Dense(8, activation='linear', name='output_class')(x)
         model = Model(inputs=base_model.inputs, outputs=x)
         model.compile(self.get_optimizer(), loss="mean_squared_error", metrics=["mae"])
 
@@ -26,11 +29,11 @@ class ResNet50_GAP_PretrainedConfiguration(TrainingConfiguration):
 
     def name(self) -> str:
         """ Returns the name of this configuration """
-        return "res_net_50_gap"
+        return "res_net_50"
 
 
 if __name__ == "__main__":
-    configuration = ResNet50_GAP_PretrainedConfiguration(1920, 1080)
+    configuration = ResNet50Configuration(400, 224)
     classifier = configuration.classifier()
     classifier.summary()
     plot_model(classifier, to_file="{0}.png".format(configuration.name()))
