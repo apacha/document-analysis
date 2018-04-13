@@ -7,6 +7,37 @@ cd $pathToSourceRoot
 echo "Appending required paths to temporary PYTHONPATH"
 $env:PYTHONPATH = "$($pathToGitRoot);$($pathToSourceRoot)"
 
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-13_res_net_50_gap_1920x1080_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50_gap --width 1920 --height 1080 --batch_size 1 --use_relative_coordinates
+Stop-Transcript
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-13_res_net_50_400x224_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50 --width 400 --height 224 --batch_size 16 --use_relative_coordinates
+Stop-Transcript
+
+exit
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-13_res_net_50_gap_400x224_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50_gap --width 400 --height 224 --batch_size 8 --use_relative_coordinates
+Stop-Transcript
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-12_res_net_50_2_600x336_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50_2 --width 600 --height 336 --batch_size 4 --use_relative_coordinates
+Stop-Transcript
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-12_inception_resnet_v2_400x224_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name inception_resnet_v2 --width 400 --height 224 --batch_size 8 --use_relative_coordinates
+Stop-Transcript
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-12_res_net_50_2_400x224_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50_2 --width 400 --height 224 --batch_size 16 --use_relative_coordinates
+Stop-Transcript
+
+Start-Transcript -path "$($pathToTranscript)\2018-04-11_res_net_50_400x224_relative-coordinates.txt" -append
+python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name res_net_50 --width 400 --height 224 --batch_size 16 --use_relative_coordinates
+Stop-Transcript
+
 Start-Transcript -path "$($pathToTranscript)\2018-04-10_dense_net_400x224.txt" -append
 python "$($pathToSourceRoot)\train_model.py" --dataset_directory data --model_name dense_net --width 400 --height 224 
 Stop-Transcript
