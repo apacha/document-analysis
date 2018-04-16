@@ -4,6 +4,7 @@ from models.DenseNetConfiguration import DenseNetConfiguration
 from models.InceptionResNetV2Configuration import InceptionResNetV2Configuration
 from models.InceptionResNetV2GapConfiguration import InceptionResNetV2GapConfiguration
 from models.ResNet50Configuration import ResNet50Configuration
+from models.ResNet50GapPreserveSpaceConfiguration import ResNet50GapPreserveSpaceConfiguration
 from models.ResNet50LargeBackendConfiguration import ResNet50LargeBackendConfiguration
 from models.ResNet50GapConfiguration import ResNet50GapConfiguration
 from models.TrainingConfiguration import TrainingConfiguration
@@ -29,6 +30,7 @@ class ConfigurationFactory:
         all_configurations = [ResNet50Configuration(width, height),
                               ResNet50LargeBackendConfiguration(width, height),
                               ResNet50GapConfiguration(width, height),
+                              ResNet50GapPreserveSpaceConfiguration(width, height),
                               Xception_GAP_PretrainedConfiguration(width, height),
                               DenseNetConfiguration(width, height),
                               InceptionResNetV2Configuration(width, height),
