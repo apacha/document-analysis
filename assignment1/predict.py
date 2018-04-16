@@ -1,30 +1,41 @@
 import os
+from glob import glob
 
 import keras
 from PIL import Image
 from PIL.ImageDraw import ImageDraw
 from keras.preprocessing import image
 import numpy as np
+import pandas as pd
+from tqdm import tqdm
 
 import annotation_loader
 
 if __name__ == "__main__":
-    images = ["data/images-test/all_objects/background01-letter005-frame112.jpg",
-              "data/images-test/all_objects/background02-magazine004-frame89.jpg",
-              "data/images-test/all_objects/background03-paper003-frame53.jpg",
-              "data/images-test/all_objects/background04-magazine005-frame88.jpg",
-              "data/images-test/all_objects/background05-datasheet005-frame44.jpg"]
-    model_path = "2018-04-12_res_net_50_2.h5"
+    # images = ["data/images-test/all_objects/background01-letter005-frame112.jpg",
+    #           "data/images-test/all_objects/background02-magazine004-frame89.jpg",
+    #           "data/images-test/all_objects/background03-paper003-frame53.jpg",
+    #           "data/images-test/all_objects/background04-magazine005-frame88.jpg",
+    #           "data/images-test/all_objects/background05-datasheet005-frame44.jpg"]
+
+    images = glob("data/images-test/all_objects/*.jpg")
+
+    model_path = "2018-04-13_res_net_50_gap_400x224_relative.h5"
+    image_width = 400
+    image_height = 224
     use_relative_coordinates = True
     mapping = annotation_loader.load_mapping()
     print("Loading model...")
     best_model = keras.models.load_model(model_path)
+    output_directory = "detections_output"
+    os.makedirs(output_directory, exist_ok=True)
+    detections = []
 
-    for input_image in images:
+    for input_image in tqdm(images, "Detecting pages..."):
         annotation = mapping["all_objects\\" + os.path.basename(input_image)]
-        img = image.load_img(input_image, target_size=(224, 400))
+        img = image.load_img(input_image, target_size=(image_height, image_width))
         # We trained with batches, since we only insert one image, we have to add one extra dimension with reshape
-        x = np.reshape(image.img_to_array(img), (1, 224, 400, 3))
+        x = np.reshape(image.img_to_array(img), (1, image_height, image_width, 3))
         prediction = best_model.predict(x).flatten()
 
         full_image = Image.open(input_image)
@@ -39,4 +50,8 @@ if __name__ == "__main__":
         image_draw = ImageDraw(full_image, 'RGBA')
         image_draw.polygon(annotation, fill=(0, 255, 0, 80))
         image_draw.polygon(prediction, fill=(255, 0, 0, 80))
-        full_image.save(os.path.splitext(os.path.basename(input_image))[0] + "-detect.jpg")
+        detections.append((input_image,) + tuple(list(prediction)))
+        full_image.save(
+            os.path.join(output_directory, os.path.splitext(os.path.basename(input_image))[0] + "-detect.jpg"))
+
+    pd.DataFrame(detections).to_csv("detections.csv", index=False, header=["path", "bl_x", "bl_y", "tl_x", "tl_y", "tr_x", "tr_y", "br_x", "br_y"])
