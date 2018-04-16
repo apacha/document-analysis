@@ -16,7 +16,7 @@ import annotation_loader
 def annotation_to_polygon(annotation_coordinates) -> Polygon:
     """ Converts a list of coordinates for the four corners into a Shapely-Polygon """
     c = annotation_coordinates
-    return Polygon([(c[0], c[1]), (c[2], c[3]), (c[4], c[5]), (c[6], c[7]), (c[0], c[1])])
+    return Polygon([(c[0], c[1]), (c[2], c[3]), (c[4], c[5]), (c[6], c[7])])
 
 
 def jaccard_index(ground_truth, prediction) -> float:
@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     images = glob("data/images-test/all_objects/*.jpg")
 
-    model_path = "2018-04-13_res_net_50_gap_400x224_relative.h5"
+    model_path = "2018-04-16_res_net_50_gap_400x224_relative.h5"
     image_width = 400
     image_height = 224
     use_relative_coordinates = True
