@@ -14,7 +14,7 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
     for background in tqdm(backgrounds, desc="Background..."):
         annotation_files = glob(os.path.join(dataset_directory, "page-detection", background, "*.gt.xml"))
 
-        for annotation_file in tqdm(annotation_files, desc="File..."):
+        for annotation_file in annotation_files:
             tree = ET.parse(annotation_file)
             root = tree.getroot()
 
