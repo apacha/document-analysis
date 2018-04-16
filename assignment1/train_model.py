@@ -78,9 +78,11 @@ if __name__ == "__main__":
     validation_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
     test_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
 
-    best_model_path = "{0}_{1}_{2}x{3}_{4}.h5".format(start_of_training, training_configuration.name(), image_width,
-                                                      image_height,
-                                                      "relative" if use_relative_coordinates else "absolute")
+    model_description = "{0}_{1}_{2}x{3}_{4}{5}".format(start_of_training, training_configuration.name(), image_width,
+                                                         image_height,
+                                                         "relative" if use_relative_coordinates else "absolute",
+                                                         "_standardize" if standardize else "")
+    best_model_path = model_description + ".h5"
     monitor_variable = 'val_mean_absolute_error'
     model_checkpoint = ModelCheckpoint(best_model_path, monitor=monitor_variable, save_best_only=True, verbose=1)
     early_stop = EarlyStopping(monitor=monitor_variable,
@@ -92,9 +94,7 @@ if __name__ == "__main__":
                                                 factor=training_configuration.learning_rate_reduction_factor,
                                                 min_lr=training_configuration.minimum_learning_rate)
 
-    log_directory = "./logs/{0}_{1}_{2}x{3}_{4}/".format(start_of_training, training_configuration.name(), image_width,
-                                                         image_height,
-                                                         "relative" if use_relative_coordinates else "absolute")
+    log_directory = "./logs/{0}/".format(model_description)
     tensorboard_callback = TensorBoard(
         log_dir=log_directory,
         batch_size=training_configuration.training_minibatch_size)
