@@ -76,7 +76,9 @@ if __name__ == "__main__":
                                                 factor=training_configuration.learning_rate_reduction_factor,
                                                 min_lr=training_configuration.minimum_learning_rate)
 
-    log_directory = "./logs/{0}_{1}/".format(start_of_training, training_configuration.name())
+    log_directory = "./logs/{0}_{1}_{2}x{3}_{4}/".format(start_of_training, training_configuration.name(), image_width,
+                                                         image_height,
+                                                         "relative" if use_relative_coordinates else "absolute")
     tensorboard_callback = TensorBoard(
         log_dir=log_directory,
         batch_size=training_configuration.training_minibatch_size)
