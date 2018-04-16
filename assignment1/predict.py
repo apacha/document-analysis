@@ -4,6 +4,7 @@ from glob import glob
 import keras
 from PIL import Image
 from PIL.ImageDraw import ImageDraw
+from keras.backend import epsilon
 from keras.preprocessing import image
 import numpy as np
 import pandas as pd
@@ -37,6 +38,9 @@ if __name__ == "__main__":
     images = glob("data/images-test/all_objects/*.jpg")
 
     model_path = "2018-04-16_res_net_50_gap_400x224_relative.h5"
+    standardize = True
+    mean = np.asarray([47.934902, 47.934902, 47.934902])
+    std = np.asarray([57.299076, 47.838173, 60.273067])
     image_width = 400
     image_height = 224
     use_relative_coordinates = True
@@ -53,6 +57,10 @@ if __name__ == "__main__":
         img = image.load_img(input_image, target_size=(image_height, image_width))
         # We trained with batches, since we only insert one image, we have to add one extra dimension with reshape
         x = np.reshape(image.img_to_array(img), (1, image_height, image_width, 3))
+        if standardize:
+            x -= mean
+            x /= std + epsilon()
+
         prediction = best_model.predict(x).flatten()
 
         full_image = Image.open(input_image)
@@ -67,7 +75,11 @@ if __name__ == "__main__":
         image_draw = ImageDraw(full_image, 'RGBA')
         image_draw.polygon(annotation, fill=(0, 255, 0, 80))
         image_draw.polygon(prediction, fill=(255, 0, 0, 80))
-        jaccard_indices.append(jaccard_index(annotation, prediction))
+        try:
+            jaccard_indices.append(jaccard_index(annotation, prediction))
+        except Exception as ex:
+            print("Could not compute Jaccard index for {0} and {1} from image {2}\n{3}".format(annotation, prediction,
+                                                                                               input_image, ex))
         detections.append((input_image,) + tuple(list(prediction)))
         full_image.save(
             os.path.join(output_directory, os.path.splitext(os.path.basename(input_image))[0] + "-detect.jpg"))
@@ -77,4 +89,3 @@ if __name__ == "__main__":
 
     average_jaccard_index = sum(jaccard_indices) / float(len(jaccard_indices))
     print("Average Jaccard Index: {0}".format(average_jaccard_index))
-
