@@ -10,3 +10,4 @@ tensorflow == 1.7.0
 tqdm
 omrdatasettools == 0.9
 opencv-python
+pandas
