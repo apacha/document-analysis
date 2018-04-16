@@ -16,7 +16,7 @@ class TrainingConfiguration(ABC):
                  training_minibatch_size: int = 8,
                  initialization: str = "glorot_uniform",
                  learning_rate: float = 0.01,
-                 learning_rate_reduction_factor: float = 0.7,
+                 learning_rate_reduction_factor: float = 0.5,
                  minimum_learning_rate: float = 0.00001,
                  weight_decay: float = 0.0001,
                  nesterov_momentum: float = 0.9,
