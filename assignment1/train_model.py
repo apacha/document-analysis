@@ -5,7 +5,7 @@ import os
 
 import keras
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TensorBoard
-from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator, DirectoryIterator
 from tqdm import tqdm
 import numpy as np
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.register("type", "bool", lambda v: v.lower() == "true")
     parser.add_argument("--dataset_directory", type=str, default="data",
                         help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_name", type=str, default="res_net_50",
+    parser.add_argument("--model_name", type=str, default="res_net_50_gap",
                         help="The model used for training the network. Run >python models/ConfigurationFactory.py to get a list of all available configurations")
     parser.add_argument("--width", default=400, type=int, help="Width of the input-images for the network in pixel")
     parser.add_argument("--height", default=224, type=int, help="Height of the input-images for the network in pixel")
@@ -27,6 +27,9 @@ if __name__ == "__main__":
     parser.add_argument("--use_relative_coordinates", dest="use_relative_coordinates",
                         action="store_true", help="Specify, if relative coordinates should be used instead of absolute")
     parser.set_defaults(use_relative_coordinates=False)
+    parser.add_argument("--standardize", dest="standardize",
+                        action="store_true", help="Specify, if the input images should be standardized or not")
+    parser.set_defaults(use_relative_coordinates=False)
     flags, unparsed = parser.parse_known_args()
 
     dataset_directory = flags.dataset_directory
@@ -35,21 +38,34 @@ if __name__ == "__main__":
     image_height = flags.height
     batch_size = flags.batch_size
     use_relative_coordinates = flags.use_relative_coordinates
+    standardize = flags.standardize
 
     filename_to_target_mapping = load_mapping(dataset_directory, use_relative_coordinates)
     start_of_training = datetime.date.today()
+
+    generator = ImageDataGenerator()
+    if standardize:
+        batch_for_computing_statistics = DirectoryIterator(os.path.join(dataset_directory, "images-training"),
+                                                           ImageDataGenerator(), target_size=(224, 400),
+                                                           # always use small scale for just computing statistics
+                                                           batch_size=1000).next()
+        generator = ImageDataGenerator(featurewise_center=True, featurewise_std_normalization=True)
+        generator.fit(batch_for_computing_statistics[0])
+        print("Standardizing with computed mean: {0} and std: {1} for sample of 1000 images from training set"
+              .format(generator.mean, generator.std))
+
     training_data_generator = DirectoryIteratorWithTarget(os.path.join(dataset_directory, "images-training"),
-                                                          ImageDataGenerator(),
+                                                          generator,
                                                           filename_to_target_mapping,
                                                           target_size=(image_height, image_width),
                                                           batch_size=batch_size)
     validation_data_generator = DirectoryIteratorWithTarget(os.path.join(dataset_directory, "images-validation"),
-                                                            ImageDataGenerator(),
+                                                            generator,
                                                             filename_to_target_mapping,
                                                             target_size=(image_height, image_width),
                                                             batch_size=batch_size)
     test_data_generator = DirectoryIteratorWithTarget(os.path.join(dataset_directory, "images-test"),
-                                                      ImageDataGenerator(),
+                                                      generator,
                                                       filename_to_target_mapping,
                                                       target_size=(image_height, image_width),
                                                       batch_size=batch_size)
