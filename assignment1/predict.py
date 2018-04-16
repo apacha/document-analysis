@@ -7,9 +7,25 @@ from PIL.ImageDraw import ImageDraw
 from keras.preprocessing import image
 import numpy as np
 import pandas as pd
+from shapely.geometry import Polygon
 from tqdm import tqdm
 
 import annotation_loader
+
+
+def annotation_to_polygon(annotation_coordinates) -> Polygon:
+    """ Converts a list of coordinates for the four corners into a Shapely-Polygon """
+    c = annotation_coordinates
+    return Polygon([(c[0], c[1]), (c[2], c[3]), (c[4], c[5]), (c[6], c[7]), (c[0], c[1])])
+
+
+def jaccard_index(ground_truth, prediction) -> float:
+    ground_truth_polygon = annotation_to_polygon(ground_truth)
+    predicted_polygon = annotation_to_polygon(prediction)
+    jaccard_index = ground_truth_polygon.intersection(predicted_polygon).area / ground_truth_polygon.union(
+        predicted_polygon).area
+    return jaccard_index
+
 
 if __name__ == "__main__":
     # images = ["data/images-test/all_objects/background01-letter005-frame112.jpg",
@@ -30,6 +46,7 @@ if __name__ == "__main__":
     output_directory = "detections_output"
     os.makedirs(output_directory, exist_ok=True)
     detections = []
+    jaccard_indices = []
 
     for input_image in tqdm(images, "Detecting pages..."):
         annotation = mapping["all_objects\\" + os.path.basename(input_image)]
@@ -50,8 +67,14 @@ if __name__ == "__main__":
         image_draw = ImageDraw(full_image, 'RGBA')
         image_draw.polygon(annotation, fill=(0, 255, 0, 80))
         image_draw.polygon(prediction, fill=(255, 0, 0, 80))
+        jaccard_indices.append(jaccard_index(annotation, prediction))
         detections.append((input_image,) + tuple(list(prediction)))
         full_image.save(
             os.path.join(output_directory, os.path.splitext(os.path.basename(input_image))[0] + "-detect.jpg"))
 
-    pd.DataFrame(detections).to_csv("detections.csv", index=False, header=["path", "bl_x", "bl_y", "tl_x", "tl_y", "tr_x", "tr_y", "br_x", "br_y"])
+    pd.DataFrame(detections).to_csv("detections.csv", index=False,
+                                    header=["path", "bl_x", "bl_y", "tl_x", "tl_y", "tr_x", "tr_y", "br_x", "br_y"])
+
+    average_jaccard_index = sum(jaccard_indices) / float(len(jaccard_indices))
+    print("Average Jaccard Index: {0}".format(average_jaccard_index))
+
