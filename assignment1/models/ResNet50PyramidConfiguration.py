@@ -2,7 +2,7 @@ from keras import Input
 from keras.applications import ResNet50, resnet50
 from keras.engine import Model
 from keras.layers import Activation, Conv2D, GlobalAveragePooling2D, Dense, Flatten, Dropout, Conv2D, Add, \
-    UpSampling2D, MaxPooling2D, ZeroPadding2D, BatchNormalization
+    UpSampling2D, MaxPooling2D, ZeroPadding2D, BatchNormalization, Average
 from keras.utils import plot_model, get_file
 
 from models.TrainingConfiguration import TrainingConfiguration
@@ -169,7 +169,7 @@ class ResNet50PyramidConfiguration(TrainingConfiguration):
         P5 = Conv2D(8, kernel_size=(1, 1), padding='same')(P5)
         P5 = GlobalAveragePooling2D()(P5)
 
-        x = Add()([P2, P3, P4, P5])
+        x = Average()([P2, P3, P4, P5])
         x = Activation('linear', name='output_coordinates')(x)
         model = Model(inputs=input_image, outputs=x)
         model.compile(self.get_optimizer(), loss="mean_squared_error", metrics=["mae"])
