@@ -13,7 +13,7 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
     rejection_counter = 0
     all_images = glob(os.path.join(dataset_directory, "images-*", "**/*.jpg"))
 
-    for background in tqdm(backgrounds, desc="Background..."):
+    for background in tqdm(backgrounds, desc="Loading annotations from background..."):
         annotation_files = glob(os.path.join(dataset_directory, "page-detection", background, "*.gt.xml"))
 
         for annotation_file in annotation_files:
@@ -37,7 +37,7 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
                 for point in points:
                     target.append(float(point.attrib["x"]) / width)
                     target.append(float(point.attrib["y"]) / height)
-                filename_to_target_mapping[file_path] = target
+                filename_to_target_mapping[filename] = target
 
     print("Rejected {0} files".format(rejection_counter))
     return filename_to_target_mapping
@@ -45,3 +45,4 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
 
 if __name__ == "__main__":
     filename_to_target_mapping = load_mapping("data", True)
+    print(len(filename_to_target_mapping))
