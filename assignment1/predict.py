@@ -37,10 +37,10 @@ if __name__ == "__main__":
 
     images = glob("data/images-test/all_objects/*.jpg")
 
-    model_path = "2018-04-16_res_net_50_gap_400x224_relative.h5"
+    model_path = "2018-04-16_res_net_50_gap_400x224_relative_standardize.h5"
     standardize = True
     mean = np.asarray([47.934902, 47.934902, 47.934902])
-    std = np.asarray([57.299076, 47.838173, 60.273067])
+    std = np.asarray([57.233334, 47.60158, 59.661304])
     image_width = 400
     image_height = 224
     use_relative_coordinates = True
