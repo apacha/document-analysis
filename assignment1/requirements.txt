@@ -1,14 +1,14 @@
 # Use conda install ... to install these
 matplotlib
 Pillow >= 4.1.1
-graphviz == 0.8 # for graphviz, installation via the system might be required, e.g. sudo apt-get install graphviz
+graphviz # for graphviz, installation via the system might be required, e.g. sudo apt-get install graphviz
 shapely
 dask # For troubleshooting https://github.com/tflearn/tflearn/issues/766
 
 # Use pip install ... to install these
-keras == 2.1.5
-tensorflow == 1.7.0
-# tensorflow-gpu == 1.7.0 # Alternatively if available to run vastly faster trainings. See https://github.com/philferriere/dlwin
+keras >= 2.1.5
+tensorflow >= 1.7.0
+# tensorflow-gpu >= 1.7.0 # Alternatively if available to run vastly faster trainings. See https://github.com/philferriere/dlwin
 tqdm
 omrdatasettools == 0.9
 opencv-python
