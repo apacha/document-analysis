@@ -1,3 +1,4 @@
+import argparse
 import os
 from glob import glob
 
@@ -29,15 +30,18 @@ def jaccard_index(ground_truth, prediction) -> float:
 
 
 if __name__ == "__main__":
-    # images = ["data/images-test/all_objects/background01-letter005-frame112.jpg",
-    #           "data/images-test/all_objects/background02-magazine004-frame89.jpg",
-    #           "data/images-test/all_objects/background03-paper003-frame53.jpg",
-    #           "data/images-test/all_objects/background04-magazine005-frame88.jpg",
-    #           "data/images-test/all_objects/background05-datasheet005-frame44.jpg"]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset_directory", type=str, default="data",
+                        help="The directory, that is used for storing the images during training")
+    parser.add_argument("--model_path", type=str, default="2018-04-16_res_net_50_gap_400x224_relative_standardize.h5",
+                        help="The trained model")
+    flags, unparsed = parser.parse_known_args()
 
-    images = glob("data/images-test/all_objects/*.jpg")
+    dataset_directory = flags.dataset_directory
+    model_path = flags.model_path
 
-    model_path = "2018-04-16_res_net_50_gap_400x224_relative_standardize.h5"
+    images = glob(dataset_directory+"/images-test/**/*.jpg")
+
     standardize = True
     mean = np.asarray([47.934902, 47.934902, 47.934902])
     std = np.asarray([57.233334, 47.60158, 59.661304])
@@ -53,7 +57,7 @@ if __name__ == "__main__":
     jaccard_indices = []
 
     for input_image in tqdm(images, "Detecting pages..."):
-        annotation = mapping["all_objects\\" + os.path.basename(input_image)]
+        annotation = mapping[os.path.basename(input_image)]
         img = image.load_img(input_image, target_size=(image_height, image_width))
         # We trained with batches, since we only insert one image, we have to add one extra dimension with reshape
         x = np.reshape(image.img_to_array(img), (1, image_height, image_width, 3))
