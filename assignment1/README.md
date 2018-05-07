@@ -23,3 +23,10 @@ Once, you have a trained model, you can run inference by calling
 ```shell
 python predict.py --model_path 2018-04-16_res_net_50_gap_400x224_relative_standardize.h5 --use_relative_coordinates --standardize
 ```
+
+## Pretrained models
+
+If you just want to test the procedure, you can find the pre-trained models for download at
+
+- [ResNet50 GAP Absolute Coordinates](https://owncloud.tuwien.ac.at/index.php/s/Svk8cui4wQjvfvo)
+- [ResNet50 GAP Relative Coordinates and Standardization](https://owncloud.tuwien.ac.at/index.php/s/NA1dqaiw8gmg1Bq)
