@@ -63,12 +63,14 @@ if __name__ == "__main__":
                                                             generator,
                                                             filename_to_target_mapping,
                                                             target_size=(image_height, image_width),
-                                                            batch_size=batch_size)
+                                                            batch_size=batch_size,
+                                                            shuffle=False)
     test_data_generator = DirectoryIteratorWithTarget(os.path.join(dataset_directory, "images-test"),
                                                       generator,
                                                       filename_to_target_mapping,
                                                       target_size=(image_height, image_width),
-                                                      batch_size=batch_size)
+                                                      batch_size=batch_size,
+                                                      shuffle=False)
 
     training_configuration = ConfigurationFactory.get_configuration_by_name(model_name, image_width, image_height)
     print("Model {0} loaded.".format(training_configuration.name()))
