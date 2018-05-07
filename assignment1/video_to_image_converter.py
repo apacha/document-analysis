@@ -24,13 +24,17 @@ def convert_all_videos_into_frame_images(dataset_directory, output_directory):
                 one_based_index += 1
 
 
-if __name__ == "__main__":
+def load_video_to_image_converter(dataset_directory: str):
     print("Converting test-videos")
-    convert_all_videos_into_frame_images(os.path.join("data", "page-detection-test"),
-                                         os.path.join("data", "images-test", "all_objects"))
+    convert_all_videos_into_frame_images(os.path.join(dataset_directory, "page-detection-test"),
+                                         os.path.join(dataset_directory, "images-test", "all_objects"))
     print("Converting validation-videos")
-    convert_all_videos_into_frame_images(os.path.join("data", "page-detection-validation"),
-                                         os.path.join("data", "images-validation", "all_objects"))
+    convert_all_videos_into_frame_images(os.path.join(dataset_directory, "page-detection-validation"),
+                                         os.path.join(dataset_directory, "images-validation", "all_objects"))
     print("Converting training-videos")
-    convert_all_videos_into_frame_images(os.path.join("data", "page-detection-training"),
-                                         os.path.join("data", "images-training", "all_objects"))
+    convert_all_videos_into_frame_images(os.path.join(dataset_directory, "page-detection-training"),
+                                         os.path.join(dataset_directory, "images-training", "all_objects"))
+
+
+if __name__ == "__main__":
+    load_video_to_image_converter("data")

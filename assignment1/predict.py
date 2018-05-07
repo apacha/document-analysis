@@ -29,25 +29,11 @@ def jaccard_index(ground_truth, prediction) -> float:
     return jaccard_index
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_directory", type=str, default="data",
-                        help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_path", type=str, default="2018-04-16_res_net_50_gap_400x224_relative_standardize.h5",
-                        help="The trained model")
-    flags, unparsed = parser.parse_known_args()
+def predict(dataset_directory: str, model_path: str, image_width: int, image_height: int,use_relative_coordinates: bool, standardize: bool):
+    images = glob(dataset_directory + "/images-test/**/*.jpg")
 
-    dataset_directory = flags.dataset_directory
-    model_path = flags.model_path
-
-    images = glob(dataset_directory+"/images-test/**/*.jpg")
-
-    standardize = True
     mean = np.asarray([47.934902, 47.934902, 47.934902])
     std = np.asarray([57.233334, 47.60158, 59.661304])
-    image_width = 400
-    image_height = 224
-    use_relative_coordinates = True
     mapping = annotation_loader.load_mapping()
     print("Loading model...")
     best_model = keras.models.load_model(model_path)
@@ -93,3 +79,25 @@ if __name__ == "__main__":
 
     average_jaccard_index = sum(jaccard_indices) / float(len(jaccard_indices))
     print("Average Jaccard Index: {0}".format(average_jaccard_index))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset_directory", type=str, default="data",
+                        help="The directory, that is used for storing the images during training")
+    parser.add_argument("--model_path", type=str, default="2018-05-07_res_net_50_gap_400x224_absolute.h5",
+                        help="The trained model")
+    parser.add_argument("--use_relative_coordinates", dest="use_relative_coordinates",
+                        action="store_true", help="Specify, if relative coordinates should be used instead of absolute")
+    parser.set_defaults(use_relative_coordinates=False)
+    parser.add_argument("--standardize", dest="standardize",
+                        action="store_true", help="Specify, if the input images should be standardized or not")
+    parser.set_defaults(standardize=False)
+    parser.add_argument("--width", default=400, type=int, help="Width of the input-images for the network in pixel")
+    parser.add_argument("--height", default=224, type=int, help="Height of the input-images for the network in pixel")
+
+    flags, unparsed = parser.parse_known_args()
+
+    predict(flags.dataset_directory,flags.model_path, flags.width, flags.height,flags.use_relative_coordinates, flags.standardize)
+
+

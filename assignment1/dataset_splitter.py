@@ -17,7 +17,7 @@ def copy_video_and_annotation(source_directory, destination_directory, backgroun
     shutil.copy(annotation_source_path, annotation_target_path)
 
 
-if __name__ == "__main__":
+def split_dataset():
     dataset_directory = "./data/page-detection"
     training_directory = "./data/page-detection-training"
     validation_directory = "./data/page-detection-validation"
@@ -47,4 +47,8 @@ if __name__ == "__main__":
             copy_video_and_annotation(dataset_directory, validation_directory, background, image_type, validation_item)
             for training_item in training_items:
                 copy_video_and_annotation(dataset_directory, training_directory, background, image_type, training_item)
+
+
+if __name__ == "__main__":
+    split_dataset()
 

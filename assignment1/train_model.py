@@ -12,34 +12,8 @@ import numpy as np
 from directory_iterator_with_target import DirectoryIteratorWithTarget, load_mapping
 from models.ConfigurationFactory import ConfigurationFactory
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.register("type", "bool", lambda v: v.lower() == "true")
-    parser.add_argument("--dataset_directory", type=str, default="data",
-                        help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_name", type=str, default="res_net_50_gap",
-                        help="The model used for training the network. Run >python models/ConfigurationFactory.py to get a list of all available configurations")
-    parser.add_argument("--width", default=400, type=int, help="Width of the input-images for the network in pixel")
-    parser.add_argument("--height", default=224, type=int, help="Height of the input-images for the network in pixel")
-    parser.add_argument("--batch_size", default=16, type=int,
-                        help="The minibatch-size for training. Reduce to 8 or 4 if your graphics card runs out of "
-                             "memory, but keep high otherwise to speed up training")
-    parser.add_argument("--use_relative_coordinates", dest="use_relative_coordinates",
-                        action="store_true", help="Specify, if relative coordinates should be used instead of absolute")
-    parser.set_defaults(use_relative_coordinates=False)
-    parser.add_argument("--standardize", dest="standardize",
-                        action="store_true", help="Specify, if the input images should be standardized or not")
-    parser.set_defaults(use_relative_coordinates=False)
-    flags, unparsed = parser.parse_known_args()
 
-    dataset_directory = flags.dataset_directory
-    model_name = flags.model_name
-    image_width = flags.width
-    image_height = flags.height
-    batch_size = flags.batch_size
-    use_relative_coordinates = flags.use_relative_coordinates
-    standardize = flags.standardize
-
+def train(dataset_directory: str, model_name: str, image_width: int, image_height: int, batch_size: int, use_relative_coordinates: bool, standardize: bool):
     filename_to_target_mapping = load_mapping(dataset_directory, use_relative_coordinates)
     start_of_training = datetime.date.today()
 
@@ -81,9 +55,9 @@ if __name__ == "__main__":
     test_steps_per_epoch = np.math.ceil(validation_data_generator.samples / validation_data_generator.batch_size)
 
     model_description = "{0}_{1}_{2}x{3}_{4}{5}".format(start_of_training, training_configuration.name(), image_width,
-                                                         image_height,
-                                                         "relative" if use_relative_coordinates else "absolute",
-                                                         "_standardize" if standardize else "")
+                                                        image_height,
+                                                        "relative" if use_relative_coordinates else "absolute",
+                                                        "_standardize" if standardize else "")
     best_model_path = model_description + ".h5"
     monitor_variable = 'val_mean_absolute_error'
     model_checkpoint = ModelCheckpoint(best_model_path, monitor=monitor_variable, save_best_only=True, verbose=1)
@@ -124,3 +98,31 @@ if __name__ == "__main__":
     for i in range(len(best_model.metrics_names)):
         current_metric = best_model.metrics_names[i]
         print("{0}: {1:.5f}".format(current_metric, evaluation[i]))
+
+    return best_model_path
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.register("type", "bool", lambda v: v.lower() == "true")
+    parser.add_argument("--dataset_directory", type=str, default="data",
+                        help="The directory, that is used for storing the images during training")
+    parser.add_argument("--model_name", type=str, default="res_net_50_gap",
+                        help="The model used for training the network. Run >python models/ConfigurationFactory.py to get a list of all available configurations")
+    parser.add_argument("--width", default=400, type=int, help="Width of the input-images for the network in pixel")
+    parser.add_argument("--height", default=224, type=int, help="Height of the input-images for the network in pixel")
+    parser.add_argument("--batch_size", default=16, type=int,
+                        help="The minibatch-size for training. Reduce to 8 or 4 if your graphics card runs out of "
+                             "memory, but keep high otherwise to speed up training")
+    parser.add_argument("--use_relative_coordinates", dest="use_relative_coordinates",
+                        action="store_true", help="Specify, if relative coordinates should be used instead of absolute")
+    parser.set_defaults(use_relative_coordinates=False)
+    parser.add_argument("--standardize", dest="standardize",
+                        action="store_true", help="Specify, if the input images should be standardized or not")
+    parser.set_defaults(standardize=False)
+    flags, unparsed = parser.parse_known_args()
+
+    train(flags.dataset_directory, flags.model_name, flags.width, flags.height, flags.batch_size, flags.use_relative_coordinates, flags.standardize)
+
+
+

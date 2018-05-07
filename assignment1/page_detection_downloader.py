@@ -30,6 +30,11 @@ class PageDetectionDownloader(DatasetDownloader):
         self.extract_dataset(self.destination_directory)
 
 
+def get_dataset(destination_directory: str):
+    dataset = PageDetectionDownloader(destination_directory)
+    dataset.download_and_extract_dataset()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -40,5 +45,4 @@ if __name__ == "__main__":
 
     flags, unparsed = parser.parse_known_args()
 
-    dataset = PageDetectionDownloader(flags.dataset_directory)
-    dataset.download_and_extract_dataset()
+    get_dataset(flags.dataset_directory)
