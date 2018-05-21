@@ -24,11 +24,9 @@ if __name__ == "__main__":
     #
     # flags, unparsed = parser.parse_known_args()
 
-    # load and binarize images
+    # binarize images and deskew document (estimate orientation)
     print("test")
-
-    # deskew document (estimate orientation)
-
+    #TODO: proof if blockwise needed (https://www.danvk.org/2015/01/07/finding-blocks-of-text-in-an-image-using-python-opencv-and-numpy.html)
 
     # compute (binary) features for each blob (character)
 
