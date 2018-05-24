@@ -1,13 +1,15 @@
 import argparse
 
+import ocr_downloader
+
 if __name__ == "__main__":
-     #parser = argparse.ArgumentParser()
-    # parser.register("type", "bool", lambda v: v.lower() == "true")
-    # parser.add_argument(
-    #     "--dataset_directory",
-    #     type=str,
-    #     default="data",
-    #     help="The directory, where the extracted dataset will be copied to")
+    parser = argparse.ArgumentParser()
+    parser.register("type", "bool", lambda v: v.lower() == "true")
+    parser.add_argument(
+        "--dataset_directory",
+        type=str,
+        default="data",
+        help="The directory, where the extracted dataset will be copied to")
     # parser.add_argument("--model_name", type=str, default="res_net_50_gap",
     #                     help="The model used for training the network. Run >python models/ConfigurationFactory.py to get a list of all available configurations")
     # parser.add_argument("--width", default=400, type=int, help="Width of the input-images for the network in pixel")
@@ -22,11 +24,14 @@ if __name__ == "__main__":
     #                     action="store_true", help="Specify, if the input images should be standardized or not")
     # parser.set_defaults(standardize=False)
     #
-    # flags, unparsed = parser.parse_known_args()
+    flags, unparsed = parser.parse_known_args()
+
+    # Download dataset (I AM Database)
+    ocr_downloader.get_dataset(flags.dataset_directory)
 
     # binarize images and deskew document (estimate orientation)
-    print("test")
     #TODO: proof if blockwise needed (https://www.danvk.org/2015/01/07/finding-blocks-of-text-in-an-image-using-python-opencv-and-numpy.html)
+
 
     # compute (binary) features for each blob (character)
 
