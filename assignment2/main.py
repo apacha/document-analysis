@@ -1,5 +1,6 @@
 import argparse
 
+import dataset_splitter
 import ocr_downloader
 
 if __name__ == "__main__":
@@ -29,8 +30,10 @@ if __name__ == "__main__":
     # Download dataset (I AM Database)
     ocr_downloader.get_dataset(flags.dataset_directory)
 
+    # split data into train-test-validation (60-20-20)
+    dataset_splitter.split_dataset()
+
     # binarize images and deskew document (estimate orientation)
-    #TODO: proof if blockwise needed (https://www.danvk.org/2015/01/07/finding-blocks-of-text-in-an-image-using-python-opencv-and-numpy.html)
 
 
     # compute (binary) features for each blob (character)
