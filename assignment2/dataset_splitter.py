@@ -30,6 +30,9 @@ def split_dataset():
         shutil.rmtree(test_directory)
         os.makedirs(test_directory)
 
+    #remove wrong annotated image
+    os.remove(dataset_directory + "/a04-006.png")
+    os.remove(dataset_directory + "/a04-006.xml")
     fileIndex = random_List(dataset_directory)
 
     fileIndexTrain = fileIndex[0:np.math.ceil(len(fileIndex)*0.6/2.)*2]

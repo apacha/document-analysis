@@ -59,7 +59,7 @@ def find_text_lines(img):
     linesEnd = []
 
     for x in range(0,lineWidth.size):
-        if(np.amax(lineWidth)<=lineWidth[x]*1.25):
+        if(lineWidth[x]>20 and lineWidth[x]<60):
             img = cv2.line(img, (0, startLine[x,0]), (img.shape[1], startLine[x,0]), (255, 0, 0), 1)
             img = cv2.line(img, (0, endLine[x,0]), (img.shape[1], endLine[x,0]), (255, 0, 0), 1)
             linesStart = np.append(linesStart,[startLine[x,0]])
@@ -81,4 +81,4 @@ def get_image_lines(img):
     return binarized_image, lineIndex
 
 if __name__ == "__main__":
-    get_image_lines("a01-003x.png")
+    get_image_lines("a03-020.png")
