@@ -40,16 +40,16 @@ def find_text_lines(img):
 
     for x in range(0,verticalHist.size-1):
         if(verticalHist[x] > 0 and not line):
-            lineHist[x] = 1;
+            lineHist[x] = 1
             line = True
 
         if(verticalHist[x] == 0 and line):
-            lineHist[x] = -1;
+            lineHist[x] = -1
             line = False
 
 
     if(line):
-        lineHist[verticalHist.size-1] = -1;
+        lineHist[verticalHist.size-1] = -1
 
     # draw lines to mark text lines
     startLine = np.argwhere(lineHist==1)
