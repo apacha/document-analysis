@@ -58,10 +58,10 @@ def find_text_lines(img):
     linesStart = []
     linesEnd = []
 
-    for x in range(0,lineWidth.size-1):
+    for x in range(0,lineWidth.size):
         if(np.amax(lineWidth)<=lineWidth[x]*1.25):
-            #img = cv2.line(img, (0, startLine[x,0]), (img.shape[1], startLine[x,0]), (255, 0, 0), 1)
-            #img = cv2.line(img, (0, endLine[x,0]), (img.shape[1], endLine[x,0]), (255, 0, 0), 1)
+            img = cv2.line(img, (0, startLine[x,0]), (img.shape[1], startLine[x,0]), (255, 0, 0), 1)
+            img = cv2.line(img, (0, endLine[x,0]), (img.shape[1], endLine[x,0]), (255, 0, 0), 1)
             linesStart = np.append(linesStart,[startLine[x,0]])
             linesEnd = np.append(linesEnd, [endLine[x, 0]])
 
@@ -72,19 +72,13 @@ def find_text_lines(img):
 
 def get_image_lines(img):
     binarized_image = binarize_image(img)
+    #rotated_image = rotate_image(binarized_image)
     [img_with_lines, lineIndex] = find_text_lines(binarized_image)
+    # cv2.imshow("bin", binarized_image)
+    # cv2.imshow("lined", img_with_lines)
+    # cv2.waitKey(0)
 
     return binarized_image, lineIndex
 
 if __name__ == "__main__":
-    get_image_lines("testimage.png")
-
-    #binarized_image = binarize_image("testimage.png")
-    #rotated_image = rotate_image(binarized_image)
-    #cv2.imwrite('gray_img_transform.png', rotated_image) TODO: delete row
-
-    #[img_with_lines, lineIndex] = find_text_lines(binarized_image)
-
-    #cv2.imshow("bin", binarized_image)
-    #cv2.imshow("lined", img_with_lines)
-    #cv2.waitKey(0)
+    get_image_lines("a01-003x.png")

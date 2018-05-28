@@ -1,6 +1,7 @@
 import argparse
 
 import dataset_splitter
+import image_to_lines_converter
 import ocr_downloader
 
 if __name__ == "__main__":
@@ -33,7 +34,8 @@ if __name__ == "__main__":
     # split data into train-test-validation (60-20-20)
     dataset_splitter.split_dataset()
 
-    # binarize images and deskew document (estimate orientation)
+    # binarize images, deskew document (estimate orientation) and split into text lines
+    image_to_lines_converter.load_image_to_line_converter(flags.dataset_directory)
 
 
     # compute (binary) features for each blob (character)
