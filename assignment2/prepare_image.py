@@ -69,17 +69,21 @@ def find_text_lines(img):
 
     return [img, lines]
 
-def get_line_index(img):
+
+def get_image_lines(img):
     binarized_image = binarize_image(img)
     [img_with_lines, lineIndex] = find_text_lines(binarized_image)
-    return lineIndex
+
+    return binarized_image, lineIndex
 
 if __name__ == "__main__":
-    binarized_image = binarize_image("testimage.png")
+    get_image_lines("testimage.png")
+
+    #binarized_image = binarize_image("testimage.png")
     #rotated_image = rotate_image(binarized_image)
     #cv2.imwrite('gray_img_transform.png', rotated_image) TODO: delete row
 
-    [img_with_lines, lineIndex] = find_text_lines(binarized_image)
+    #[img_with_lines, lineIndex] = find_text_lines(binarized_image)
 
     #cv2.imshow("bin", binarized_image)
     #cv2.imshow("lined", img_with_lines)
