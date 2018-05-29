@@ -15,7 +15,7 @@ def binarize_image(img_path):
 
     return thresImg
 
-#TODO: proof if this function is needed!
+#TODO: proof if this function is needed! - currently not used!
 def rotate_image(img):
     # detect all white pixels to find rectangle with min. area -> get rectangle with text
     area = cv2.findNonZero(img)

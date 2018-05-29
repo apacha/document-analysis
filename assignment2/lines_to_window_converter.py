@@ -8,9 +8,7 @@ def convert_all_lines_into_window(dataset_directory, output_directory, max):
     os.makedirs(output_directory, exist_ok=True)
 
     line_files = glob(os.path.join(dataset_directory,"all_objects", "*.png"))
-    swWidth = int(max/2)
-    swHeight = max
-
+    swWidth = int(max*0.8)
 
     for image_file in tqdm(line_files, desc="Processing png line-file"):
         img = add_padding(image_file,max)
@@ -45,8 +43,7 @@ def add_padding(line, max):
     padT = np.zeros((padT,width))
     padB = np.zeros((padB,width))
 
-    img = np.concatenate((img, padT), axis=0)
-    img = np.concatenate((img, padB), axis=0)
+    img = np.concatenate((padT,img,padB), axis=0)
 
     return img
 
@@ -69,5 +66,5 @@ def load_line_to_window_converter(dataset_directory: str, max: int):
 
 
 if __name__ == "__main__":
-    add_padding("a01-000u-line1.png",58)
+    #add_padding("a01-000u-line1.png",58)
     load_line_to_window_converter("data", 58)
