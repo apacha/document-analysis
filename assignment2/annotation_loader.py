@@ -2,14 +2,12 @@ import os
 import xml.etree.ElementTree as ET
 
 from glob import glob
-from PIL import Image
 from tqdm import tqdm
 
 
 def load_mapping(dataset_directory="data", use_relative_coordinates=False):
     filename_to_target_mapping = {}
 
-    rejection_counter = 0
     all_images = glob(os.path.join(dataset_directory, "lines-*", "**/*.png"))
 
     annotation_files = glob(os.path.join(dataset_directory, "I AM printed", "*.xml"))
@@ -25,7 +23,7 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
                 filename = "{0}-line{1}.png".format(os.path.splitext(
                     os.path.splitext(os.path.basename(annotation_file))[0])[0], line_index)
                 file_path = [f for f in all_images if filename in f][0]
-                width = height = 1.0
+
                 # if use_relative_coordinates:
                 #     img = Image.open(file_path)
                 #     width, height = img.size
@@ -33,7 +31,6 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
                 filename_to_target_mapping[filename] = line.attrib["text"]
                 line_index += 1
 
-    print("Rejected {0} files".format(rejection_counter))
     return filename_to_target_mapping
 
 
