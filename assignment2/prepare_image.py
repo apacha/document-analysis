@@ -57,28 +57,31 @@ def find_text_lines(img):
     lineWidth = endLine[:,0]-startLine[:,0]
     linesStart = []
     linesEnd = []
+    max = 0
 
     for x in range(0,lineWidth.size):
         if(lineWidth[x]>20 and lineWidth[x]<60):
-            img = cv2.line(img, (0, startLine[x,0]), (img.shape[1], startLine[x,0]), (255, 0, 0), 1)
-            img = cv2.line(img, (0, endLine[x,0]), (img.shape[1], endLine[x,0]), (255, 0, 0), 1)
+            #img = cv2.line(img, (0, startLine[x,0]), (img.shape[1], startLine[x,0]), (255, 0, 0), 1)
+            #img = cv2.line(img, (0, endLine[x,0]), (img.shape[1], endLine[x,0]), (255, 0, 0), 1)
             linesStart = np.append(linesStart,[startLine[x,0]])
             linesEnd = np.append(linesEnd, [endLine[x, 0]])
+            if(lineWidth[x] > max):
+                max = lineWidth[x]
 
     lines = np.column_stack((linesStart,linesEnd))
 
-    return [img, lines]
+    return [img, lines, max]
 
 
 def get_image_lines(img):
     binarized_image = binarize_image(img)
     #rotated_image = rotate_image(binarized_image)
-    [img_with_lines, lineIndex] = find_text_lines(binarized_image)
+    [img_with_lines, lineIndex, max] = find_text_lines(binarized_image)
     # cv2.imshow("bin", binarized_image)
     # cv2.imshow("lined", img_with_lines)
     # cv2.waitKey(0)
 
-    return binarized_image, lineIndex
+    return binarized_image, lineIndex, max
 
 if __name__ == "__main__":
     get_image_lines("a03-020.png")

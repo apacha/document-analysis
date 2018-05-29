@@ -2,6 +2,7 @@ import argparse
 
 import dataset_splitter
 import image_to_lines_converter
+import lines_to_window_converter
 import ocr_downloader
 
 if __name__ == "__main__":
@@ -35,9 +36,9 @@ if __name__ == "__main__":
     dataset_splitter.split_dataset()
 
     # binarize images, deskew document (estimate orientation) and split into text lines
-    image_to_lines_converter.load_image_to_line_converter(flags.dataset_directory)
+    max = image_to_lines_converter.load_image_to_line_converter(flags.dataset_directory)
 
-
+    lines_to_window_converter.sliding_window(max)
     # compute (binary) features for each blob (character)
 
 
