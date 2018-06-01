@@ -1,5 +1,8 @@
 import argparse
 
+import editdistance
+
+import annotation_loader
 import dataset_splitter
 import image_to_lines_converter
 import lines_to_window_converter
@@ -23,8 +26,14 @@ if __name__ == "__main__":
 
     maximal_line_height = image_to_lines_converter.split_images_into_text_lines(dataset_directory)
 
+    text_line_image_to_text_mapping = annotation_loader.load_mapping(dataset_directory)
+    annotation_loader.remove_lines_without_matching_annotation(dataset_directory, text_line_image_to_text_mapping)
+
     # split text lines with sliding window
     lines_to_window_converter.sliding_window(dataset_directory, maximal_line_height)
+
+    # To compute edit distance of two words
+    edit_dist = editdistance.eval("hallo", "hello")
 
     # train model
 
