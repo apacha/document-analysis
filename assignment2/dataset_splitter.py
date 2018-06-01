@@ -6,7 +6,7 @@ import shutil
 from typing import Tuple, List
 
 
-def copy_image_and_annotation(source_directory: str, destination_directory: str, pair: Tuple[str, str]):
+def _copy_image_and_annotation(source_directory: str, destination_directory: str, pair: Tuple[str, str]):
     image_source_path = os.path.join(source_directory, pair[0])
     image_target_path = os.path.join(destination_directory, pair[0])
     annotation_source_path = os.path.join(source_directory, pair[1])
@@ -15,6 +15,22 @@ def copy_image_and_annotation(source_directory: str, destination_directory: str,
     os.makedirs(os.path.dirname(image_target_path), exist_ok=True)
     shutil.copy(image_source_path, image_target_path)
     shutil.copy(annotation_source_path, annotation_target_path)
+
+
+def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproducible_split: int = 0) -> List[Tuple[str, str]]:
+    files = os.listdir(i_am_printed_directory)
+    number_of_samples = int(len(files) / 2)
+
+    random_indices = list(range(0, number_of_samples))
+    random.seed(seed_for_reproducible_split)
+    random.shuffle(random_indices)
+
+    shuffled_sample_pairs = []
+
+    for i in range(0, len(random_indices)):
+        shuffled_sample_pairs.append((files[random_indices[i] * 2], files[random_indices[i] * 2 + 1]))
+
+    return shuffled_sample_pairs
 
 
 def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data"):
@@ -40,7 +56,7 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory: str 
     except OSError:
         pass
 
-    randomized_files = list_files_randomly(i_am_printed_directory)
+    randomized_files = _get_randomized_sample_pairs(i_am_printed_directory)
 
     # Corresponds to a 60%, 20%, 20% split for train, validation and test
     training_precentage = 0.6
@@ -55,35 +71,13 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory: str 
     ))
 
     for i in range(0, len(test_pairs)):
-        copy_image_and_annotation(i_am_printed_directory, test_directory, test_pairs[i])
+        _copy_image_and_annotation(i_am_printed_directory, test_directory, test_pairs[i])
 
     for i in range(0, len(training_pairs)):
-        copy_image_and_annotation(i_am_printed_directory, training_directory, training_pairs[i])
+        _copy_image_and_annotation(i_am_printed_directory, training_directory, training_pairs[i])
 
     for i in range(0, len(validation_pairs)):
-        copy_image_and_annotation(i_am_printed_directory, validation_directory, validation_pairs[i])
-
-
-def list_files_randomly(i_am_printed_directory: str, seed: int = 0) -> List[Tuple[str, str]]:
-    """
-
-    :param i_am_printed_directory:
-    :param seed: Fixed seed for getting a reproducible split
-    :return:
-    """
-    files = os.listdir(i_am_printed_directory)
-    number_of_samples = int(len(files) / 2)
-
-    random_indices = list(range(0, number_of_samples))
-    random.seed(seed)
-    random.shuffle(random_indices)
-
-    shuffled_sample_pairs = []
-
-    for i in range(0, len(random_indices)):
-        shuffled_sample_pairs.append((files[random_indices[i] * 2], files[random_indices[i] * 2 + 1]))
-
-    return shuffled_sample_pairs
+        _copy_image_and_annotation(i_am_printed_directory, validation_directory, validation_pairs[i])
 
 
 if __name__ == "__main__":
