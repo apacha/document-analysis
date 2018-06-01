@@ -5,65 +5,62 @@ import cv2
 import os
 
 
-def convert_all_lines_into_window(dataset_directory, output_directory, max):
+def split_line_images_with_sliding_window(input_directory: str, output_directory: str, maximal_line_height):
     os.makedirs(output_directory, exist_ok=True)
 
-    line_files = glob(os.path.join(dataset_directory, "all_objects", "*.png"))
-    swWidth = int(max * 0.8)
+    line_images = glob(os.path.join(input_directory, "*.png"))
+    sliding_window_width = int(maximal_line_height * 2)
 
-    for image_file in tqdm(line_files, desc="Processing png line-file"):
-        img = add_padding(image_file, max)
-        imgWidth = img.shape[1]
-        file_name = os.path.splitext(os.path.basename(image_file))[0]
+    for line_image in tqdm(line_images, desc="Processing png line-files"):
+        grayscale_image = read_grayscale_image_and_add_padding(line_image, maximal_line_height)
+        image_width = grayscale_image.shape[1]
+        file_name = os.path.splitext(os.path.basename(line_image))[0]
         one_based_index = 1
         i = 0
 
-        while (imgWidth - int(swWidth / 2) * (i - 1) - swWidth) > 0:
-            swImage = img[:, (i - 1) * int(swWidth / 2):(i - 1) * int(swWidth / 2) + swWidth]
+        while (image_width - int(sliding_window_width / 2) * (i - 1) - sliding_window_width) > 0:
+            sliding_window_image = grayscale_image[:, (i - 1) * int(sliding_window_width / 2):(i - 1) * int(sliding_window_width / 2) + sliding_window_width]
             i += 1
 
             # save only positive examples
             # positive examples ... window with text
             # negative example ... window without text
-            if np.count_nonzero(swImage) > 0:
+            if np.count_nonzero(sliding_window_image) > 0:
                 output_name = "{0}-sw{1}.png".format(file_name, one_based_index)
-                cv2.imwrite(os.path.join(output_directory, output_name), swImage)
+                cv2.imwrite(os.path.join(output_directory, output_name), sliding_window_image)
                 one_based_index += 1
-
-    return
 
 
 # set same height to each text line
-def add_padding(line, max):
-    img = cv2.imread(line)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+def read_grayscale_image_and_add_padding(line, max) -> np.ndarray:
+    image = cv2.imread(line)
+    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    height, width = img.shape
+    height, width = grayscale_image.shape
     padT = int((max - height) / 2)
     padB = max - height - padT
 
     padT = np.zeros((padT, width))
     padB = np.zeros((padB, width))
 
-    img = np.concatenate((padT, img, padB), axis=0)
+    grayscale_image = np.concatenate((padT, grayscale_image, padB), axis=0)
 
-    return img
+    return grayscale_image
 
 
-def load_line_to_window_converter(dataset_directory: str, max: int):
+def split_dataset_with_sliding_window(dataset_directory: str, max: int):
     print("Converting test-images")
-    convert_all_lines_into_window(os.path.join(dataset_directory, "lines-test"),
-                                  os.path.join(dataset_directory, "lines-sw-test", "all_objects"), max)
+    split_line_images_with_sliding_window(os.path.join(dataset_directory, "lines-test"),
+                                          os.path.join(dataset_directory, "lines-sliding-window-test"), max)
 
     print("Converting validation-images")
-    convert_all_lines_into_window(os.path.join(dataset_directory, "lines-validation"),
-                                  os.path.join(dataset_directory, "lines-sw-validation", "all_objects"), max)
+    split_line_images_with_sliding_window(os.path.join(dataset_directory, "lines-validation"),
+                                          os.path.join(dataset_directory, "lines-sliding-window-validation"), max)
 
     print("Converting training-images")
-    convert_all_lines_into_window(os.path.join(dataset_directory, "lines-training"),
-                                  os.path.join(dataset_directory, "lines-sw-training", "all_objects"), max)
+    split_line_images_with_sliding_window(os.path.join(dataset_directory, "lines-training"),
+                                          os.path.join(dataset_directory, "lines-sliding-window-training"), max)
 
 
 if __name__ == "__main__":
-    # add_padding("a01-000u-line1.png",58)
-    load_line_to_window_converter("data", 58)
+    split_dataset_with_sliding_window("data", 70)
