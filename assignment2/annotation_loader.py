@@ -2,10 +2,12 @@ import os
 import xml.etree.ElementTree as ET
 
 from glob import glob
+from typing import Dict
+
 from tqdm import tqdm
 
 
-def load_mapping(dataset_directory="data", use_relative_coordinates=False):
+def load_mapping(dataset_directory: str = "data") -> Dict[str, str]:
     filename_to_target_mapping = {}
 
     all_images = glob(os.path.join(dataset_directory, "lines-*", "**/*.png"))
@@ -24,10 +26,6 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
                     os.path.splitext(os.path.basename(annotation_file))[0])[0], line_index)
                 file_path = [f for f in all_images if filename in f][0]
 
-                # if use_relative_coordinates:
-                #     img = Image.open(file_path)
-                #     width, height = img.size
-
                 filename_to_target_mapping[filename] = line.attrib["text"]
                 line_index += 1
 
@@ -35,5 +33,5 @@ def load_mapping(dataset_directory="data", use_relative_coordinates=False):
 
 
 if __name__ == "__main__":
-    filename_to_target_mapping = load_mapping("data", True)
+    filename_to_target_mapping = load_mapping("data")
     print(len(filename_to_target_mapping))
