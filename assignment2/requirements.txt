@@ -9,3 +9,4 @@ keras
 tensorflow
 editdistance
 cairocffi
+pydot # Make sure, you have Graphviz installed

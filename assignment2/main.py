@@ -7,6 +7,7 @@ import dataset_splitter
 import image_to_lines_converter
 import lines_to_window_converter
 import ocr_downloader
+from annotation_loader import load_alphabet_from_samples
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -36,5 +37,6 @@ if __name__ == "__main__":
     edit_dist = editdistance.eval("hallo", "hello")
 
     # train model
+    alphabet = load_alphabet_from_samples(text_line_image_to_text_mapping)
 
     # dictionary correction
