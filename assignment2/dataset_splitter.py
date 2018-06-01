@@ -1,71 +1,81 @@
+import math
 import os
 import random
 import shutil
-import numpy as np
 
-def copy_image_and_annotation(source_directory, destination_directory, file):
-    image_source_path = os.path.join(source_directory, file)
-    image_target_path = os.path.join(destination_directory, file)
-    annotation_source_path = os.path.join(source_directory, file)
-    annotation_target_path = os.path.join(destination_directory, file)
+
+def copy_image_and_annotation(source_directory, destination_directory, pair):
+    image_source_path = os.path.join(source_directory, pair[0])
+    image_target_path = os.path.join(destination_directory, pair[0])
+    annotation_source_path = os.path.join(source_directory, pair[1])
+    annotation_target_path = os.path.join(destination_directory, pair[1])
 
     os.makedirs(os.path.dirname(image_target_path), exist_ok=True)
     shutil.copy(image_source_path, image_target_path)
     shutil.copy(annotation_source_path, annotation_target_path)
 
 
-def split_dataset():
-    dataset_directory = "./data/I AM printed"
-    training_directory = "./data/I AM printed-training"
-    validation_directory = "./data/I AM printed-validation"
-    test_directory = "./data/I AM printed-test"
+def split_dataset_into_training_validation_and_test_sets(dataset_directory="data"):
+    i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
+    training_directory = os.path.join(dataset_directory, "training")
+    validation_directory = os.path.join(dataset_directory, "validation")
+    test_directory = os.path.join(dataset_directory, "test")
 
     if os.path.exists(training_directory):
         shutil.rmtree(training_directory)
-        os.makedirs(training_directory)
+    os.makedirs(training_directory)
     if os.path.exists(validation_directory):
         shutil.rmtree(validation_directory)
-        os.makedirs(validation_directory)
+    os.makedirs(validation_directory)
     if os.path.exists(test_directory):
         shutil.rmtree(test_directory)
-        os.makedirs(test_directory)
+    os.makedirs(test_directory)
 
-    #remove wrong annotated image
-    os.remove(dataset_directory + "/a04-006.png")
-    os.remove(dataset_directory + "/a04-006.xml")
-    fileIndex = random_List(dataset_directory)
+    # remove wrong annotated image
+    try:
+        os.remove(os.path.join(i_am_printed_directory, "a04-006.png"))
+        os.remove(os.path.join(i_am_printed_directory, "a04-006.xml"))
+    except OSError:
+        pass
 
-    fileIndexTrain = fileIndex[0:np.math.ceil(len(fileIndex)*0.6/2.)*2]
-    fileIndexTest = fileIndex[len(fileIndexTrain):len(fileIndexTrain) + np.math.ceil(len(fileIndex)*0.2/2.)*2]
-    fileIndexValid = fileIndex[len(fileIndexTrain)+len(fileIndexTest):len(fileIndex)]
+    randomized_files = list_files_randomly(i_am_printed_directory)
 
-    for i in range (0,len(fileIndexTest)):
-        copy_image_and_annotation(dataset_directory,test_directory,fileIndexTest[i])
+    # Corresponds to a 60%, 20%, 20% split for train, validation and test
+    training_precentage = 0.6
+    test_percentage = 0.2
+    test_pairs = randomized_files[0:math.ceil(len(randomized_files) * test_percentage)]
+    training_pairs = randomized_files[
+                     len(test_pairs):len(test_pairs) + math.ceil(len(randomized_files) * training_precentage)]
+    validation_pairs = randomized_files[len(training_pairs) + len(test_pairs):len(randomized_files)]
 
-    for i in range (0,len(fileIndexTrain)):
-        copy_image_and_annotation(dataset_directory,training_directory,fileIndexTrain[i])
+    print("Split a total of {0} samples into three sets with {1} training, {2} validation and {3} test samples.".format(
+        len(randomized_files), len(training_pairs), len(validation_pairs), len(test_pairs)
+    ))
 
-    for i in range (0,len(fileIndexValid)):
-        copy_image_and_annotation(dataset_directory,validation_directory,fileIndexValid[i])
+    for i in range(0, len(test_pairs)):
+        copy_image_and_annotation(i_am_printed_directory, test_directory, test_pairs[i])
+
+    for i in range(0, len(training_pairs)):
+        copy_image_and_annotation(i_am_printed_directory, training_directory, training_pairs[i])
+
+    for i in range(0, len(validation_pairs)):
+        copy_image_and_annotation(i_am_printed_directory, validation_directory, validation_pairs[i])
 
 
+def list_files_randomly(path):
+    files = os.listdir(path)
+    number_of_samples = int(len(files) / 2)
 
-def random_List(path):
-    path, dirs, files = os.walk(path).__next__()
-    countData = len(files) / 2
-
-    index = np.int_(np.arange(0, countData))
-    random.shuffle(index)
+    random_indices = list(range(0, number_of_samples))
+    random.shuffle(random_indices)
 
     shuffledData = []
 
-    for i in range(0,len(index)):
-        shuffledData.append(files[index[i] * 2])
-        shuffledData.append(files[index[i] * 2 + 1])
+    for i in range(0, len(random_indices)):
+        shuffledData.append((files[random_indices[i] * 2], files[random_indices[i] * 2 + 1]))
 
     return shuffledData
 
 
 if __name__ == "__main__":
-    split_dataset()
-
+    split_dataset_into_training_validation_and_test_sets()

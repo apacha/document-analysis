@@ -30,7 +30,7 @@ class OCRDownloader(DatasetDownloader):
         self.extract_dataset(self.destination_directory)
 
 
-def get_dataset(destination_directory: str):
+def download_i_am_printed_database(destination_directory: str):
     dataset = OCRDownloader(destination_directory)
     dataset.download_and_extract_dataset()
 
@@ -45,4 +45,4 @@ if __name__ == "__main__":
 
     flags, unparsed = parser.parse_known_args()
 
-    get_dataset(flags.dataset_directory)
+    download_i_am_printed_database(flags.dataset_directory)
