@@ -3,30 +3,15 @@ import cv2
 import numpy as np
 
 
-def binarize_image(img_path):
-    # read image
-    img = cv2.imread(img_path)
+def load_and_binarize_image(img_path):
+    image = cv2.imread(img_path)
+    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # convert image to grayscale
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
+    # TODO: Why do we binarize the image here? We don't need this and it introduced additional noise
     # binarize image and flip the foreground and background (= white text and black background) by thresholding image
-    retval, thresImg = cv2.threshold(gray_img, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    retval, binary_image = cv2.threshold(grayscale_image, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
 
-    return thresImg
-
-
-# TODO: proof if this function is needed! - currently not used!
-def rotate_image(img):
-    # detect all white pixels to find rectangle with min. area -> get rectangle with text
-    area = cv2.findNonZero(img)
-    rect = cv2.minAreaRect(area)  # returns angle in range [-90,0)
-    (x, y), (w, h), angle = rect
-
-    # rotate img
-    centerRect = (img.shape[1] // 2, img.shape[0] // 2)
-    rotation_matrix = cv2.getRotationMatrix2D(centerRect, angle, 1)
-    return cv2.warpAffine(img, rotation_matrix, (img.shape[1], img.shape[0]))
+    return binary_image
 
 
 def find_text_lines(img):
@@ -78,8 +63,8 @@ def find_text_lines(img):
     return [img, lines, max]
 
 
-def get_image_lines(img):
-    binarized_image = binarize_image(img)
+def get_image_lines(image_path: str):
+    binarized_image = load_and_binarize_image(image_path)
     [img_with_lines, lineIndex, max] = find_text_lines(binarized_image)
     # cv2.imshow("bin", binarized_image)
     # cv2.imshow("lined", img_with_lines)

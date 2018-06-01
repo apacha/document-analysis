@@ -20,13 +20,11 @@ def convert_all_images_into_text_line_images(dataset_directory, output_directory
         if (maxImg > max_height):
             max_height = maxImg
 
-        # read image
         for line in range(0, lines.shape[0]):
             output_name = "{0}-line{1}.png".format(file_name, one_based_index)
 
             # get and save image part
-            image = binarized_image[int(lines[line, 0]):int(lines[line, 1]),
-                    0:binarized_image.shape[1]]  # 0:binarized_image.shape[1] - 1]
+            image = binarized_image[int(lines[line, 0]):int(lines[line, 1]), 0:binarized_image.shape[1]]
             cv2.imwrite(os.path.join(output_directory, output_name), image)
             one_based_index += 1
 
