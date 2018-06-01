@@ -30,7 +30,7 @@ def convert_all_images_into_text_line_images(dataset_directory: str, output_dire
     return highest_line_in_entire_dataset
 
 
-def split_images_into_text_lines(dataset_directory: str):
+def split_images_into_text_lines(dataset_directory: str) -> int:
     print("Converting test-images")
     maximal_test_height = convert_all_images_into_text_line_images(os.path.join(dataset_directory, "test"),
                                                                    os.path.join(dataset_directory, "lines-test"))
@@ -49,4 +49,5 @@ def split_images_into_text_lines(dataset_directory: str):
 
 
 if __name__ == "__main__":
-    split_images_into_text_lines("data")
+    maximal_line_height = split_images_into_text_lines("data")
+    print("Maximal line height: {0}".format(maximal_line_height))

@@ -8,9 +8,12 @@ class ConfigurationFactory:
     @staticmethod
     def get_configuration_by_name(name: str,
                                   width: int,
-                                  height: int) -> TrainingConfiguration:
+                                  height: int,
+                                  alphabet_length: int,
+                                  absolute_maximum_string_length: int) -> TrainingConfiguration:
 
-        all_configurations = ConfigurationFactory.get_all_configurations(width, height)
+        all_configurations = ConfigurationFactory.get_all_configurations(width, height, alphabet_length,
+                                                                         absolute_maximum_string_length)
 
         for i in range(len(all_configurations)):
             if all_configurations[i].name() == name:
@@ -19,14 +22,15 @@ class ConfigurationFactory:
         raise Exception("No configuration found by name {0}".format(name))
 
     @staticmethod
-    def get_all_configurations(width, height) -> List[TrainingConfiguration]:
-        all_configurations = [SimpleConfiguration(width, height),
+    def get_all_configurations(width: int, height: int, alphabet_length: int, absolute_maximum_string_length: int) -> \
+    List[TrainingConfiguration]:
+        all_configurations = [SimpleConfiguration(width, height, alphabet_length, absolute_maximum_string_length),
                               ]
         return all_configurations
 
 
 if __name__ == "__main__":
-    configurations = ConfigurationFactory.get_all_configurations(1, 1)
+    configurations = ConfigurationFactory.get_all_configurations(1, 1, 1, 1)
     print("Available configurations are:")
     for configuration in configurations:
         print("- " + configuration.name())

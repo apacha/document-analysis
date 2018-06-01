@@ -9,20 +9,20 @@ class TrainingConfiguration(ABC):
 
     def __init__(self,
                  data_shape: tuple = (1080, 1920, 3),  # Rows = Height, columns = Width, channels = typically 3 (RGB)
-                 number_of_classes: int = 1,
                  number_of_epochs: int = 200,
                  number_of_epochs_before_early_stopping: int = 20,
                  number_of_epochs_before_reducing_learning_rate: int = 8,
-                 training_minibatch_size: int = 8,
+                 training_minibatch_size: int = 32,
                  initialization: str = "glorot_uniform",
-                 learning_rate: float = 0.01,
+                 learning_rate: float = 0.02,
                  learning_rate_reduction_factor: float = 0.5,
                  minimum_learning_rate: float = 0.00001,
-                 weight_decay: float = 0.0001,
+                 weight_decay: float = 1e-6,
                  nesterov_momentum: float = 0.9,
+                 clipnorm=5,
                  zoom_range=0,
                  rotation_range=0,
-                 optimizer: str = "Adadelta",
+                 optimizer: str = "SGD",
                  ):
         """
         :param data_shape: Tuple with order (rows, columns, channels)
@@ -33,7 +33,6 @@ class TrainingConfiguration(ABC):
         self.optimizer = optimizer
         self.rotation_range = rotation_range
         self.data_shape = data_shape
-        self.number_of_classes = number_of_classes
         self.input_image_rows, self.input_image_columns, self.input_image_channels = data_shape
         self.number_of_epochs = number_of_epochs
         self.zoom_range = zoom_range
@@ -46,9 +45,10 @@ class TrainingConfiguration(ABC):
         self.minimum_learning_rate = minimum_learning_rate
         self.weight_decay = weight_decay
         self.nesterov_momentum = nesterov_momentum
+        self.clipnorm = clipnorm
 
     @abstractmethod
-    def classifier(self) -> Model:
+    def model(self) -> Model:
         """ Returns the classifier of this configuration """
         pass
 
@@ -63,7 +63,7 @@ class TrainingConfiguration(ABC):
         :return:
         """
         if self.optimizer == "SGD":
-            return SGD(lr=self.learning_rate, momentum=self.nesterov_momentum, nesterov=True)
+            return SGD(lr=self.learning_rate, momentum=self.nesterov_momentum, nesterov=True, clipnorm=self.clipnorm)
         if self.optimizer == "Adam":
             return Adam()
         if self.optimizer == "Adadelta":

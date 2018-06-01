@@ -32,13 +32,13 @@ def split_line_images_with_sliding_window(input_directory: str, output_directory
 
 
 # set same height to each text line
-def read_grayscale_image_and_add_padding(line, max) -> np.ndarray:
-    image = cv2.imread(line)
+def read_grayscale_image_and_add_padding(path_to_line_image, padded_height) -> np.ndarray:
+    image = cv2.imread(path_to_line_image)
     grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     height, width = grayscale_image.shape
-    padT = int((max - height) / 2)
-    padB = max - height - padT
+    padT = int((padded_height - height) / 2)
+    padB = padded_height - height - padT
 
     padT = np.zeros((padT, width))
     padB = np.zeros((padB, width))

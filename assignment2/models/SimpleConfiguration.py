@@ -14,13 +14,13 @@ class SimpleConfiguration(TrainingConfiguration):
     """ A network with residual modules """
 
     def __init__(self, width: int, height: int, alphabet_length: int = 77, absolute_maximum_string_length: int = 146):
-        super().__init__(data_shape=(height, width, 3))
+        super().__init__(data_shape=(height, width, 1))
         # The longest text-line in our dataset consists of 146 characters
         self.absolute_maximum_string_length = absolute_maximum_string_length
         # The alphabet currently has 77 characters, including special characters
         self.alphabet_length = alphabet_length
 
-    def classifier(self) -> Model:
+    def model(self) -> Model:
         """ Returns the model of this configuration """
         act = 'relu'
         conv_filters = 16
@@ -68,13 +68,10 @@ class SimpleConfiguration(TrainingConfiguration):
         # so CTC loss is implemented in a lambda layer
         loss_out = Lambda(ctc_lambda_func, output_shape=(1,), name='ctc')([y_pred, labels, input_length, label_length])
 
-        # clipnorm seems to speeds up convergence
-        sgd = SGD(lr=0.02, decay=1e-6, momentum=0.9, nesterov=True, clipnorm=5)
-
         model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out)
 
         # the loss calc occurs elsewhere, so use a dummy lambda func for the loss
-        model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=sgd)
+        model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=self.get_optimizer())
 
         return model
 
@@ -84,8 +81,8 @@ class SimpleConfiguration(TrainingConfiguration):
 
 
 if __name__ == "__main__":
-    configuration = SimpleConfiguration(1900, 42)
-    classifier = configuration.classifier()
+    configuration = SimpleConfiguration(1900, 64)
+    classifier = configuration.model()
     classifier.summary()
     plot_model(classifier, to_file="{0}.png".format(configuration.name()))
     print(configuration.summary())
