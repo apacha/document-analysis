@@ -40,7 +40,19 @@ def remove_lines_without_matching_annotation(dataset_directory: str, text_line_i
         print("Removing: " + unmapped_image_path)
         os.remove(unmapped_image_path)
 
+def load_alphabet_from_samples(text_line_image_to_text_mapping: Dict[str, str]) -> str:
+    all_strings = list(text_line_image_to_text_mapping.values())
+    alphabet = set()
+    for string in all_strings:
+        characters = list(string)
+        for character in characters:
+            alphabet.add(character)
+    alphabet = list(alphabet)
+    alphabet.sort()
+    alphabet_string = "".join(alphabet)
+    return alphabet_string
 
 if __name__ == "__main__":
     filename_to_target_mapping = load_mapping("data")
     print(len(filename_to_target_mapping))
+
