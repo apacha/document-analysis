@@ -3,8 +3,10 @@ import os
 import random
 import shutil
 
+from typing import Tuple, List
 
-def copy_image_and_annotation(source_directory, destination_directory, pair):
+
+def copy_image_and_annotation(source_directory: str, destination_directory: str, pair: Tuple[str, str]):
     image_source_path = os.path.join(source_directory, pair[0])
     image_target_path = os.path.join(destination_directory, pair[0])
     annotation_source_path = os.path.join(source_directory, pair[1])
@@ -15,7 +17,7 @@ def copy_image_and_annotation(source_directory, destination_directory, pair):
     shutil.copy(annotation_source_path, annotation_target_path)
 
 
-def split_dataset_into_training_validation_and_test_sets(dataset_directory="data"):
+def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data"):
     i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
     training_directory = os.path.join(dataset_directory, "training")
     validation_directory = os.path.join(dataset_directory, "validation")
@@ -62,19 +64,26 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory="data
         copy_image_and_annotation(i_am_printed_directory, validation_directory, validation_pairs[i])
 
 
-def list_files_randomly(path):
-    files = os.listdir(path)
+def list_files_randomly(i_am_printed_directory: str, seed: int = 0) -> List[Tuple[str, str]]:
+    """
+
+    :param i_am_printed_directory:
+    :param seed: Fixed seed for getting a reproducible split
+    :return:
+    """
+    files = os.listdir(i_am_printed_directory)
     number_of_samples = int(len(files) / 2)
 
     random_indices = list(range(0, number_of_samples))
+    random.seed(seed)
     random.shuffle(random_indices)
 
-    shuffledData = []
+    shuffled_sample_pairs = []
 
     for i in range(0, len(random_indices)):
-        shuffledData.append((files[random_indices[i] * 2], files[random_indices[i] * 2 + 1]))
+        shuffled_sample_pairs.append((files[random_indices[i] * 2], files[random_indices[i] * 2 + 1]))
 
-    return shuffledData
+    return shuffled_sample_pairs
 
 
 if __name__ == "__main__":
