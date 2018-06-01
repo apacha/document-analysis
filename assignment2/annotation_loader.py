@@ -8,9 +8,7 @@ from tqdm import tqdm
 
 
 def load_mapping(dataset_directory: str = "data") -> Dict[str, str]:
-    filename_to_target_mapping = {}
-
-    all_images = glob(os.path.join(dataset_directory, "lines-*", "**/*.png"))
+    text_line_image_to_text_mapping = {}
 
     annotation_files = glob(os.path.join(dataset_directory, "I AM printed", "*.xml"))
 
@@ -24,12 +22,23 @@ def load_mapping(dataset_directory: str = "data") -> Dict[str, str]:
             for line in lines:
                 filename = "{0}-line{1}.png".format(os.path.splitext(
                     os.path.splitext(os.path.basename(annotation_file))[0])[0], line_index)
-                file_path = [f for f in all_images if filename in f][0]
 
-                filename_to_target_mapping[filename] = line.attrib["text"]
+                text_line_image_to_text_mapping[filename] = line.attrib["text"]
                 line_index += 1
 
-    return filename_to_target_mapping
+    return text_line_image_to_text_mapping
+
+
+def remove_lines_without_matching_annotation(dataset_directory: str, text_line_image_to_text_mapping: Dict[str, str]):
+    all_images = glob(os.path.join(dataset_directory, "lines-*/*.png"))
+    image_names = [os.path.basename(path) for path in all_images]
+    mapped_image_names = list(text_line_image_to_text_mapping.keys())
+    unmapped_images = list(set(image_names) - set(mapped_image_names))
+    print("Found {0} files without matching annotation".format(len(unmapped_images)))
+    for unmapped_image in unmapped_images:
+        unmapped_image_path = [path for path in all_images if unmapped_image in path][0]
+        print("Removing: " + unmapped_image_path)
+        os.remove(unmapped_image_path)
 
 
 if __name__ == "__main__":
