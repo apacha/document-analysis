@@ -21,12 +21,11 @@ if __name__ == "__main__":
 
     dataset_splitter.split_dataset_into_training_validation_and_test_sets(dataset_directory)
 
-    # binarize images, deskew document (estimate orientation) and split into text lines
-    max = image_to_lines_converter.load_image_to_line_converter(dataset_directory)
+    maximal_line_height = image_to_lines_converter.split_images_into_text_lines(dataset_directory)
 
     # split text lines with sliding window
-    lines_to_window_converter.sliding_window(dataset_directory, max)
+    lines_to_window_converter.sliding_window(dataset_directory, maximal_line_height)
 
-    # assign labels/label probabilities
+    # train model
 
     # dictionary correction
