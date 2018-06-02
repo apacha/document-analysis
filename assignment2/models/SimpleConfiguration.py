@@ -14,7 +14,7 @@ class SimpleConfiguration(TrainingConfiguration):
     """ A network with residual modules """
 
     def __init__(self, width: int, height: int, alphabet_length: int = 77, absolute_maximum_string_length: int = 146):
-        super().__init__(data_shape=(height, width, 1))
+        super().__init__(data_shape=(width, height, 1))
         # The longest text-line in our dataset consists of 146 characters
         self.absolute_maximum_string_length = absolute_maximum_string_length
         # The alphabet currently has 77 characters, including special characters
@@ -26,7 +26,7 @@ class SimpleConfiguration(TrainingConfiguration):
         conv_filters = 16
         kernel_size = (3, 3)
         pool_size = 2
-        time_dense_size = 32
+        time_dense_size = 150
         rnn_size = 512
 
         input_data = Input(name='the_input', shape=self.data_shape, dtype='float32')

@@ -19,7 +19,8 @@ def split_line_images_with_sliding_window(input_directory: str, output_directory
         i = 0
 
         while (image_width - int(sliding_window_width / 2) * (i - 1) - sliding_window_width) > 0:
-            sliding_window_image = grayscale_image[:, (i - 1) * int(sliding_window_width / 2):(i - 1) * int(sliding_window_width / 2) + sliding_window_width]
+            sliding_window_image = grayscale_image[:, (i - 1) * int(sliding_window_width / 2):(i - 1) * int(
+                sliding_window_width / 2) + sliding_window_width]
             i += 1
 
             # save only positive examples
@@ -35,15 +36,16 @@ def split_line_images_with_sliding_window(input_directory: str, output_directory
 def read_grayscale_image_and_add_padding(path_to_line_image, padded_height) -> np.ndarray:
     image = cv2.imread(path_to_line_image)
     grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    grayscale_image = np.expand_dims(np.transpose(grayscale_image, (1, 0)), 2)
 
-    height, width = grayscale_image.shape
-    padT = int((padded_height - height) / 2)
-    padB = padded_height - height - padT
+    width, height, channels = grayscale_image.shape
+    pad_top = int((padded_height - height) / 2)
+    pad_bottom = padded_height - height - pad_top
 
-    padT = np.zeros((padT, width))
-    padB = np.zeros((padB, width))
+    pad_top = np.zeros((width, pad_top, 1))
+    pad_bottom = np.zeros((width, pad_bottom, 1))
 
-    grayscale_image = np.concatenate((padT, grayscale_image, padB), axis=0)
+    grayscale_image = np.concatenate((pad_top, grayscale_image, pad_bottom), axis=1)
 
     return grayscale_image
 
