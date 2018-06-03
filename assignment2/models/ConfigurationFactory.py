@@ -1,5 +1,6 @@
 from typing import List
 
+from models.Simple2Configuration import Simple2Configuration
 from models.SimpleConfiguration import SimpleConfiguration
 from models.TrainingConfiguration import TrainingConfiguration
 
@@ -25,6 +26,7 @@ class ConfigurationFactory:
     def get_all_configurations(width: int, height: int, alphabet_length: int, absolute_maximum_string_length: int) -> \
     List[TrainingConfiguration]:
         all_configurations = [SimpleConfiguration(width, height, alphabet_length, absolute_maximum_string_length),
+                              Simple2Configuration(width, height, alphabet_length, absolute_maximum_string_length),
                               ]
         return all_configurations
 
