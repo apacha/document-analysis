@@ -49,6 +49,7 @@ def load_dataset(dataset_directory, dataset_split, text_line_image_to_text_mappi
               'the_labels': y_data,
               'input_length': input_length,
               'label_length': y_lenghts,
+              'ground_truth': image_strings
               }
 
     outputs = {'ctc': np.zeros([size])}  # dummy data for dummy loss function
