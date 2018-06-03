@@ -23,10 +23,10 @@ class OCRDownloader(DatasetDownloader):
 
     def download_and_extract_dataset(self):
         if not os.path.exists(self.get_dataset_filename()):
-            print("Downloading PageDetection dataset...")
+            print("Downloading OCR dataset...")
             self.download_file(self.get_dataset_download_url(), self.get_dataset_filename())
 
-        print("Extracting PageDetection dataset...")
+        print("Extracting OCR dataset...")
         self.extract_dataset(self.destination_directory)
 
 

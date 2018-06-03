@@ -23,24 +23,23 @@ if __name__ == "__main__":
 
     dataset_directory = flags.dataset_directory
 
-    ocr_downloader.download_i_am_printed_database(dataset_directory)
-    dataset_splitter.split_dataset_into_training_and_test_sets(dataset_directory)
+    # ocr_downloader.download_i_am_printed_database(dataset_directory)
+    # dataset_splitter.split_dataset_into_training_and_test_sets(dataset_directory)
     maximal_line_height = image_to_lines_converter.split_images_into_text_lines(dataset_directory)
     text_line_image_to_text_mapping = annotation_loader.load_mapping(dataset_directory)
     annotation_loader.remove_lines_without_matching_annotation(dataset_directory, text_line_image_to_text_mapping)
 
-    image_width, image_height = 1900, 64
+    image_height, image_width = 64, 1900
     absolute_max_string_length = 146
     alphabet_length = 77
-    configuration = ConfigurationFactory.get_configuration_by_name("simple", image_width, image_height, alphabet_length,
+    configuration = ConfigurationFactory.get_configuration_by_name("simple", image_height, image_width, alphabet_length,
                                                                    absolute_max_string_length)
     print(configuration.summary())
     model = configuration.model()
 
     training_inputs, training_outputs = dataset_loader.load_dataset(dataset_directory, "training",
-                                                                    text_line_image_to_text_mapping,
-                                                                    image_width, image_height,
-                                                                    absolute_max_string_length)
+                                                                    text_line_image_to_text_mapping, image_height,
+                                                                    image_width, absolute_max_string_length)
 
     start_of_training = datetime.date.today()
     model_description = "{0}_{1}_{2}x{3}".format(start_of_training, configuration.name(), image_width, image_height)

@@ -3,6 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import cv2
 import os
+from keras.preprocessing import image
 
 
 def split_line_images_with_sliding_window(input_directory: str, output_directory: str, maximal_line_height):
@@ -34,18 +35,18 @@ def split_line_images_with_sliding_window(input_directory: str, output_directory
 
 # set same height to each text line
 def read_grayscale_image_and_add_padding(path_to_line_image, padded_height) -> np.ndarray:
-    image = cv2.imread(path_to_line_image)
-    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    grayscale_image = np.expand_dims(np.transpose(grayscale_image, (1, 0)), 2)
+    img = image.load_img(path_to_line_image, grayscale=True)
 
-    width, height, channels = grayscale_image.shape
+    grayscale_image = np.expand_dims(img, 2)
+
+    height, width, channels = grayscale_image.shape
     pad_top = int((padded_height - height) / 2)
     pad_bottom = padded_height - height - pad_top
 
-    pad_top = np.zeros((width, pad_top, 1))
-    pad_bottom = np.zeros((width, pad_bottom, 1))
+    pad_top = np.zeros((pad_top, width, 1))
+    pad_bottom = np.zeros((pad_bottom, width, 1))
 
-    grayscale_image = np.concatenate((pad_top, grayscale_image, pad_bottom), axis=1)
+    grayscale_image = np.concatenate((pad_top, grayscale_image, pad_bottom), axis=0)
 
     return grayscale_image
 

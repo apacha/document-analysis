@@ -7,12 +7,12 @@ from models.TrainingConfiguration import TrainingConfiguration
 class ConfigurationFactory:
     @staticmethod
     def get_configuration_by_name(name: str,
-                                  width: int,
                                   height: int,
+                                  width: int,
                                   alphabet_length: int,
                                   absolute_maximum_string_length: int) -> TrainingConfiguration:
 
-        all_configurations = ConfigurationFactory.get_all_configurations(width, height, alphabet_length,
+        all_configurations = ConfigurationFactory.get_all_configurations(height, width, alphabet_length,
                                                                          absolute_maximum_string_length)
 
         for i in range(len(all_configurations)):
@@ -22,9 +22,9 @@ class ConfigurationFactory:
         raise Exception("No configuration found by name {0}".format(name))
 
     @staticmethod
-    def get_all_configurations(width: int, height: int, alphabet_length: int, absolute_maximum_string_length: int) -> \
-    List[TrainingConfiguration]:
-        all_configurations = [SimpleConfiguration(width, height, alphabet_length, absolute_maximum_string_length),
+    def get_all_configurations(height: int, width: int, alphabet_length: int, absolute_maximum_string_length: int) -> \
+            List[TrainingConfiguration]:
+        all_configurations = [SimpleConfiguration(height, width, alphabet_length, absolute_maximum_string_length),
                               ]
         return all_configurations
 
