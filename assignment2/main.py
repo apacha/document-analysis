@@ -1,7 +1,7 @@
 import argparse
 import datetime
 
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 import annotation_loader
 import dataset_loader
@@ -37,15 +37,25 @@ if __name__ == "__main__":
     print(configuration.summary())
     model = configuration.model()
 
-    training_inputs, training_outputs = dataset_loader.load_dataset(dataset_directory, "training", text_line_image_to_text_mapping,
-                                                     image_width, image_height, absolute_max_string_length)
+    training_inputs, training_outputs = dataset_loader.load_dataset(dataset_directory, "training",
+                                                                    text_line_image_to_text_mapping,
+                                                                    image_width, image_height,
+                                                                    absolute_max_string_length)
 
     start_of_training = datetime.date.today()
     model_description = "{0}_{1}_{2}x{3}".format(start_of_training, configuration.name(), image_width, image_height)
     best_model_path = model_description + ".h5"
 
     model_checkpoint = ModelCheckpoint(best_model_path, verbose=1, save_best_only=True, monitor='val_loss')
-    callbacks = [model_checkpoint]
+    early_stopping = EarlyStopping(monitor="val_loss", patience=configuration.number_of_epochs_before_early_stopping,
+                                   verbose=1)
+    learning_rate_reduction = ReduceLROnPlateau(monitor="val_loss",
+                                                patience=configuration.number_of_epochs_before_reducing_learning_rate,
+                                                verbose=1,
+                                                factor=configuration.learning_rate_reduction_factor,
+                                                min_lr=configuration.minimum_learning_rate)
+
+    callbacks = [model_checkpoint, early_stopping, learning_rate_reduction]
 
     model.fit(x=training_inputs,
               y=training_outputs,
