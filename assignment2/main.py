@@ -42,7 +42,7 @@ if __name__ == "__main__":
                                                                     image_width, absolute_max_string_length)
 
     start_of_training = datetime.date.today()
-    model_description = "{0}_{1}_{2}x{3}".format(start_of_training, configuration.name(), image_width, image_height)
+    model_description = "{0}_{1}_{2}x{3}".format(start_of_training, configuration.name(), image_height, image_width)
     best_model_path = model_description + ".h5"
 
     model_checkpoint = ModelCheckpoint(best_model_path, verbose=1, save_best_only=True, monitor='val_loss')
