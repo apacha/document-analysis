@@ -17,7 +17,8 @@ def _copy_image_and_annotation(source_directory: str, destination_directory: str
     shutil.copy(annotation_source_path, annotation_target_path)
 
 
-def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproducible_split: int = 0) -> List[Tuple[str, str]]:
+def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproducible_split: int = 0) -> List[
+    Tuple[str, str]]:
     files = os.listdir(i_am_printed_directory)
     number_of_samples = int(len(files) / 2)
 
@@ -33,7 +34,11 @@ def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproduci
     return shuffled_sample_pairs
 
 
-def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data"):
+def split_dataset_into_training_and_test_sets(dataset_directory: str = "data"):
+    return split_dataset_into_training_validation_and_test_sets(dataset_directory, 0.8, 0.2)
+
+def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data", training_precentage=0.6,
+                                                         test_percentage=0.2):
     i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
     training_directory = os.path.join(dataset_directory, "training")
     validation_directory = os.path.join(dataset_directory, "validation")
@@ -59,8 +64,6 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory: str 
     randomized_files = _get_randomized_sample_pairs(i_am_printed_directory)
 
     # Corresponds to a 60%, 20%, 20% split for train, validation and test
-    training_precentage = 0.6
-    test_percentage = 0.2
     test_pairs = randomized_files[0:math.ceil(len(randomized_files) * test_percentage)]
     training_pairs = randomized_files[
                      len(test_pairs):len(test_pairs) + math.ceil(len(randomized_files) * training_precentage)]
