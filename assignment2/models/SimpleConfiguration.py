@@ -68,7 +68,7 @@ class SimpleConfiguration(TrainingConfiguration):
         # so CTC loss is implemented in a lambda layer
         loss_out = Lambda(ctc_lambda_func, output_shape=(1,), name='ctc')([y_pred, labels, input_length, label_length])
 
-        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out)
+        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=[loss_out, y_pred])
 
         # the loss calc occurs elsewhere, so use a dummy lambda func for the loss
         model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=self.get_optimizer())
