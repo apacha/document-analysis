@@ -12,7 +12,7 @@ class TrainingConfiguration(ABC):
                  number_of_epochs: int = 200,
                  number_of_epochs_before_early_stopping: int = 20,
                  number_of_epochs_before_reducing_learning_rate: int = 8,
-                 training_minibatch_size: int = 32,
+                 training_minibatch_size: int = 16,
                  initialization: str = "glorot_uniform",
                  learning_rate: float = 0.02,
                  learning_rate_reduction_factor: float = 0.5,
@@ -22,7 +22,7 @@ class TrainingConfiguration(ABC):
                  clipnorm=5,
                  zoom_range=0,
                  rotation_range=0,
-                 optimizer: str = "SGD",
+                 optimizer: str = "Adadelta",
                  ):
         """
         :param data_shape: Tuple with order (rows, columns, channels)
@@ -65,9 +65,9 @@ class TrainingConfiguration(ABC):
         if self.optimizer == "SGD":
             return SGD(lr=self.learning_rate, momentum=self.nesterov_momentum, nesterov=True, clipnorm=self.clipnorm)
         if self.optimizer == "Adam":
-            return Adam()
+            return Adam(clipnorm=self.clipnorm)
         if self.optimizer == "Adadelta":
-            return Adadelta()
+            return Adadelta(clipnorm=self.clipnorm)
 
         raise Exception("Invalid optimizer {0} requested".format(self.optimizer))
 
