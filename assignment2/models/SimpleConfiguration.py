@@ -26,7 +26,7 @@ class SimpleConfiguration(TrainingConfiguration):
         conv_filters = 16
         kernel_size = (3, 3)
         pool_size = 2
-        time_dense_size = 150
+        time_dense_size = 32
         rnn_size = 512
 
         input_data = Input(name='the_input', shape=self.data_shape, dtype='float32')
