@@ -13,8 +13,8 @@ from models.loss import ctc_lambda_func
 class SimpleConfiguration(TrainingConfiguration):
     """ A network with residual modules """
 
-    def __init__(self, height: int, width: int, alphabet_length: int = 77, absolute_maximum_string_length: int = 146):
-        super().__init__(data_shape=(height, width, 1))
+    def __init__(self, width: int, height: int, alphabet_length: int = 77, absolute_maximum_string_length: int = 146):
+        super().__init__(data_shape=(width, height, 1))
         # The longest text-line in our dataset consists of 146 characters
         self.absolute_maximum_string_length = absolute_maximum_string_length
         # The alphabet currently has 77 characters, including special characters
@@ -81,7 +81,7 @@ class SimpleConfiguration(TrainingConfiguration):
 
 
 if __name__ == "__main__":
-    configuration = SimpleConfiguration(64, 1900)
+    configuration = SimpleConfiguration(1900, 64)
     classifier = configuration.model()
     classifier.summary()
     plot_model(classifier, to_file="{0}.png".format(configuration.name()))

@@ -14,8 +14,9 @@ def text_to_labels(text, alphabet):
     return ret
 
 
-def load_dataset(dataset_directory, dataset_split, text_line_image_to_text_mapping, image_height_with_padding,
-                 image_width, absolute_max_string_length) -> Tuple[Dict, Dict]:
+def load_dataset(dataset_directory, dataset_split, text_line_image_to_text_mapping, image_width,
+                 image_height_with_padding,
+                 absolute_max_string_length) -> Tuple[Dict, Dict]:
     """ Loads all training images into a big numpy-array """
 
     files = os.listdir(os.path.join(dataset_directory, "lines-" + dataset_split))

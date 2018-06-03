@@ -8,7 +8,7 @@ class TrainingConfiguration(ABC):
     """ The base class for a configuration that specifies the hyperparameters of a training """
 
     def __init__(self,
-                 data_shape: tuple = (64, 1900, 1),  # Rows = Height, columns = Width, channels = typically 3 (RGB)
+                 data_shape: tuple = (1920, 1080, 3),  # columns = Width, Rows = Height, channels = typically 3 (RGB)
                  number_of_epochs: int = 200,
                  number_of_epochs_before_early_stopping: int = 20,
                  number_of_epochs_before_reducing_learning_rate: int = 8,
@@ -33,7 +33,7 @@ class TrainingConfiguration(ABC):
         self.optimizer = optimizer
         self.rotation_range = rotation_range
         self.data_shape = data_shape
-        self.input_image_rows, self.input_image_columns, self.input_image_channels = data_shape
+        self.input_image_columns, self.input_image_rows, self.input_image_channels = data_shape
         self.number_of_epochs = number_of_epochs
         self.zoom_range = zoom_range
         self.number_of_epochs_before_early_stopping = number_of_epochs_before_early_stopping
