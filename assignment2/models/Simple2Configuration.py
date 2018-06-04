@@ -22,31 +22,29 @@ class Simple2Configuration(TrainingConfiguration):
 
     def model(self) -> Model:
         """ Returns the model of this configuration """
+
         act = 'relu'
-        conv_filters = 32
+        conv_filters = [64, 256, 256]
         kernel_size = (3, 3)
         pool_size = 2
         time_dense_size = 64
-        rnn_size = 1024
+        rnn_size = 512
 
         input_data = Input(name='the_input', shape=self.data_shape, dtype='float32')
-        inner = Conv2D(conv_filters, kernel_size, padding='same',
+        inner = Conv2D(conv_filters[0], kernel_size, padding='same',
                        activation=act, kernel_initializer='he_normal',
                        name='conv1')(input_data)
-        inner = Conv2D(conv_filters, kernel_size, padding='same',
-                       activation=act, kernel_initializer='he_normal',
-                       name='conv2')(inner)
         inner = MaxPooling2D(pool_size=(pool_size, pool_size), name='max1')(inner)
-        inner = Conv2D(conv_filters, kernel_size, padding='same',
+        inner = Conv2D(conv_filters[1], kernel_size, padding='same',
                        activation=act, kernel_initializer='he_normal',
                        name='conv3')(inner)
-        inner = Conv2D(conv_filters, kernel_size, padding='same',
+        inner = Conv2D(conv_filters[2], kernel_size, padding='same',
                        activation=act, kernel_initializer='he_normal',
                        name='conv4')(inner)
         inner = MaxPooling2D(pool_size=(pool_size, pool_size), name='max2')(inner)
 
         conv_to_rnn_dims = (
-            self.input_image_columns // (pool_size ** 2), (self.input_image_rows // (pool_size ** 2)) * conv_filters)
+            self.input_image_columns // (pool_size ** 2), (self.input_image_rows // (pool_size ** 2)) * conv_filters[2])
         inner = Reshape(target_shape=conv_to_rnn_dims, name='reshape')(inner)
 
         # cuts down input size going into RNN:
@@ -74,10 +72,11 @@ class Simple2Configuration(TrainingConfiguration):
         # so CTC loss is implemented in a lambda layer
         loss_out = Lambda(ctc_lambda_func, output_shape=(1,), name='ctc')([y_pred, labels, input_length, label_length])
 
-        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out)
+        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=[loss_out, y_pred])
 
         # the loss calc occurs elsewhere, so use a dummy lambda func for the loss
-        model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=self.get_optimizer())
+        model.compile(loss={'ctc': lambda y_true, y_pred: y_pred},
+                      optimizer=self.get_optimizer())
 
         return model
 
