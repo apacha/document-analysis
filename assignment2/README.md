@@ -5,10 +5,15 @@ This folder contains the source code for the second exercise of the Document Ana
 # Running the experiments
 Make sure you've got all requirements installed, that are specified in [requirements.txt](requirements.txt).
 
-Run `python ocr_downloader.py` to download and extract the dataset.
+## Training
+Run `python main.py` to download and extract the dataset.
 
+## Predicition
+Download the trained model from [here](https://owncloud.tuwien.ac.at/index.php/s/WtQs2Tz2i9qICWK)
 
-## Other stuff
+Run `python predict.py`
+
+# Other stuff
 In case you want to run the Keras sample for image_ocr, you have to 
 
 - Install cairo, via `conda install cairo`
