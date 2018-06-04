@@ -6,6 +6,7 @@ from glob import glob
 import keras
 import numpy as np
 from PIL import Image
+from keras import models
 from keras.backend import ctc_decode
 from keras.preprocessing import image
 from tqdm import tqdm
@@ -34,8 +35,8 @@ if __name__ == "__main__":
     #         flags.standardize)
 
     dataset_directory = "data"
-    model_path = "2018-06-03_simple_1900x64_val_loss_3.2.h5"
-    model_path = "2018-06-03_simple_1900x64.h5"
+    model_path = "2018-06-03_simple_1900x64_val_loss_3.24.h5"
+    # model_path = "2018-06-03_simple_1900x64.h5"
     image_height, image_width = 64, 1900
     absolute_max_string_length = 146
     alphabet_length = 77
@@ -44,13 +45,10 @@ if __name__ == "__main__":
     mapping = annotation_loader.load_mapping()
     alphabet = annotation_loader.load_alphabet_from_samples(mapping)
     print("Loading model...")
-    best_configuration = ConfigurationFactory.get_configuration_by_name("simple", image_height, image_width,
-                                                                        alphabet_length, absolute_max_string_length)
-    best_model = best_configuration.model()
-    best_model.load_weights(model_path)
+    m = models.load_model(model_path, custom_objects={'<lambda>': lambda y_true, y_predict: y_predict})
 
-    inputs, _ = dataset_loader.load_dataset(dataset_directory, "test", mapping, image_height, image_width, absolute_max_string_length)
-    prediction = best_model.predict(inputs)
+    inputs, _ = dataset_loader.load_dataset(dataset_directory, "test", mapping, image_width, image_height, absolute_max_string_length)
+    prediction = m.predict(inputs)
 
     softmax_activations = prediction[1]
 
