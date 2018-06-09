@@ -23,7 +23,14 @@ def load_mapping(dataset_directory: str = "data") -> Dict[str, str]:
                 filename = "{0}-line{1}.png".format(os.path.splitext(
                     os.path.splitext(os.path.basename(annotation_file))[0])[0], line_index)
 
-                text_line_image_to_text_mapping[filename] = line.attrib["text"]
+                # adjust wrong annotation
+                if filename == "a01-026-line4.png":
+                    text_line_image_to_text_mapping[filename] = line.attrib["text"] + ' Roy'
+                elif filename == "a06-008-line2.png":
+                    text_line_image_to_text_mapping[filename] = line.attrib["text"] + ' the'
+                else:
+                    text_line_image_to_text_mapping[filename] = line.attrib["text"]
+
                 line_index += 1
 
     return text_line_image_to_text_mapping
