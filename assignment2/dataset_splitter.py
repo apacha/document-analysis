@@ -37,6 +37,7 @@ def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproduci
 def split_dataset_into_training_and_test_sets(dataset_directory: str = "data"):
     return split_dataset_into_training_validation_and_test_sets(dataset_directory, 0.8, 0.2)
 
+
 def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data", training_precentage=0.6,
                                                          test_percentage=0.2):
     i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
