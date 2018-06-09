@@ -35,17 +35,12 @@ def split_images_into_text_lines(dataset_directory: str) -> int:
     maximal_test_height = convert_all_images_into_text_line_images(os.path.join(dataset_directory, "test"),
                                                                    os.path.join(dataset_directory, "lines-test"))
 
-    print("Converting validation-images")
-    maximal_validation_height = convert_all_images_into_text_line_images(os.path.join(dataset_directory, "validation"),
-                                                                         os.path.join(dataset_directory,
-                                                                                      "lines-validation"))
-
     print("Converting training-images")
     maximal_training_height = convert_all_images_into_text_line_images(os.path.join(dataset_directory, "training"),
                                                                        os.path.join(dataset_directory,
                                                                                     "lines-training"))
 
-    return max(maximal_test_height, maximal_training_height, maximal_validation_height)
+    return max(maximal_test_height, maximal_training_height)
 
 
 if __name__ == "__main__":
