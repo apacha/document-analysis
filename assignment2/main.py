@@ -63,7 +63,3 @@ if __name__ == "__main__":
               epochs=configuration.number_of_epochs,
               validation_split=0.2,
               callbacks=callbacks)
-
-    # TODO: dictionary correction
-    # To compute edit distance between two words, use this method
-    # edit_dist = editdistance.eval("hallo", "hello")
