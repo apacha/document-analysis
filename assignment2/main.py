@@ -5,7 +5,7 @@ import annotation_loader
 import dataset_splitter
 import image_to_lines_converter
 from ocr_downloader import IamPrintedDatasetDownloader
-from predict import predict
+from predict import predict_and_evaluate
 from train import train_model_for_ocr
 
 
@@ -47,5 +47,5 @@ if __name__ == "__main__":
     model_path = train_model_for_ocr(dataset_directory, "simple", image_width, image_height, alphabet_length,
                                      maximum_number_of_characters_in_longest_text_line, text_line_image_to_text_mapping)
 
-    predict(dataset_directory, model_path, image_height, image_width,
-            maximum_number_of_characters_in_longest_text_line)
+    predict_and_evaluate(dataset_directory, model_path, image_height, image_width,
+                         maximum_number_of_characters_in_longest_text_line)

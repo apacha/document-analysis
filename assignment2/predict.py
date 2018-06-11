@@ -9,14 +9,15 @@ import dataset_loader
 import editdistance
 
 
-def predict(dataset_directory: str, model_path: str, image_height: int, image_width: int,
-            maximum_number_of_characters_in_longest_text_line=146):
+def predict_and_evaluate(dataset_directory: str, model_path: str,
+                         maximum_number_of_characters_in_longest_text_line=146):
     mapping = annotation_loader.load_mapping(dataset_directory)
     alphabet = annotation_loader.load_alphabet_from_samples(mapping)
 
     print("Loading model...")
     # We are forced to provide a implementation for the lambda-operation, that was not serialized
     m = models.load_model(model_path, custom_objects={'<lambda>': lambda y_true, y_predict: y_predict})
+    (_, image_width, image_height, _) = m.layers[0].input.shape
 
     inputs, _ = dataset_loader.load_dataset_split_into_memory(dataset_directory, "test", mapping, image_width,
                                                               image_height,
@@ -98,14 +99,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_directory", type=str, default="data",
                         help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_path", type=str, default="2018-06-10_simple_1900x64.h5",
+    parser.add_argument("--model_path", type=str, default="2018-06-11_simple_1900x64.h5",
                         help="The trained model")
-    parser.add_argument("--height", default=64, type=int, help="Height of the input-images for the network in pixel")
-    parser.add_argument("--width", default=1900, type=int, help="Width of the input-images for the network in pixel")
     parser.add_argument("--maximum_number_of_characters_in_longest_text_line", default=146, type=int,
                         help="Max length of strings")
 
     flags, unparsed = parser.parse_known_args()
 
-    predict(flags.dataset_directory, flags.model_path, flags.height, flags.width,
-            flags.maximum_number_of_characters_in_longest_text_line)
+    predict_and_evaluate(flags.dataset_directory, flags.model_path,
+                         flags.maximum_number_of_characters_in_longest_text_line)
