@@ -1,0 +1,1241 @@
+C:\Programmieren\Anaconda3\python.exe C:/Users/Alex/Repositories/document-analysis/assignment2/main.py
+C:\Programmieren\Anaconda3\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+Extracting OCR dataset...
+Split a total of 188 samples into three sets with 150 training, 0 validation and 38 test samples.
+Converting test-images
+Processing png file: 100%|██████████| 38/38 [00:00<00:00, 42.40it/s]
+Converting training-images
+Processing png file: 100%|██████████| 150/150 [00:03<00:00, 41.60it/s]
+Loading annotations ...: 100%|██████████| 188/188 [00:00<00:00, 1182.16it/s]
+Found 16 files without matching annotation
+Removing: data\lines-training\a06-004-line6.png
+Removing: data\lines-training\a02-017-line6.png
+Removing: data\lines-training\a01-063-line6.png
+Removing: data\lines-training\a04-050-line5.png
+Removing: data\lines-training\a01-058x-line6.png
+Removing: data\lines-training\a06-000-line6.png
+Removing: data\lines-test\a04-066-line6.png
+Removing: data\lines-training\a02-032-line6.png
+Removing: data\lines-training\a01-091-line6.png
+Removing: data\lines-training\a01-058-line6.png
+Removing: data\lines-training\a06-095-line6.png
+Removing: data\lines-training\a03-014-line6.png
+Removing: data\lines-training\a06-036-line5.png
+Removing: data\lines-training\a02-012-line6.png
+Removing: data\lines-test\a01-102-line6.png
+Removing: data\lines-training\a04-003-line5.png
+2018-06-11 11:03:49.779842: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2018-06-11 11:03:49.975073: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:01:00.0
+totalMemory: 11.00GiB freeMemory: 9.10GiB
+2018-06-11 11:03:49.975365: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-06-11 11:03:50.523913: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-06-11 11:03:50.524100: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0 
+2018-06-11 11:03:50.524232: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N 
+2018-06-11 11:03:50.524439: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Training for 200 epochs ...
+Additional parameters: Initialization: glorot_uniform, Weight-decay of 1e-06, Minibatch-size: 16, Early stopping after 20 epochs without improvement
+Data-Shape: (1900, 64, 1), Reducing learning rate by factor to 0.5 respectively if not improved validation accuracy after 8 epochs
+Data-augmentation: Zooming 0% randomly, rotating 0° randomly
+Optimizer: Adadelta, with parameters {'clipnorm': 5, 'lr': 1.0, 'rho': 0.95, 'decay': 0.0, 'epsilon': 1e-07}
+
+C:\Users\Alex\Repositories\document-analysis\assignment2\models\SimpleConfiguration.py:69: UserWarning: Output "softmax" missing from loss dictionary. We assume this was done on purpose, and we will not be expecting any data to be passed to "softmax" during training.
+  model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=self.get_optimizer())
+Train on 594 samples, validate on 198 samples
+Epoch 1/200
+594/594 [==============================] - 75s 126ms/step - loss: 407.5154 - ctc_loss: 407.5154 - val_loss: 283.0237 - val_ctc_loss: 283.0237
+
+Epoch 00001: val_loss improved from inf to 283.02369, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 2/200
+594/594 [==============================] - 70s 118ms/step - loss: 271.7826 - ctc_loss: 271.7826 - val_loss: 254.2213 - val_ctc_loss: 254.2213
+
+Epoch 00002: val_loss improved from 283.02369 to 254.22128, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 3/200
+594/594 [==============================] - 70s 118ms/step - loss: 250.0578 - ctc_loss: 250.0578 - val_loss: 244.8726 - val_ctc_loss: 244.8726
+
+Epoch 00003: val_loss improved from 254.22128 to 244.87264, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 4/200
+594/594 [==============================] - 72s 121ms/step - loss: 238.0305 - ctc_loss: 238.0305 - val_loss: 232.7705 - val_ctc_loss: 232.7705
+
+Epoch 00004: val_loss improved from 244.87264 to 232.77053, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 5/200
+594/594 [==============================] - 72s 121ms/step - loss: 220.6240 - ctc_loss: 220.6240 - val_loss: 189.2404 - val_ctc_loss: 189.2404
+
+Epoch 00005: val_loss improved from 232.77053 to 189.24040, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 6/200
+594/594 [==============================] - 72s 121ms/step - loss: 135.4753 - ctc_loss: 135.4753 - val_loss: 81.9369 - val_ctc_loss: 81.9369
+
+Epoch 00006: val_loss improved from 189.24040 to 81.93693, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 7/200
+594/594 [==============================] - 72s 121ms/step - loss: 69.4200 - ctc_loss: 69.4200 - val_loss: 44.1795 - val_ctc_loss: 44.1795
+
+Epoch 00007: val_loss improved from 81.93693 to 44.17946, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 8/200
+594/594 [==============================] - 71s 119ms/step - loss: 42.8318 - ctc_loss: 42.8318 - val_loss: 29.9249 - val_ctc_loss: 29.9249
+
+Epoch 00008: val_loss improved from 44.17946 to 29.92488, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 9/200
+594/594 [==============================] - 71s 119ms/step - loss: 30.2411 - ctc_loss: 30.2411 - val_loss: 22.3817 - val_ctc_loss: 22.3817
+
+Epoch 00009: val_loss improved from 29.92488 to 22.38167, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 10/200
+594/594 [==============================] - 72s 121ms/step - loss: 22.5005 - ctc_loss: 22.5005 - val_loss: 19.5150 - val_ctc_loss: 19.5150
+
+Epoch 00010: val_loss improved from 22.38167 to 19.51502, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 11/200
+594/594 [==============================] - 71s 120ms/step - loss: 16.2318 - ctc_loss: 16.2318 - val_loss: 14.4636 - val_ctc_loss: 14.4636
+
+Epoch 00011: val_loss improved from 19.51502 to 14.46359, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 12/200
+594/594 [==============================] - 72s 121ms/step - loss: 11.6355 - ctc_loss: 11.6355 - val_loss: 9.2672 - val_ctc_loss: 9.2672
+
+Epoch 00012: val_loss improved from 14.46359 to 9.26717, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 13/200
+594/594 [==============================] - 72s 121ms/step - loss: 7.0918 - ctc_loss: 7.0918 - val_loss: 6.6828 - val_ctc_loss: 6.6828
+
+Epoch 00013: val_loss improved from 9.26717 to 6.68277, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 14/200
+594/594 [==============================] - 73s 123ms/step - loss: 5.7557 - ctc_loss: 5.7557 - val_loss: 5.2915 - val_ctc_loss: 5.2915
+
+Epoch 00014: val_loss improved from 6.68277 to 5.29153, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 15/200
+594/594 [==============================] - 73s 123ms/step - loss: 4.4897 - ctc_loss: 4.4897 - val_loss: 4.9089 - val_ctc_loss: 4.9089
+
+Epoch 00015: val_loss improved from 5.29153 to 4.90889, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 16/200
+594/594 [==============================] - 73s 123ms/step - loss: 3.7221 - ctc_loss: 3.7221 - val_loss: 4.8365 - val_ctc_loss: 4.8365
+
+Epoch 00016: val_loss improved from 4.90889 to 4.83648, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 17/200
+594/594 [==============================] - 72s 121ms/step - loss: 3.4895 - ctc_loss: 3.4895 - val_loss: 4.8735 - val_ctc_loss: 4.8735
+
+Epoch 00017: val_loss did not improve from 4.83648
+Epoch 18/200
+594/594 [==============================] - 73s 123ms/step - loss: 2.8237 - ctc_loss: 2.8237 - val_loss: 3.9865 - val_ctc_loss: 3.9865
+
+Epoch 00018: val_loss improved from 4.83648 to 3.98649, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 19/200
+594/594 [==============================] - 73s 123ms/step - loss: 2.6135 - ctc_loss: 2.6135 - val_loss: 12.1167 - val_ctc_loss: 12.1167
+
+Epoch 00019: val_loss did not improve from 3.98649
+Epoch 20/200
+594/594 [==============================] - 72s 122ms/step - loss: 2.6090 - ctc_loss: 2.6090 - val_loss: 4.5007 - val_ctc_loss: 4.5007
+
+Epoch 00020: val_loss did not improve from 3.98649
+Epoch 21/200
+594/594 [==============================] - 72s 122ms/step - loss: 2.1203 - ctc_loss: 2.1203 - val_loss: 3.9891 - val_ctc_loss: 3.9891
+
+Epoch 00021: val_loss did not improve from 3.98649
+Epoch 22/200
+594/594 [==============================] - 73s 124ms/step - loss: 2.0518 - ctc_loss: 2.0518 - val_loss: 3.7022 - val_ctc_loss: 3.7022
+
+Epoch 00022: val_loss improved from 3.98649 to 3.70223, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 23/200
+594/594 [==============================] - 73s 122ms/step - loss: 1.8922 - ctc_loss: 1.8922 - val_loss: 3.5081 - val_ctc_loss: 3.5081
+
+Epoch 00023: val_loss improved from 3.70223 to 3.50805, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 24/200
+594/594 [==============================] - 73s 122ms/step - loss: 1.8094 - ctc_loss: 1.8094 - val_loss: 3.2630 - val_ctc_loss: 3.2630
+
+Epoch 00024: val_loss improved from 3.50805 to 3.26304, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 25/200
+594/594 [==============================] - 74s 124ms/step - loss: 1.7045 - ctc_loss: 1.7045 - val_loss: 3.3242 - val_ctc_loss: 3.3242
+
+Epoch 00025: val_loss did not improve from 3.26304
+Epoch 26/200
+594/594 [==============================] - 72s 122ms/step - loss: 1.6359 - ctc_loss: 1.6359 - val_loss: 3.2156 - val_ctc_loss: 3.2156
+
+Epoch 00026: val_loss improved from 3.26304 to 3.21557, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 27/200
+594/594 [==============================] - 72s 121ms/step - loss: 1.5953 - ctc_loss: 1.5953 - val_loss: 3.1178 - val_ctc_loss: 3.1178
+
+Epoch 00027: val_loss improved from 3.21557 to 3.11781, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 28/200
+594/594 [==============================] - 74s 124ms/step - loss: 1.5030 - ctc_loss: 1.5030 - val_loss: 3.4985 - val_ctc_loss: 3.4985
+
+Epoch 00028: val_loss did not improve from 3.11781
+Epoch 29/200
+594/594 [==============================] - 73s 123ms/step - loss: 1.3785 - ctc_loss: 1.3785 - val_loss: 3.5201 - val_ctc_loss: 3.5201
+
+Epoch 00029: val_loss did not improve from 3.11781
+Epoch 30/200
+594/594 [==============================] - 73s 122ms/step - loss: 1.3064 - ctc_loss: 1.3064 - val_loss: 3.0218 - val_ctc_loss: 3.0218
+
+Epoch 00030: val_loss improved from 3.11781 to 3.02183, saving model to 2018-06-11_simple_1900x64.h5
+Epoch 31/200
+594/594 [==============================] - 73s 123ms/step - loss: 1.3066 - ctc_loss: 1.3066 - val_loss: 3.6591 - val_ctc_loss: 3.6591
+
+Epoch 00031: val_loss did not improve from 3.02183
+Epoch 32/200
+594/594 [==============================] - 72s 122ms/step - loss: 1.2731 - ctc_loss: 1.2731 - val_loss: 3.2282 - val_ctc_loss: 3.2282
+
+Epoch 00032: val_loss did not improve from 3.02183
+Epoch 33/200
+594/594 [==============================] - 73s 123ms/step - loss: 1.0246 - ctc_loss: 1.0246 - val_loss: 3.5642 - val_ctc_loss: 3.5642
+
+Epoch 00033: val_loss did not improve from 3.02183
+Epoch 34/200
+594/594 [==============================] - 74s 124ms/step - loss: 1.1001 - ctc_loss: 1.1001 - val_loss: 3.3169 - val_ctc_loss: 3.3169
+
+Epoch 00034: val_loss did not improve from 3.02183
+Epoch 35/200
+594/594 [==============================] - 73s 123ms/step - loss: 1.0587 - ctc_loss: 1.0587 - val_loss: 3.9611 - val_ctc_loss: 3.9611
+
+Epoch 00035: val_loss did not improve from 3.02183
+Epoch 36/200
+594/594 [==============================] - 73s 123ms/step - loss: 1.0835 - ctc_loss: 1.0835 - val_loss: 3.6242 - val_ctc_loss: 3.6242
+
+Epoch 00036: val_loss did not improve from 3.02183
+Epoch 37/200
+594/594 [==============================] - 73s 123ms/step - loss: 0.9240 - ctc_loss: 0.9240 - val_loss: 3.8439 - val_ctc_loss: 3.8439
+
+Epoch 00037: val_loss did not improve from 3.02183
+Epoch 38/200
+594/594 [==============================] - 74s 124ms/step - loss: 1.0447 - ctc_loss: 1.0447 - val_loss: 3.4816 - val_ctc_loss: 3.4816
+
+Epoch 00038: val_loss did not improve from 3.02183
+
+Epoch 00038: ReduceLROnPlateau reducing learning rate to 0.5.
+Epoch 39/200
+594/594 [==============================] - 73s 124ms/step - loss: 0.8229 - ctc_loss: 0.8229 - val_loss: 3.1366 - val_ctc_loss: 3.1366
+
+Epoch 00039: val_loss did not improve from 3.02183
+Epoch 40/200
+594/594 [==============================] - 72s 122ms/step - loss: 0.7203 - ctc_loss: 0.7203 - val_loss: 3.1540 - val_ctc_loss: 3.1540
+
+Epoch 00040: val_loss did not improve from 3.02183
+Epoch 41/200
+594/594 [==============================] - 73s 124ms/step - loss: 0.6068 - ctc_loss: 0.6068 - val_loss: 3.0729 - val_ctc_loss: 3.0729
+
+Epoch 00041: val_loss did not improve from 3.02183
+Epoch 42/200
+594/594 [==============================] - 73s 123ms/step - loss: 0.5553 - ctc_loss: 0.5553 - val_loss: 3.2236 - val_ctc_loss: 3.2236
+
+Epoch 00042: val_loss did not improve from 3.02183
+Epoch 43/200
+594/594 [==============================] - 73s 123ms/step - loss: 0.5262 - ctc_loss: 0.5262 - val_loss: 3.1773 - val_ctc_loss: 3.1773
+
+Epoch 00043: val_loss did not improve from 3.02183
+Epoch 44/200
+594/594 [==============================] - 73s 124ms/step - loss: 0.4466 - ctc_loss: 0.4466 - val_loss: 3.1956 - val_ctc_loss: 3.1956
+
+Epoch 00044: val_loss did not improve from 3.02183
+Epoch 45/200
+594/594 [==============================] - 72s 122ms/step - loss: 0.4077 - ctc_loss: 0.4077 - val_loss: 3.1178 - val_ctc_loss: 3.1178
+
+Epoch 00045: val_loss did not improve from 3.02183
+Epoch 46/200
+594/594 [==============================] - 72s 122ms/step - loss: 0.3683 - ctc_loss: 0.3683 - val_loss: 3.1684 - val_ctc_loss: 3.1684
+
+Epoch 00046: val_loss did not improve from 3.02183
+
+Epoch 00046: ReduceLROnPlateau reducing learning rate to 0.25.
+Epoch 47/200
+594/594 [==============================] - 72s 122ms/step - loss: 0.3417 - ctc_loss: 0.3417 - val_loss: 3.1766 - val_ctc_loss: 3.1766
+
+Epoch 00047: val_loss did not improve from 3.02183
+Epoch 48/200
+594/594 [==============================] - 73s 122ms/step - loss: 0.3299 - ctc_loss: 0.3299 - val_loss: 3.2044 - val_ctc_loss: 3.2044
+
+Epoch 00048: val_loss did not improve from 3.02183
+Epoch 49/200
+594/594 [==============================] - 73s 123ms/step - loss: 0.3283 - ctc_loss: 0.3283 - val_loss: 3.2853 - val_ctc_loss: 3.2853
+
+Epoch 00049: val_loss did not improve from 3.02183
+Epoch 50/200
+594/594 [==============================] - 74s 124ms/step - loss: 0.3191 - ctc_loss: 0.3191 - val_loss: 3.3388 - val_ctc_loss: 3.3388
+
+Epoch 00050: val_loss did not improve from 3.02183
+Epoch 00050: early stopping
+Loading annotations ...: 100%|██████████| 189/189 [00:00<00:00, 705.01it/s]
+Loading model...
+C:\Programmieren\Anaconda3\lib\site-packages\keras\models.py:301: UserWarning: Output "softmax" missing from loss dictionary. We assume this was done on purpose, and we will not be expecting any data to be passed to "softmax" during training.
+  sample_weight_mode=sample_weight_mode)
+Spelling correction...
+Decoded:  Since 1958, 13 Labour life Peers and Peeresses have been created. Most Labour sen-
+Decoded-C:Since 1958, 13 Labour life Peers and Peeresses have been created. Most Labour sen-
+GT:       Since 1958, 13 Labour life Peers and Peeresses have been created. Most Labour sen-
+dist:  0 0
+
+Decoded:  timent would still favour the abolition of the House of Lords, but while it remains
+Decoded-C:timent would still favour the abolition of the House of Lords, but while it remains
+GT:       timent would still favour the abolition of the House of Lords, but while it remains
+dist:  0 0
+
+Decoded:  Labour has to have an adequate number of members. THE two rival African Nation-
+Decoded-C:Labour has to have an adequate number of members. THE two rival African Nation-
+GT:       Labour has to have an adequate number of members. THE two rival African Nation-
+dist:  0 0
+
+Decoded:  alist Parties of Northern Rhodesia have agreed to get together to face the challenge
+Decoded-C:alist Parties of Northern Rhodesia have agreed to get together to face the challenge
+GT:       alist Parties of Northern Rhodesia have agreed to get together to face the challenge
+dist:  0 0
+
+Decoded:  from Sir Roy Welensky, the Federal Premier.
+Decoded-C:from Sir Roy Welensky, the Federal Premier.
+GT:       from Sir Roy Welensky, the Federal Premier.
+dist:  0 0
+
+Decoded:  Sir Roy's Uited Federal Party is boycotting the London talks on the Protectorate's
+Decoded-C:Sir Roy's United Federal Party is boycotting the London talks on the Protectorate's
+GT:       Sir Roy's United Federal Party is boycotting the London talks on the Protectorate's
+dist:  1 0
+
+Decoded:  future. Said Mr. Nkumbula last night: &quot;We want to discuss what to do if the British
+Decoded-C:future. Said Mr. Nkumbula last night: &quot;We want to discuss what to do if the British
+GT:       future. Said Mr. Nkumbula last night: &quot;We want to discuss what to do if the British
+dist:  0 0
+
+Decoded:  Government gives in to Sir Roy and the talks fall through. There are bound to be
+Decoded-C:Government gives in to Sir Roy and the talks fall through. There are bound to be
+GT:       Government gives in to Sir Roy and the talks fall through. There are bound to be
+dist:  0 0
+
+Decoded:  demonstrations.&quot; esterday Sir Roy's chief aide, Mr. Julius Greenfield, telephoned
+Decoded-C:demonstrations.&quot; yesterday Sir Roy's chief aide, Mr. Julius Greenfield, telephoned
+GT:       demonstrations.&quot; Yesterday Sir Roy's chief aide, Mr. Julius Greenfield, telephoned
+dist:  1 1
+
+Decoded:  his chief a report on his talks with Mr. Macmillan at Chequers.
+Decoded-C:his chief a report on his talks with Mr. Macmillan at Chequers.
+GT:       his chief a report on his talks with Mr. Macmillan at Chequers.
+dist:  0 0
+
+Decoded:  MR. IAIN MACLEOD, the Colonial Secretary, denied in the Commons last night that
+Decoded-C:MR. IAIN MACLEOD, the Colonial Secretary, denied in the Commons last night that
+GT:       MR. IAIN MACLEOD, the Colonial Secretary, denied in the Commons last night that
+dist:  0 0
+
+Decoded:  there have been secret negotiations on Northern Rhodesia's future. The Northern
+Decoded-C:there have been secret negotiations on Northern Rhodesia's future. The Northern
+GT:       there have been secret negotiations on Northern Rhodesia's future. The Northern
+dist:  0 0
+
+Decoded:  Rhodesia conference in London has been boycotted by the two main settlers' parties
+Decoded-C:Rhodesia conference in London has been boycotted by the two main settlers' parties
+GT:       Rhodesia conference in London has been boycotted by the two main settlers' parties
+dist:  0 0
+
+Decoded:  - the United Federal Party and the Dominion Party. But representatives of Sir Roy
+Decoded-C:- the United Federal Party and the Dominion Party. But representatives of Sir Roy
+GT:       - the United Federal Party and the Dominion Party. But representatives of Sir Roy
+dist:  0 0
+
+Decoded:  Welensky, Prime Minister of the Central African Federation, went to Chequers at the
+Decoded-C:Welensky, Prime Minister of the Central African Federation, went to Chequers at the
+GT:       Welensky, Prime Minister of the Central African Federation, went to Chequers at the
+dist:  0 0
+
+Decoded:  weekend for talks with Mr. Macmillan.
+Decoded-C:week-end for talks with Mr. Macmillan.
+GT:       week-end for talks with Mr. Macmillan.
+dist:  1 0
+
+Decoded:  Northern Rhodesia is a member of the Federation. Mr. Macleod was not at the
+Decoded-C:Northern Rhodesia is a member of the Federation. Mr. Macleod was not at the
+GT:       Northern Rhodesia is a member of the Federation. Mr. Macleod was not at the
+dist:  0 0
+
+Decoded:  week-end meeting. But he told 0M Ps yesterday: &quot;I have no knowledge of secret
+Decoded-C:week-end meeting. But he told M Ps yesterday: &quot;I have no knowledge of secret
+GT:       week-end meeting. But he told M Ps yesterday: &quot;I have no knowledge of secret
+dist:  1 0
+
+Decoded:  negotiations.&quot; He said Britain had an obligation to consult the Federal Government.
+Decoded-C:negotiations.&quot; He said Britain had an obligation to consult the Federal Government.
+GT:       negotiations.&quot; He said Britain had an obligation to consult the Federal Government.
+dist:  0 0
+
+Decoded:  But the final decision remained with the British Government. Mr. James Callaghan,
+Decoded-C:But the final decision remained with the British Government. Mr. James Callaghan,
+GT:       But the final decision remained with the British Government. Mr. James Callaghan,
+dist:  0 0
+
+Decoded:  Labour's Colonial spokesman, said Sir Roy had no right to delay progress in the talks
+Decoded-C:Labour's Colonial spokesman, said Sir Roy had no right to delay progress in the talks
+GT:       Labour's Colonial spokesman, said Sir Roy had no right to delay progress in the talks
+dist:  0 0
+
+Decoded:  by refusing to sit round the conference table.
+Decoded-C:by refusing to sit round the conference table.
+GT:       by refusing to sit round the conference table.
+dist:  0 0
+
+Decoded:  Senator Allen Ellender, of Louisiana, sparked off the opposition by telling a television
+Decoded-C:Senator Allen Ellender, of Louisiana, sparked off the opposition by telling a television
+GT:       Senator Allen Ellender, of Louisiana, sparked off the opposition by telling a television
+dist:  0 0
+
+Decoded:  audience it was &quot;current Washington gossipquot that Weaver once had Communist affili-
+Decoded-C:audience it was &quot;current Washington gossip&quot that Weaver once had Communist affilia-
+GT:       audience it was &quot;current Washington gossip&quot; that Weaver once had Communist affilia-
+dist:  3 1
+
+Decoded:  tions. The Senate Banking Committee, which is headed by another Southern Senator
+Decoded-C:tions. The Senate Banking Committee, which is headed by another Southern Senator
+GT:       tions. The Senate Banking Committee, which is headed by another Southern Senator
+dist:  0 0
+
+Decoded:  . &Willis Robertson, of irginia - met today in closed session to discuss Weaver's ap-
+Decoded-C:. Willis Robertson, of Virginia - met today in closed session to discuss Weaver's ap-
+GT:       - Willis Robertson, of Virginia - met today in closed session to discuss Weaver's ap-
+dist:  3 1
+
+Decoded:  pointment. Senator Robertson later disclosed he had sent a letter to r. enneky
+Decoded-C:pointment. Senator Robertson later disclosed he had sent a letter to Dr. Kennedy
+GT:       pointment. Senator Robertson later disclosed he had sent a letter to Mr. Kennedy
+dist:  3 1
+
+Decoded:  saying he had received several complaints about easver's lyalty.
+Decoded-C:saying he had received several complaints about Weaver's loyalty.
+GT:       saying he had received several complaints about Weaver's loyalty.
+dist:  3 0
+
+Decoded:  He said these concerned Mr. Weaver's alleged association with organisations black-
+Decoded-C:He said these concerned Mr. Weaver's alleged association with organisations black-
+GT:       He said these concerned Mr. Weaver's alleged association with organisations black-
+dist:  0 0
+
+Decoded:  listed by the Government. Immediately Mr. Kennedy rushed a letter to Senator
+Decoded-C:listed by the Government. Immediately Mr. Kennedy rushed a letter to Senator
+GT:       listed by the Government. Immediately Mr. Kennedy rushed a letter to Senator
+dist:  0 0
+
+Decoded:  Robertson saying the Federal Bureau of Investigation had reported on Mr. Weaver.
+Decoded-C:Robertson saying the Federal Bureau of Investigation had reported on Mr. Weaver.
+GT:       Robertson saying the Federal Bureau of Investigation had reported on Mr. Weaver.
+dist:  0 0
+
+Decoded:  He believed he would perform "outstanding servicequot; in his post. Senator Robertson's
+Decoded-C:He believed he would perform &quotoutstanding service&quot; in his post. Senator Robertson's
+GT:       He believed he would perform &quot;outstanding service&quot; in his post. Senator Robertson's
+dist:  7 1
+
+Decoded:  committee has to pass Mr. Weaver's nomination before it can be considered by the
+Decoded-C:committee has to pass Mr. Weaver's nomination before it can be considered by the
+GT:       committee has to pass Mr. Weaver's nomination before it can be considered by the
+dist:  0 0
+
+Decoded:  full Senate.
+Decoded-C:full Senate.
+GT:       full Senate.
+dist:  0 0
+
+Decoded:  But he said discussions &quot;on a higher level than in the past&quot; might be useful. The
+Decoded-C:But he said discussions &quot;on a higher level than in the past&quot; might be useful. The
+GT:       But he said discussions &quot;on a higher level than in the past&quot; might be useful. The
+dist:  0 0
+
+Decoded:  President will probably discuss the problem with Dr. Brentano, the West German
+Decoded-C:President will probably discuss the problem with Dr. Brentano, the West German
+GT:       President will probably discuss the problem with Dr. Brentano, the West German
+dist:  0 0
+
+Decoded:  Foreign Minister, who is due in Washington next week. A big slice of Germany's
+Decoded-C:Foreign Minister, who is due in Washington next week. A big slice of Germany's
+GT:       Foreign Minister, who is due in Washington next week. A big slice of Germany's
+dist:  0 0
+
+Decoded:  &quot;aid&quot; is the early payment of a 210million debt to America. United States officials
+Decoded-C:&quot;aid&quot; is the early payment of a 210million debt to America. United States officials
+GT:       &quot;aid&quot; is the early payment of a 210million debt to America. United States officials
+dist:  0 0
+
+Decoded:  quickly point out that this is money due to America anyway.
+Decoded-C:quickly point out that this is money due to America anyway.
+GT:       quickly point out that this is money due to America anyway.
+dist:  0 0
+
+Decoded:  Mr. Brown, passionate and warm-hearted, led Labour's attack on the higher health
+Decoded-C:Mr. Brown, passionate and warm-hearted, led Labour's attack on the higher health
+GT:       Mr. Brown, passionate and warm-hearted, led Labour's attack on the higher health
+dist:  0 0
+
+Decoded:  charges. Mr. Powell, white-faced and outwardly unemotional, replied with a statis-
+Decoded-C:charges. Mr. Powell, white-faced and outwardly unemotional, replied with a statis-
+GT:       charges. Mr. Powell, white-faced and outwardly unemotional, replied with a statis-
+dist:  0 0
+
+Decoded:  tical statement - and ended by inciting Labour M Ps to angry uproar. One dealt
+Decoded-C:tical statement - and ended by inciting Labour M Ps to angry uproar. One dealt
+GT:       tical statement - and ended by inciting Labour M Ps to angry uproar. One dealt
+dist:  0 0
+
+Decoded:  with the human issue behind the Health Service; the other tried to show that the
+Decoded-C:with the human issue behind the Health Service; the other tried to show that the
+GT:       with the human issue behind the Health Service; the other tried to show that the
+dist:  0 0
+
+Decoded:  balance-sheet must always come first.
+Decoded-C:balance-sheet must always come first.
+GT:       balance-sheet must always come first.
+dist:  0 0
+
+Decoded:  quot;After a lifetime of helping others and healing the sick, my considered opinion is that
+Decoded-C:quot;After a lifetime of helping others and healing the sick, my considered opinion is that
+GT:       &quot;After a lifetime of helping others and healing the sick, my considered opinion is that
+dist:  1 1
+
+Decoded:  anybody supporting the increased charges is a wicked, old -.&quot; Mr. Brown went on:
+Decoded-C:anybody supporting the increased charges is a wicked, old -.&quot; Mr. Brown went on:
+GT:       anybody supporting the increased charges is a wicked, old -.&quot; Mr. Brown went on:
+dist:  0 0
+
+Decoded:  &quot;We are dealing with a noble edifice which needs an imaginative architect to improve
+Decoded-C:&quot;We are dealing with a noble edifice which needs an imaginative architect to improve
+GT:       &quot;We are dealing with a noble edifice which needs an imaginative architect to improve
+dist:  0 0
+
+Decoded:  it, but it has got a quantity surveyor. We have descended from the real problems to
+Decoded-C:it, but it has got a quantity surveyor. We have descended from the real problems to
+GT:       it, but it has got a quantity surveyor. We have descended from the real problems to
+dist:  0 0
+
+Decoded:  fiddling about with bills of cost.
+Decoded-C:fiddling about with bills of cost.
+GT:       fiddling about with bills of cost.
+dist:  0 0
+
+Decoded:  quot;WWe believe that a comprehensive medical service, free to the patient at the point of
+Decoded-C:quot;WWe believe that a comprehensive medical service, free to the patient at the point of
+GT:       &quot;We believe that a comprehensive medical service, free to the patient at the point of
+dist:  2 2
+
+Decoded:  need and with one standard for all sick people, is good and attainable. &quot;We remain
+Decoded-C:need and with one standard for all sick people, is good and attainable. &quot;We remain
+GT:       need and with one standard for all sick people, is good and attainable. &quot;We remain
+dist:  0 0
+
+Decoded:  for it. But the Tories never were.&quot; Interrupted by angry Tories, Mr. Brown retorted:
+Decoded-C:for it. But the Tories never were.&quot; Interrupted by angry Tories, Mr. Brown retorted:
+GT:       for it. But the Tories never were.&quot; Interrupted by angry Tories, Mr. Brown retorted:
+dist:  0 0
+
+Decoded:  &quot;The jackals bay when there is nothing better they can do.quot;
+Decoded-C:&quot;The jackals bay when there is nothing better they can do.&quot;
+GT:       &quot;The jackals bay when there is nothing better they can do.&quot;
+dist:  1 0
+
+Decoded:  In fact, the Tories made it worse now for the sick and needy than Labour had to ake
+Decoded-C:In fact, the Tories made it worse now for the sick and needy than Labour had to take
+GT:       In fact, the Tories made it worse now for the sick and needy than Labour had to make
+dist:  1 1
+
+Decoded:  it in 1950. And as a percentage of social service expenditure, health had fallen fron
+Decoded-C:it in 1950. And as a percentage of social service expenditure, health had fallen from
+GT:       it in 1950. And as a percentage of social service expenditure, health had fallen from
+dist:  1 0
+
+Decoded:  ;5 to 35.1 per cent. Then Mr. Brown swung his attack directly to the unmiiing
+Decoded-C:; to 23.1 per cent. Then Mr. Brown swung his attack directly to the unsmiling
+GT:       28.5 to 23.1 per cent. Then Mr. Brown swung his attack directly to the unsmiling
+dist:  7 4
+
+Decoded:  r. Poowell. He denmanded that instead of taking it out of the patients Mr. Powell
+Decoded-C:Dr. Powell. He demanded that instead of taking it out of the patients MDr. Powell
+GT:       Mr. Powell. He demanded that instead of taking it out of the patients Mr. Powell
+dist:  3 2
+
+Decoded:  should tabke ruthless action against the drug making industry, whose profits had risen
+Decoded-C:should take ruthless action against the drug making industry, whose profits had risen
+GT:       should take ruthless action against the drug making industry, whose profits had risen
+dist:  1 0
+
+Decoded:  by up to 400 per cent. in the last eight years.
+Decoded-C:by up to 400 per cent. in the last eight years.
+GT:       by up to 400 per cent. in the last eight years.
+dist:  0 0
+
+Decoded:  &quot;Mr. Powell finds it easier to take it out of mothers, children and sick people than to
+Decoded-C:&quot;Mr. Powell finds it easier to take it out of mothers, children and sick people than to
+GT:       &quot;Mr. Powell finds it easier to take it out of mothers, children and sick people than to
+dist:  0 0
+
+Decoded:  take on this vast industry,&quot; Mr. Brown commented icily. &quot;Let us have a full inquiry
+Decoded-C:take on this vast industry,&quot; Mr. Brown commented icily. &quot;Let us have a full inquiry
+GT:       take on this vast industry,&quot; Mr. Brown commented icily. &quot;Let us have a full inquiry
+dist:  0 0
+
+Decoded:  into the cost of drugs and the pharmaceutical industry.&quot; The health of children today
+Decoded-C:into the cost of drugs and the pharmaceutical industry.&quot; The health of children today
+GT:       into the cost of drugs and the pharmaceutical industry.&quot; The health of children today
+dist:  0 0
+
+Decoded:  owed much to the welfare food scheme. It was maintained during the war. Now in
+Decoded-C:owed much to the welfare food scheme. It was maintained during the war. Now in
+GT:       owed much to the welfare food scheme. It was maintained during the war. Now in
+dist:  0 0
+
+Decoded:  conditions of Tory affluence it seemed it could not be carried on.
+Decoded-C:conditions of Tory affluence it seemed it could not be carried on.
+GT:       conditions of Tory affluence it seemed it could not be carried on.
+dist:  0 0
+
+Decoded:  Seven Commonwealth countries have told Mr. Sandys, Commonwealth Relations
+Decoded-C:Seven Commonwealth countries have told Mr. Sandys, Commonwealth Relations
+GT:       Seven Commonwealth countries have told Mr. Sandys, Commonwealth Relations
+dist:  0 0
+
+Decoded:  Secretary, that they wish to be kept in touch in ILondon. Three of them - Canada,
+Decoded-C:Secretary, that they wish to be kept in touch in London. Three of them - Canada,
+GT:       Secretary, that they wish to be kept in touch in London. Three of them - Canada,
+dist:  1 0
+
+Decoded:  Australia, and New ealand - will have strong delegations at an opening meeting in
+Decoded-C:Australia, and New Zealand - will have strong delegations at an opening meeting in
+GT:       Australia, and New Zealand - will have strong delegations at an opening meeting in
+dist:  1 0
+
+Decoded:  London on Monday. Once the Common Market's Council of Ministers draws up the
+Decoded-C:London on Monday. Once the Common Market's Council of Ministers draws up the
+GT:       London on Monday. Once the Common Market's Council of Ministers draws up the
+dist:  0 0
+
+Decoded:  procedure for negotiations in a fortnight's time, these Commonwealth countries can
+Decoded-C:procedure for negotiations in a fortnight's time, these Commonwealth countries can
+GT:       procedure for negotiations in a fortnight's time, these Commonwealth countries can
+dist:  0 0
+
+Decoded:  arrange for observers to advise the British negotiating team.
+Decoded-C:arrange for observers to advise the British negotiating team.
+GT:       arrange for observers to advise the British negotiating team.
+dist:  0 0
+
+Decoded:  They are required to show why they should not be bound over for disturbing the
+Decoded-C:They are required to show why they should not be bound over for disturbing the
+GT:       They are required to show why they should not be bound over for disturbing the
+dist:  0 0
+
+Decoded:  peace and for inciting a breach of the peace. The summonses say they are quot;likely to
+Decoded-C:peace and for inciting a breach of the peace. The summonses say they are quot;likely to
+GT:       peace and for inciting a breach of the peace. The summonses say they are &quot;likely to
+dist:  1 1
+
+Decoded:  persevere in such unlawful conduct.&quot; Lord Russell, 89, was putting his affairs in order,
+Decoded-C:persevere in such unlawful conduct.&quot; Lord Russell, 89, was putting his affairs in order,
+GT:       persevere in such unlawful conduct.&quot; Lord Russell, 89, was putting his affairs in order,
+dist:  0 0
+
+Decoded:  and packing a case, at his Chelsea home yesterday. His secretary, American-born Mr.
+Decoded-C:and packing a case, at his Chelsea home yesterday. His secretary, American-born Mr.
+GT:       and packing a case, at his Chelsea home yesterday. His secretary, American-born Mr.
+dist:  0 0
+
+Decoded:  Ralph Schoenman, said:
+Decoded-C:Ralph Schoenman, said:
+GT:       Ralph Schoenman, said:
+dist:  0 0
+
+Decoded:  &qut;It is true he made a point of again being absent from Northern Rhodesia when his
+Decoded-C:&qut;It is true he made a point of again being absent from Northern Rhodesia when his
+GT:       &quot;It is true he made a point of again being absent from Northern Rhodesia when his
+dist:  1 1
+
+Decoded:  followers have indulged in such violence.&quot; But Sir Roy pointed out that a few months
+Decoded-C:followers have indulged in such violence.&quot; But Sir Roy pointed out that a few months
+GT:       followers have indulged in such violence.&quot; But Sir Roy pointed out that a few months
+dist:  0 0
+
+Decoded:  ago Mr. Kaunda said that if UNIP; did not get its way what would happen would
+Decoded-C:ago Mr. Kaunda said that if UNIP; did not get its way what would happen would
+GT:       ago Mr. Kaunda said that if UNIP did not get its way what would happen would
+dist:  1 1
+
+Decoded:  make the Mau Mau in Kenya &quot;seem like a child's picnic.&quot;
+Decoded-C:make the Mau Mau in Kenya &quot;seem like a child's picnic.&quot;
+GT:       make the Mau Mau in Kenya &quot;seem like a child's picnic.&quot;
+dist:  0 0
+
+Decoded:  It was Mr. Butler who authorised action which ended yesterday in 33 members
+Decoded-C:It was Mr. Butler who authorised action which ended yesterday in 13 members
+GT:       It was Mr. Butler who authorised action which ended yesterday in 32 members
+dist:  1 2
+
+Decoded:  of the Committee of 100 being imprisoned for inciting a breach of the peace. The
+Decoded-C:of the Committee of 100 being imprisoned for inciting a breach of the peace. The
+GT:       of the Committee of 100 being imprisoned for inciting a breach of the peace. The
+dist:  0 0
+
+Decoded:  committee's president 39-year-old Earl Russell and his 8l-year-old wife were each
+Decoded-C:committee's president 89-year-old Earl Russell and his 89-year-old wife were each
+GT:       committee's president 89-year-old Earl Russell and his 61-year-old wife were each
+dist:  3 2
+
+Decoded:  jailed for as week. Playwrights Arnold Wesker (The Kitchen) and Robert Bolt (The
+Decoded-C:jailed for as week. Playwrights Arnold Wesker (The Kitchen) and Robert Bolt (The
+GT:       jailed for a week. Playwrights Arnold Wesker (The Kitchen) and Robert Bolt (The
+dist:  1 1
+
+Decoded:  Flowering Cherry) were jailed for a month.
+Decoded-C:Flowering Cherry) were jailed for a month.
+GT:       Flowering Cherry) were jailed for a month.
+dist:  0 0
+
+Decoded:  The possibility that the Government might invoke the Public Order Act, 1938, and
+Decoded-C:The possibility that the Government might invoke the Public Order Act, 1936, and
+GT:       The possibility that the Government might invoke the Public Order Act, 1936, and
+dist:  1 0
+
+Decoded:  declare the whole rally illegal - whether the demonstrators sit down or not - was being
+Decoded-C:declare the whole rally illegal - whether the demonstrators sit down or not - was being
+GT:       declare the whole rally illegal - whether the demonstrators sit down or not - was being
+dist:  0 0
+
+Decoded:  discussed in Whitehall last night. It was last used a year ago, to deal with the St.
+Decoded-C:discussed in Whitehall last night. It was last used a year ago, to deal with the St.
+GT:       discussed in Whitehall last night. It was last used a year ago, to deal with the St.
+dist:  0 0
+
+Decoded:  Pancras rent riots. Today Mr. Butler will have talks with Police Commissioner Sir
+Decoded-C:Pancras rent riots. Today Mr. Butler will have talks with Police Commissioner Sir
+GT:       Pancras rent riots. Today Mr. Butler will have talks with Police Commissioner Sir
+dist:  0 0
+
+Decoded:  Joseph Simpson to draw up final plans for the &quot;Battle of Parliament Square.&quot;
+Decoded-C:Joseph Simpson to draw up final plans for the &quot;Battle of Parliament were.&quot;
+GT:       Joseph Simpson to draw up final plans for the "Battle of Parliament Square."
+dist:  12 16
+
+Decoded:  Measures agreed so far include: 1. A mass call-out of police, special constables and
+Decoded-C:Measures agreed so far include: 1. A mass call-out of police, special constables and
+GT:       Measures agreed so far include: 1. A mass call-out of police, special constables and
+dist:  0 0
+
+Decoded:  reserves, with 750 policemen posted from outlying districts to stations in the area -
+Decoded-C:reserves, with 750 policemen posted from outlying districts to stations in the area -
+GT:       reserves, with 750 policemen posted from outlying districts to stations in the area -
+dist:  0 0
+
+Decoded:  VWest End Central, Bow-street, and Cannon-row.
+Decoded-C:West End Central, Bow-street, and Cannon-row.
+GT:       West End Central, Bow-street, and Cannon-row.
+dist:  1 0
+
+Decoded:  Today, for example, the Foreign Minister of Indonesia arrived in Belgrade as the guest
+Decoded-C:Today, for example, the Foreign Minister of Indonesia arrived in Belgrade as the guest
+GT:       Today, for example, the Foreign Minister of Indonesia arrived in Belgrade as the guest
+dist:  0 0
+
+Decoded:  of the Yugoslav Foreign Minister. In fact such Yugoslav activity has been particularly
+Decoded-C:of the Yugoslav Foreign Minister. In fact such Yugoslav activity has been particularly
+GT:       of the Yugoslav Foreign Minister. In fact such Yugoslav activity has been particularly
+dist:  0 0
+
+Decoded:  intensified in the past year or so and though so far, apart from joint action in the
+Decoded-C:intensified in the past year or so and though so far, apart from joint action in the
+GT:       intensified in the past year or so and though so far, apart from joint action in the
+dist:  0 0
+
+Decoded:  United Nations, these exchanges have not been seen on any wider basis, President
+Decoded-C:United Nations, these exchanges have not been seen on any wider basis, President
+GT:       United Nations, these exchanges have not been seen on any wider basis, President
+dist:  0 0
+
+Decoded:  Tito is known for some time to have favoured a conference of neutralist leaders.
+Decoded-C:Tito is known for some time to have favoured a conference of neutralist leaders.
+GT:       Tito is known for some time to have favoured a conference of neutralist leaders.
+dist:  0 0
+
+Decoded:  It is difficult for many to see Mr. Pearson in the role of a popular orator at the
+Decoded-C:It is difficult for many to see Mr. Pearson in the role of a popular orator at the
+GT:       It is difficult for many to see Mr. Pearson in the role of a popular orator at the
+dist:  0 0
+
+Decoded:  hustings, the spellbinder that Mr. Diefenbaker was in the last two campaigns. The
+Decoded-C:hustings, the spellbinder that Mr. Diefenbaker was in the last two campaigns. The
+GT:       hustings, the spellbinder that Mr. Diefenbaker was in the last two campaigns. The
+dist:  0 0
+
+Decoded:  impression remains that the Liberal leader is still the diplomatist, more at home in the
+Decoded-C:impression remains that the Liberal leader is still the diplomatist, more at home in the
+GT:       impression remains that the Liberal leader is still the diplomatist, more at home in the
+dist:  0 0
+
+Decoded:  chancery, or the corridors of the United Nations, not the father figure, so necessary in
+Decoded-C:chancery, or the corridors of the United Nations, not the father figure, so necessary in
+GT:       chancery, or the corridors of the United Nations, not the father figure, so necessary in
+dist:  0 0
+
+Decoded:  Canadian leadership, or the practical politician, able to talk about sewage problems
+Decoded-C:Canadian leadership, or the practical politician, able to talk about sewage problems
+GT:       Canadian leadership, or the practical politician, able to talk about sewage problems
+dist:  0 0
+
+Decoded:  in Algoma East.
+Decoded-C:in Algoma East.
+GT:       in Algoma East.
+dist:  0 0
+
+Decoded:  But, at the same time, there is reason to believe that the Federal Government is not
+Decoded-C:But, at the same time, there is reason to believe that the Federal Government is not
+GT:       But, at the same time, there is reason to believe that the Federal Government is not
+dist:  0 0
+
+Decoded:  convinced, on the basis of the information it has so far, that such a project would
+Decoded-C:convinced, on the basis of the information it has so far, that such a project would
+GT:       convinced, on the basis of the information it has so far, that such a project would
+dist:  0 0
+
+Decoded:  be justified from a scientific point of view: and not merely constitute a &quot;prestige&qot;
+Decoded-C:be justified from a scientific point of view and not merely constitute a &quot;prestige&qot;
+GT:       be justified from a scientific point of view; and not merely constitute a &quot;prestige&quot;
+dist:  2 2
+
+Decoded:  satellite, duplicating to some extent American efforts, as Die Welt suggests today in
+Decoded-C:satellite, duplicating to some extent American efforts, as Die Welt suggests today in
+GT:       satellite, duplicating to some extent American efforts, as Die Welt suggests today in
+dist:  0 0
+
+Decoded:  a highly critical editorial article.
+Decoded-C:a highly critical editorial article.
+GT:       a highly critical editorial article.
+dist:  0 0
+
+Decoded:  The Foreign Ministry spokesman added today, however, that the Brussels Treaty was
+Decoded-C:The Foreign Ministry spokesman added today, however, that the Brussels Treaty was
+GT:       The Foreign Ministry spokesman added today, however, that the Brussels Treaty was
+dist:  0 0
+
+Decoded:  irrelevant, because research on the various rocket stages had already been concluded,
+Decoded-C:irrelevant, because research on the various rocket stages had already been concluded,
+GT:       irrelevant, because research on the various rocket stages had already been concluded,
+dist:  0 0
+
+Decoded:  and only cooperation on the type of capsule was involved. A lesser obstacle to German
+Decoded-C:and only cooperation on the type of capsule was involved. A lesser obstacle to German
+GT:       and only cooperation on the type of capsule was involved. A lesser obstacle to German
+dist:  0 0
+
+Decoded:  participation is the absence of any Ministry or Minister directly responsible for it -
+Decoded-C:participation is the absence of any Ministry or Minister directly responsible for it -
+GT:       participation is the absence of any Ministry or Minister directly responsible for it -
+dist:  0 0
+
+Decoded:  and therefore of any budget under which funds could be appropriated.
+Decoded-C:and therefore of any budget under which funds could be appropriated.
+GT:       and therefore of any budget under which funds could be appropriated.
+dist:  0 0
+
+Decoded:  It said that the President and Premier noted quot;with satisfaction&quot; the agreement in Vi-
+Decoded-C:It said that the President and Premier noted quot;with satisfaction&quot; the agreement in Vi-
+GT:       It said that the President and Premier noted &quot;with satisfaction&quot; the agreement in Vi-
+dist:  1 1
+
+Decoded:  enna on the need for an effective ILaos ceasefire, which should lead to progress toward
+Decoded-C:enna on the need for an effective Laos ceasefire, which should lead to progress toward
+GT:       enna on the need for an effective Laos ceasefire, which should lead to progress toward
+dist:  1 0
+
+Decoded:  a Laos agreement at the Geneva conference. &quot;Particular attention was also given to
+Decoded-C:a Laos agreement at the Geneva conference. &quot;Particular attention was also given to
+GT:       a Laos agreement at the Geneva conference. &quot;Particular attention was also given to
+dist:  0 0
+
+Decoded:  the nuclear tests conference and to the question of disarmament. &quot;The situation in
+Decoded-C:the nuclear tests conference and to the question of disarmament. &quot;The situation in
+GT:       the nuclear tests conference and to the question of disarmament. &quot;The situation in
+dist:  0 0
+
+Decoded:  regard to Germany was reviewed, and there was full agreement on the necessity of
+Decoded-C:regard to Germany was reviewed, and there was full agreement on the necessity of
+GT:       regard to Germany was reviewed, and there was full agreement on the necessity of
+dist:  0 0
+
+Decoded:  maintaining the rights and obligations of the allied Governments in Berlin.'quot
+Decoded-C:maintaining the rights and obligations of the allied Governments in Berlin.&quot
+GT:       maintaining the rights and obligations of the allied Governments in Berlin.&quot;
+dist:  2 1
+
+Decoded:  That argument did not apply to the Polaris submarine. So long as the Soviet Union
+Decoded-C:That argument did not apply to the Polaris submarine. So long as the Soviet Union
+GT:       That argument did not apply to the Polaris submarine. So long as the Soviet Union
+dist:  0 0
+
+Decoded:  had nuclear weapons, the West, somewhere, must have them too. It was far better
+Decoded-C:had nuclear weapons, the West, somewhere, must have them too. It was far better
+GT:       had nuclear weapons, the West, somewhere, must have them too. It was far better
+dist:  0 0
+
+Decoded:  for a weapon used for retaliatory purposes to be under the sea rather than on land.
+Decoded-C:for a weapon used for retaliatory purposes to be under the sea rather than on land.
+GT:       for a weapon used for retaliatory purposes to be under the sea rather than on land.
+dist:  0 0
+
+Decoded:  This was why the Labour Party did not think it right to oppose the Polaris depot
+Decoded-C:This was why the Labour Party did not think it right to oppose the Polaris depot
+GT:       This was why the Labour Party did not think it right to oppose the Polaris depot
+dist:  0 0
+
+Decoded:  ship.
+Decoded-C:ship.
+GT:       ship.
+dist:  0 0
+
+Decoded:  Mr. Gaitskell added that agreement with the unilateralists was not possible, though
+Decoded-C:Mr. Gaitskell added that agreement with the unilateralists was not possible, though
+GT:       Mr. Gaitskell added that agreement with the unilateralists was not possible, though
+dist:  0 0
+
+Decoded:  he respected their views. He saw by reports that &quot;those who organise these thingsquot;
+Decoded-C:he respected their views. He saw by reports that &quot;those who organise these things&quot;
+GT:       he respected their views. He saw by reports that &quot;those who organise these things&quot;
+dist:  1 0
+
+Decoded:  were recommending the supporters of unilateral nuclear disarmament to shift the
+Decoded-C:were recommending the supporters of unilateral nuclear disarmament to shift the
+GT:       were recommending the supporters of unilateral nuclear disarmament to shift the
+dist:  0 0
+
+Decoded:  emphasis of their intervention away from straight opposition to the offlcial document
+Decoded-C:emphasis of their intervention away from straight opposition to the official document
+GT:       emphasis of their intervention away from straight opposition to the official document
+dist:  1 0
+
+Decoded:  on to opposition to the Polaris base.
+Decoded-C:on to opposition to the Polaris base.
+GT:       on to opposition to the Polaris base.
+dist:  0 0
+
+Decoded:  &quot;Such retaliation might, and probably would, destroy the whole population of Britain
+Decoded-C:&quot;Such retaliation might, and probably would, destroy the whole population of Britain
+GT:       &quot;Such retaliation might, and probably would, destroy the whole population of Britain
+dist:  0 0
+
+Decoded:  in the course of, at the most, an hour&quot; without provoking American retaliation. Earl
+Decoded-C:in the course of, at the most, an hour&quot; without provoking American retaliation. Earl
+GT:       in the course of, at the most, an hour&quot; without provoking American retaliation. Earl
+dist:  0 0
+
+Decoded:  Russell believes: &quot;It is very questionable whether British membership of Nato and
+Decoded-C:Russell believes: &quot;It is very questionable whether British membership of Nato and
+GT:       Russell believes: &quot;It is very questionable whether British membership of Nato and
+dist:  0 0
+
+Decoded:  British permission of American bases on our territory add anything to the strength
+Decoded-C:British permission of American bases on our territory add anything to the strength
+GT:       British permission of American bases on our territory add anything to the strength
+dist:  0 0
+
+Decoded:  of America, while, on the contrary, they impose upon America an onerous obligation
+Decoded-C:of America, while, on the contrary, they impose upon America an onerous obligation
+GT:       of America, while, on the contrary, they impose upon America an onerous obligation
+dist:  0 0
+
+Decoded:  which it may prove impossible to fulfil.&quot;
+Decoded-C:which it may prove impossible to fulfil.&quot;
+GT:       which it may prove impossible to fulfil.&quot;
+dist:  0 0
+
+Decoded:  TIE next White Paper on defence, to be published in March, is likely to contain a
+Decoded-C:THE next White Paper on defence, to be published in March, is likely to contain a
+GT:       THE next White Paper on defence, to be published in March, is likely to contain a
+dist:  1 0
+
+Decoded:  five-year plan for the three Services. Its aim will be to produce superbly equipped,
+Decoded-C:five-year plan for the three Services. Its aim will be to produce superbly equipped,
+GT:       five-year plan for the three Services. Its aim will be to produce superbly equipped,
+dist:  0 0
+
+Decoded:  all-Regular forces of about 400,000 men. The three Services would be &quot;integratedq'uqt; to
+Decoded-C:all-Regular forces of about 400,000 men. The three Services would be &quot;integratedq'uqt; to
+GT:       all-Regular forces of about 400,000 men. The three Services would be &quot;integrated&quot; to
+dist:  3 3
+
+Decoded:  a greater extent than ever before.
+Decoded-C:a greater extent than ever before.
+GT:       a greater extent than ever before.
+dist:  0 0
+
+Decoded:  &quot;We must not be rattled into surrender, but we must not - and I am not - be afraid
+Decoded-C:&quot;We must not be rattled into surrender, but we must not - and I am not - be afraid
+GT:       &quot;We must not be rattled into surrender, but we must not - and I am not - be afraid
+dist:  0 0
+
+Decoded:  of negotiation.&quot; Mr. Godber, Minister of State, Foreign Office, said earlier that the
+Decoded-C:of negotiation.&quot; Mr. Godber, Minister of State, Foreign Office, said earlier that the
+GT:       of negotiation.&quot; Mr. Godber, Minister of State, Foreign Office, said earlier that the
+dist:  0 0
+
+Decoded:  Government had asked the Medical Research Council to reassess the falk-out position
+Decoded-C:Government had asked the Medical Research Council to reassess the fall-out position
+GT:       Government had asked the Medical Research Council to reassess the fall-out position
+dist:  1 0
+
+Decoded:  in view of the Russian tests. The Council's findings would be made public.
+Decoded-C:in view of the Russian tests. The Council's findings would be made public.
+GT:       in view of the Russian tests. The Council's findings would be made public.
+dist:  0 0
+
+Decoded:  With a vigour and authority which delighted old Parliamentary friends and foes alike,
+Decoded-C:With a vigour and authority which delighted old Parliamentary friends and foes alike,
+GT:       With a vigour and authority which delighted old Parliamentary friends and foes alike,
+dist:  0 0
+
+Decoded:  the Earl of Avon, the former Sir Anthony Eden, in his maiden speech in the House of
+Decoded-C:the Earl of Avon, the former Sir Anthony Eden, in his maiden speech in the House of
+GT:       the Earl of Avon, the former Sir Anthony Eden, in his maiden speech in the House of
+dist:  0 0
+
+Decoded:  Lords last night, gave a warning that appeasement over Berlin could only lead to war.
+Decoded-C:Lords last night, gave a warning that appeasement over Berlin could only lead to war.
+GT:       Lords last night, gave a warning that appeasement over Berlin could only lead to war.
+dist:  0 0
+
+Decoded:  To stand firm, he declared, was not to invite war, but the surest way to avert it.
+Decoded-C:To stand firm, he declared, was not to invite war, but the surest way to avert it.
+GT:       To stand firm, he declared, was not to invite war, but the surest way to avert it.
+dist:  0 0
+
+Decoded:  He spent most of his short half-hour on Berlin. He deplored the possibility of some
+Decoded-C:He spent most of his short half-hour on Berlin. He deplored the possibility of some
+GT:       He spent most of his short half-hour on Berlin. He deplored the possibility of some
+dist:  0 0
+
+Decoded:  &quot;new myth&quot; about betrayal of Germany by the Allies. quot;We do not,&quot; he said, &quot;really
+Decoded-C:&quot;new myth&quot; about betrayal of Germany by the Allies. quot;We do not,&quot; he said, &quot;really
+GT:       &quot;new myth&quot; about betrayal of Germany by the Allies. &quot;We do not,&quot; he said, &quot;really
+dist:  1 1
+
+Decoded:  know what the Russians want.&quot; But he was certain that they wanted to establish a
+Decoded-C:know what the Russians want.&quot; But he was certain that they wanted to establish a
+GT:       know what the Russians want.&quot; But he was certain that they wanted to establish a
+dist:  0 0
+
+Decoded:  final and irrevocable division of Germany. Britain could not be a party to an imposed
+Decoded-C:final and irrevocable division of Germany. Britain could not be a party to an imposed
+GT:       final and irrevocable division of Germany. Britain could not be a party to an imposed
+dist:  0 0
+
+Decoded:  division. But negotiation, as the debate had shown, could be undertaken on a variety
+Decoded-C:division. But negotiation, as the debate had shown, could be undertaken on a variety
+GT:       division. But negotiation, as the debate had shown, could be undertaken on a variety
+dist:  0 0
+
+Decoded:  of bases.
+Decoded-C:of bases.
+GT:       of bases.
+dist:  0 0
+
+Decoded:  The troublke about such debates is that they range too widely. They remind one of
+Decoded-C:The trouble about such debates is that they range too widely. They remind one of
+GT:       The trouble about such debates is that they range too widely. They remind one of
+dist:  1 0
+
+Decoded:  the Rugby match in &quot;Tom Brown's Schooldays,&quot; in which all the boys were weilcome
+Decoded-C:the Rugby match in &quot;Tom Brown's Schooldays,&quot; in which all the boys were welcome
+GT:       the Rugby match in &quot;Tom Brown's Schooldays,&quot; in which all the boys were welcome
+dist:  1 0
+
+Decoded:  to take part, and only those who &quot;really meant businessquot; removed their jackets. Not
+Decoded-C:to take part, and only those who &quot;really meant business&quot; removed their jackets. Not
+GT:       to take part, and only those who &quot;really meant business&quot; removed their jackets. Not
+dist:  1 0
+
+Decoded:  many metaphorical braces were visible in the early stages of to-night's debate. r.
+Decoded-C:many metaphorical braces were visible in the early stages of to-night's debate. Dr.
+GT:       many metaphorical braces were visible in the early stages of to-night's debate. Mr.
+dist:  1 1
+
+Decoded:  Healey had another tilt at the Prime Minister's golf-course Press conference, which
+Decoded-C:Healey had another tilt at the Prime Minister's golf-course Press conference, which
+GT:       Healey had another tilt at the Prime Minister's golf-course Press conference, which
+dist:  0 0
+
+Decoded:  he described as &qut;a display of flabby and fatuous complacency which takes us straight
+Decoded-C:he described as &qut;a display of flabby and fatuous complacency which takes us straight
+GT:       he described as &quot;a display of flabby and fatuous complacency which takes us straight
+dist:  1 1
+
+Decoded:  back to Neville Chamberlain.&quot;.
+Decoded-C:back to Neville Chamberlain.&quot;.
+GT:       back to Neville Chamberlain.&quot;
+dist:  1 1
+
+Decoded:  Mr. Healey denounced the Government for using double standards. Ministers had
+Decoded-C:Mr. Healey denounced the Government for using double standards. Ministers had
+GT:       Mr. Healey denounced the Government for using double standards. Ministers had
+dist:  0 0
+
+Decoded:  rebuked the unaligned nations for not condemning the new Russian tests, but they
+Decoded-C:rebuked the unaligned nations for not condemning the new Russian tests, but they
+GT:       rebuked the unaligned nations for not condemning the new Russian tests, but they
+dist:  0 0
+
+Decoded:  themselves had no condemnation for events in Angola or Algeria. It was not for the
+Decoded-C:themselves had no condemnation for events in Angola or Algeria. It was not for the
+GT:       themselves had no condemnation for events in Angola or Algeria. It was not for the
+dist:  0 0
+
+Decoded:  Government, said Mr. Healey, to take up moral attitudes, &quot;especially when the temple
+Decoded-C:Government, said Mr. Healey, to take up moral attitudes, &quot;especially when the temple
+GT:       Government, said Mr. Healey, to take up moral attitudes, &quot;especially when the temple
+dist:  0 0
+
+Decoded:  of their religion is the bingo-parlour.&quot;
+Decoded-C:of their religion is the bingo-parlour.&quot;
+GT:       of their religion is the bingo-parlour.&quot;
+dist:  0 0
+
+Decoded:  Mr. Harold Wilson, Shadow Chancellor, jumped up to offer the Government an
+Decoded-C:Mr. Harold Wilson, Shadow Chancellor, jumped up to offer the Government an
+GT:       Mr. Harold Wilson, Shadow Chancellor, jumped up to offer the Government an
+dist:  0 0
+
+Decoded:  easy assage for such legislation. &quot;Why don't you make proposals to legislate in the
+Decoded-C:easy passage for such legislation. &quot;Why don't you make proposals to legislate in the
+GT:       easy passage for such legislation. &quot;Why don't you make proposals to legislate in the
+dist:  1 0
+
+Decoded:  autumnf &quot; Mr. Wilson asked. &quot;VWe wouldn't call it an Autumn Budget. You can call
+Decoded-C:Autumn &quot; Mr. Wilson asked. &quot;VWe wouldn't call it an Autumn Budget. You can call
+GT:        autumn?&quot; Mr. Wilson asked. &quot;We wouldn't call it an Autumn Budget. You can call
+dist:  4 4
+
+Decoded:  it a Taxation Management Bill, if you like.&quot; While Mr. Wilson was speaking, the
+Decoded-C:it a Taxation Management Bill, if you like.&quot; While Mr. Wilson was speaking, the
+GT:       it a Taxation Management Bill, if you like.&quot; While Mr. Wilson was speaking, the
+dist:  0 0
+
+Decoded:  Prime Minister and Mr. Lloyd had a whispered conversation.
+Decoded-C:Prime Minister and Mr. Lloyd had a whispered conversation.
+GT:       Prime Minister and Mr. Lloyd had a whispered conversation.
+dist:  0 0
+
+Decoded:  The other TUC demands: Five leading Communists must not hold office for five yearsg
+Decoded-C:The other TUC demands: Five leading Communists must not hold office for five years
+GT:       The other TUC demands: Five leading Communists must not hold office for five years;
+dist:  1 1
+
+Decoded:  Sub-committees set up to strip secretary John Byrne of his powers must disband in ten
+Decoded-C:Sub-committees set up to strip secretary John Byrne of his powers must disband in ten
+GT:       Sub-committees set up to strip secretary John Byrne of his powers must disband in ten
+dist:  0 0
+
+Decoded:  days. These the ETU executive rejected as quot;wholly unacceptablequot and &quot;unwarranted
+Decoded-C:days. These the ETU executive rejected as quot;wholly unacceptable&quot and &quot;unwarranted
+GT:       days. These the ETU executive rejected as &quot;wholly unacceptable&quot; and &quot;unwarranted
+dist:  3 2
+
+Decoded:  interference.&quot; But it agreed to postpone operation of the sub-committees.
+Decoded-C:interference.&quot; But it agreed to postpone operation of the sub-committees.
+GT:       interference.&quot; But it agreed to postpone operation of the sub-committees.
+dist:  0 0
+
+Decoded:  &quot;The whole naval might of the Soviet Union can be seen here - a truly inspiring
+Decoded-C:&quot;The whole naval might of the Soviet Union can be seen here - a truly inspiring
+GT:       &quot;The whole naval might of the Soviet Union can be seen here - a truly inspiring
+dist:  0 0
+
+Decoded:  and proud sight,&quot; said Moscow radio's commentator. The parade was reviewed by
+Decoded-C:and proud sight,&quot; said Moscow radio's commentator. The parade was reviewed by
+GT:       and proud sight,&quot; said Moscow radio's commentator. The parade was reviewed by
+dist:  0 0
+
+Decoded:  Marshal Andrei Grechko, commanding the forces of the Warsaw Pact countries -
+Decoded-C:Marshal Andrei Grechko, commanding the forces of the Warsaw Pact countries -
+GT:       Marshal Andrei Grechko, commanding the forces of the Warsaw Pact countries -
+dist:  0 0
+
+Decoded:  the Communist &quot;Nato.&quot; He said rocket-carrying atomic submarines now formed the
+Decoded-C:the Communist &quot;Nato.&quot; He said rocket-carrying atomic submarines now formed the
+GT:       the Communist &quot;Nato.&quot; He said rocket-carrying atomic submarines now formed the
+dist:  0 0
+
+Decoded:  basis of the Soviet Navy. MR. MACMILLAN'iS announcement in the Commons of
+Decoded-C:basis of the Soviet Navy. MR. MACMILLAN'S announcement in the Commons of
+GT:       basis of the Soviet Navy. MR. MACMILLAN'S announcement in the Commons of
+dist:  1 0
+
+Decoded:  his momentous decision to apply for membership of the Common Market provoked a
+Decoded-C:his momentous decision to apply for membership of the Common Market provoked a
+GT:       his momentous decision to apply for membership of the Common Market provoked a
+dist:  0 0
+
+Decoded:  violent personal attack by one - just one - of his backbenchers.
+Decoded-C:violent personal attack by one - just one - of his backbenchers.
+GT:       violent personal attack by one - just one - of his backbenchers.
+dist:  0 0
+
+Decoded:  This seemed to infuriate Mr. Fell even more. &quot;I cannot be told to sit down by
+Decoded-C:This seemed to infuriate Mr. Fell even more. &quot;I cannot be told to sit down by
+GT:       This seemed to infuriate Mr. Fell even more. &quot;I cannot be told to sit down by
+dist:  0 0
+
+Decoded:  the Prime Minister.&quot; Protests had been expected from Tory rebels. But Mr. Fell's
+Decoded-C:the Prime Minister.&quot; Protests had been expected from Tory rebels. But Mr. Fell's
+GT:       the Prime Minister.&quot; Protests had been expected from Tory rebels. But Mr. Fell's
+dist:  0 0
+
+Decoded:  attack was unprecedented. He accused the Prime Minister of &quot;political double talk.&quot;
+Decoded-C:attack was unprecedented. He accused the Prime Minister of &quot;political double talk.&quot;
+GT:       attack was unprecedented. He accused the Prime Minister of &quot;political double talk.&quot;
+dist:  0 0
+
+Decoded:  &quot;It had the effect on one former supporter that he now thinks this Prime Minister is
+Decoded-C:&quot;It had the effect on one former supporter that he now thinks this Prime Minister is
+GT:       &quot;It had the effect on one former supporter that he now thinks this Prime Minister is
+dist:  0 0
+
+Decoded:  a national disaster,&quot; he said.
+Decoded-C:a national disaster,&quot; he said.
+GT:       a national disaster,&quot; he said.
+dist:  0 0
+
+Decoded:  Most MPs agreed that Mr. Fell's attack had, if anything, rallied support to the Prime
+Decoded-C:Most MPs agreed that Mr. Fell's attack had, if anything, rallied support to the Prime
+GT:       Most MPs agreed that Mr. Fell's attack had, if anything, rallied support to the Prime
+dist:  0 0
+
+Decoded:  Minister. This apparently, was Mr. Macmillan's assessment. He confined his reply
+Decoded-C:Minister. This apparently, was Mr. Macmillan's assessment. He confined his reply
+GT:       Minister. This apparently, was Mr. Macmillan's assessment. He confined his reply
+dist:  0 0
+
+Decoded:  to the observation that Mr. Fell had probably &quot;maimised his support.&quot; There were
+Decoded-C:to the observation that Mr. Fell had probably &quot;maimised his support.&quot; There were
+GT:       to the observation that Mr. Fell had probably &quot;maximised his support.&quot; There were
+dist:  1 1
+
+Decoded:  no other attacks of such ferocity. But there was ample evidence of Conservative and
+Decoded-C:no other attacks of such ferocity. But there was ample evidence of Conservative and
+GT:       no other attacks of such ferocity. But there was ample evidence of Conservative and
+dist:  0 0
+
+Decoded:  Labour opposition, which will be aired in the debate tomorrow and on Thursday.
+Decoded-C:Labour opposition, which will be aired in the debate tomorrow and on Thursday.
+GT:       Labour opposition, which will be aired in the debate tomorrow and on Thursday.
+dist:  0 0
+
+Decoded:  Referring to previous negotiations, Mr. Macmillan looked towards Mr. Reginald
+Decoded-C:Referring to previous negotiations, Mr. Macmillan looked towards Mr. Reginald
+GT:       Referring to previous negotiations, Mr. Macmillan looked towards Mr. Reginald
+dist:  0 0
+
+Decoded:  Maudling. &quot;These were negotiations in which the President of the Board of Trade
+Decoded-C:Maudling. &quot;These were negotiations in which the President of the Board of Trade
+GT:       Maudling. &quot;These were negotiations in which the President of the Board of Trade
+dist:  0 0
+
+Decoded:  played a conspicuous part,&quot; the Premier said. He dismissed the idea that Britain
+Decoded-C:played a conspicuous part,&quot; the Premier said. He dismissed the idea that Britain
+GT:       played a conspicuous part,&quot; the Premier said. He dismissed the idea that Britain
+dist:  0 0
+
+Decoded:  would be swamped by cheap labour. Our industry, he said, would probably gain.
+Decoded-C:would be swamped by cheap labour. Our industry, he said, would probably gain.
+GT:       would be swamped by cheap labour. Our industry, he said, would probably gain.
+dist:  0 0
+
+Decoded:  &quot;Many people feel we have had, perhaps, too much shelter,&quot; he went on.
+Decoded-C:&quot;Many people feel we have had, perhaps, too much shelter,&quot; he went on.
+GT:       &quot;Many people feel we have had, perhaps, too much shelter,&quot; he went on.
+dist:  0 0
+
+Error rate: dist without spell correction 95/2498 - 0.038030424339471576%
+Error rate: dist with spell correction 58/2498 - 0.02321857485988791%
+
+Process finished with exit code 0
