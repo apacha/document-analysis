@@ -4,7 +4,7 @@ from distutils import dir_util
 from omrdatasettools.downloaders.DatasetDownloader import DatasetDownloader
 
 
-class IAmPrintedDatasetDownloader(DatasetDownloader):
+class IamPrintedDatasetDownloader(DatasetDownloader):
     def __init__(self, destination_directory: str):
         """
         Create and initializes a new dataset.
@@ -16,7 +16,7 @@ class IAmPrintedDatasetDownloader(DatasetDownloader):
         return "ftp://scruffy.caa.tuwien.ac.at/staff/diem/DAVU/I%20AM%20printed.zip"
 
     def get_dataset_filename(self) -> str:
-        return "I AM printed.zip"
+        return "IAM printed.zip"
 
     def download_and_extract_dataset(self):
         if not os.path.exists(self.get_dataset_filename()):
@@ -37,5 +37,5 @@ if __name__ == "__main__":
 
     flags, unparsed = parser.parse_known_args()
 
-    dataset_downloader = IAmPrintedDatasetDownloader(flags.dataset_directory)
+    dataset_downloader = IamPrintedDatasetDownloader(flags.dataset_directory)
     dataset_downloader.download_and_extract_dataset()

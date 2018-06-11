@@ -4,13 +4,13 @@ import os
 import annotation_loader
 import dataset_splitter
 import image_to_lines_converter
-from ocr_downloader import IAmPrintedDatasetDownloader
+from ocr_downloader import IamPrintedDatasetDownloader
 from predict import predict
 from train import train_model_for_ocr
 
 
 def remove_samples_with_incorrect_annotations():
-    i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
+    i_am_printed_directory = os.path.join(dataset_directory, "IAM printed")
     try:
         os.remove(os.path.join(i_am_printed_directory, "a04-006.png"))
         os.remove(os.path.join(i_am_printed_directory, "a04-006.xml"))
@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     dataset_directory = flags.dataset_directory
 
-    dataset_downloader = IAmPrintedDatasetDownloader(dataset_directory)
+    dataset_downloader = IamPrintedDatasetDownloader(dataset_directory)
     dataset_downloader.download_and_extract_dataset()
     remove_samples_with_incorrect_annotations()
     dataset_splitter.split_dataset_into_training_and_test_sets(dataset_directory)
