@@ -62,7 +62,7 @@ if __name__ == "__main__":
               y=training_outputs,
               batch_size=configuration.training_minibatch_size,
               epochs=configuration.number_of_epochs,
-              validation_split=0.2,
+              validation_split=0.25,
               callbacks=callbacks)
 
     predict.predict(dataset_directory, best_model_path, image_height, image_width, absolute_max_string_length)
