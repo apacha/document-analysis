@@ -88,19 +88,21 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
                                                                                      edit_distance_without_spell_correction,
                                                                                      edit_distance_with_spell_correction))
 
-    print("Error rate: dist without spell correction {0}/{1} - {2}%".format(total_edit_distance_without_spell_correction,
-                                                                            total_number_of_words_in_dataset,
-                                                                            total_edit_distance_without_spell_correction / total_number_of_words_in_dataset))
-    print("Error rate: dist with spell correction {0}/{1} - {2}%".format(total_edit_distance_with_spell_correction,
-                                                                         total_number_of_words_in_dataset,
-                                                                         total_edit_distance_with_spell_correction / total_number_of_words_in_dataset))
+    print("Edit distance without spell correction {0} for {1} words. Word Error Rate: {2:.1f}%".format(
+        total_edit_distance_without_spell_correction,
+        total_number_of_words_in_dataset,
+        total_edit_distance_without_spell_correction / total_number_of_words_in_dataset * 100))
+    print("Edit distance with spell correction {0} for {1} words. Word Error Rate {2:.1f}%".format(
+        total_edit_distance_with_spell_correction,
+        total_number_of_words_in_dataset,
+        total_edit_distance_with_spell_correction / total_number_of_words_in_dataset * 100))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_directory", type=str, default="data",
                         help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_path", type=str, default="2018-06-11_simple_1900x64.h5",
+    parser.add_argument("--model_path", type=str, default="2018-06-11_simple_1900x64_validation_loss_3.0.h5",
                         help="The trained model")
     parser.add_argument("--maximum_number_of_characters_in_longest_text_line", default=146, type=int,
                         help="Max length of strings")
