@@ -18,6 +18,7 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
     # We are forced to provide a implementation for the lambda-operation, that was not serialized
     m = models.load_model(model_path, custom_objects={'<lambda>': lambda y_true, y_predict: y_predict})
     (_, image_width, image_height, _) = m.layers[0].input.shape
+    image_height, image_width = int(image_height), int(image_width)
 
     inputs, _ = dataset_loader.load_dataset_split_into_memory(dataset_directory, "test", mapping, image_width,
                                                               image_height,
