@@ -79,7 +79,6 @@ def predict(dataset_directory: str, model_path: str, image_height: int, image_wi
         total_with_spell_cor_edit_dist += edit_dist_with_spell_correction
         total_without_spell_cor_edit_dist += edit_dist_without_spell_correction
 
-        # TODO: falsch verbundene woerter, zb Washingtongossip&quot;
         print("Decoded:  {0}\nDecoded-C:{1}\nGT:       {2}\ndist:  {3} {4}\n".format(decoded, decoded_new, ground_truth,
                                                                                      edit_dist_without_spell_correction,
                                                                                      edit_dist_with_spell_correction))
@@ -96,7 +95,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_directory", type=str, default="data",
                         help="The directory, that is used for storing the images during training")
-    parser.add_argument("--model_path", type=str, default="2018-06-04_simple_1900x64.h5",
+    parser.add_argument("--model_path", type=str, default="2018-06-10_simple_1900x64.h5",
                         help="The trained model")
     parser.add_argument("--height", default=64, type=int, help="Height of the input-images for the network in pixel")
     parser.add_argument("--width", default=1900, type=int, help="Width of the input-images for the network in pixel")

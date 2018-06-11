@@ -8,6 +8,7 @@ import dataset_loader
 import dataset_splitter
 import image_to_lines_converter
 import ocr_downloader
+import predict
 from models.ConfigurationFactory import ConfigurationFactory
 
 if __name__ == "__main__":
@@ -63,3 +64,5 @@ if __name__ == "__main__":
               epochs=configuration.number_of_epochs,
               validation_split=0.2,
               callbacks=callbacks)
+
+    predict.predict(dataset_directory, best_model_path, image_height, image_width, absolute_max_string_length)
