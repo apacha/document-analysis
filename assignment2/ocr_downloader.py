@@ -4,7 +4,7 @@ from distutils import dir_util
 from omrdatasettools.downloaders.DatasetDownloader import DatasetDownloader
 
 
-class OCRDownloader(DatasetDownloader):
+class IAmPrintedDatasetDownloader(DatasetDownloader):
     def __init__(self, destination_directory: str):
         """
         Create and initializes a new dataset.
@@ -13,9 +13,6 @@ class OCRDownloader(DatasetDownloader):
         super().__init__(destination_directory)
 
     def get_dataset_download_url(self) -> str:
-        # If this link does not work anymore, you can download the tar-ball from
-        # https://sourceforge.net/projects/openomr/
-        # and you will find the images in OpenOMR/neuralnetwork/ + train/validation/test folders
         return "ftp://scruffy.caa.tuwien.ac.at/staff/diem/DAVU/I%20AM%20printed.zip"
 
     def get_dataset_filename(self) -> str:
@@ -30,11 +27,6 @@ class OCRDownloader(DatasetDownloader):
         self.extract_dataset(self.destination_directory)
 
 
-def download_i_am_printed_database(destination_directory: str):
-    dataset = OCRDownloader(destination_directory)
-    dataset.download_and_extract_dataset()
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -45,4 +37,5 @@ if __name__ == "__main__":
 
     flags, unparsed = parser.parse_known_args()
 
-    download_i_am_printed_database(flags.dataset_directory)
+    dataset_downloader = IAmPrintedDatasetDownloader(flags.dataset_directory)
+    dataset_downloader.download_and_extract_dataset()

@@ -1,19 +1,25 @@
 import argparse
-import datetime
-
-from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+import os
 
 import annotation_loader
-import dataset_loader
 import dataset_splitter
 import image_to_lines_converter
-import ocr_downloader
-import predict
-from models.ConfigurationFactory import ConfigurationFactory
+from ocr_downloader import IAmPrintedDatasetDownloader
+from predict import predict
+from train import train_model_for_ocr
+
+
+def remove_samples_with_incorrect_annotations():
+    i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
+    try:
+        os.remove(os.path.join(i_am_printed_directory, "a04-006.png"))
+        os.remove(os.path.join(i_am_printed_directory, "a04-006.xml"))
+    except OSError:
+        pass
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.register("type", "bool", lambda v: v.lower() == "true")
     parser.add_argument(
         "--dataset_directory",
         type=str,
@@ -24,45 +30,22 @@ if __name__ == "__main__":
 
     dataset_directory = flags.dataset_directory
 
-    ocr_downloader.download_i_am_printed_database(dataset_directory)
+    dataset_downloader = IAmPrintedDatasetDownloader(dataset_directory)
+    dataset_downloader.download_and_extract_dataset()
+    remove_samples_with_incorrect_annotations()
     dataset_splitter.split_dataset_into_training_and_test_sets(dataset_directory)
     maximal_line_height = image_to_lines_converter.split_images_into_text_lines(dataset_directory)
     text_line_image_to_text_mapping = annotation_loader.load_mapping(dataset_directory)
     annotation_loader.remove_lines_without_matching_annotation(dataset_directory, text_line_image_to_text_mapping)
 
     image_width, image_height = 1900, 64
-    absolute_max_string_length = 146
+    # The longest text-line in our dataset consists of 146 characters
+    maximum_number_of_characters_in_longest_text_line = 146
+    # The alphabet currently has 77 characters, including special characters
     alphabet_length = 77
-    configuration = ConfigurationFactory.get_configuration_by_name("simple", image_width, image_height, alphabet_length,
-                                                                   absolute_max_string_length)
-    print(configuration.summary())
-    model = configuration.model()
 
-    training_inputs, training_outputs = dataset_loader.load_dataset(dataset_directory, "training",
-                                                                    text_line_image_to_text_mapping,
-                                                                    image_width, image_height,
-                                                                    absolute_max_string_length)
+    model_path = train_model_for_ocr(dataset_directory, "simple", image_width, image_height, alphabet_length,
+                        maximum_number_of_characters_in_longest_text_line, text_line_image_to_text_mapping)
 
-    start_of_training = datetime.date.today()
-    model_description = "{0}_{1}_{2}x{3}".format(start_of_training, configuration.name(), image_width, image_height)
-    best_model_path = model_description + ".h5"
-
-    model_checkpoint = ModelCheckpoint(best_model_path, verbose=1, save_best_only=True, monitor='val_loss')
-    early_stopping = EarlyStopping(monitor="val_loss", patience=configuration.number_of_epochs_before_early_stopping,
-                                   verbose=1)
-    learning_rate_reduction = ReduceLROnPlateau(monitor="val_loss",
-                                                patience=configuration.number_of_epochs_before_reducing_learning_rate,
-                                                verbose=1,
-                                                factor=configuration.learning_rate_reduction_factor,
-                                                min_lr=configuration.minimum_learning_rate)
-
-    callbacks = [model_checkpoint, early_stopping, learning_rate_reduction]
-
-    model.fit(x=training_inputs,
-              y=training_outputs,
-              batch_size=configuration.training_minibatch_size,
-              epochs=configuration.number_of_epochs,
-              validation_split=0.25,
-              callbacks=callbacks)
-
-    predict.predict(dataset_directory, best_model_path, image_height, image_width, absolute_max_string_length)
+    predict(dataset_directory, model_path, image_height, image_width,
+            maximum_number_of_characters_in_longest_text_line)

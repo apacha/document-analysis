@@ -11,18 +11,14 @@ from models.loss import ctc_lambda_func
 
 
 class Simple2Configuration(TrainingConfiguration):
-    """ A network with residual modules """
 
-    def __init__(self, width: int, height: int, alphabet_length: int = 77, absolute_maximum_string_length: int = 146):
+    def __init__(self, width: int, height: int, alphabet_length: int,
+                 maximum_number_of_characters_in_longest_text_line: int):
         super().__init__(data_shape=(width, height, 1))
-        # The longest text-line in our dataset consists of 146 characters
-        self.absolute_maximum_string_length = absolute_maximum_string_length
-        # The alphabet currently has 77 characters, including special characters
+        self.maximum_number_of_characters_in_longest_text_line = maximum_number_of_characters_in_longest_text_line
         self.alphabet_length = alphabet_length
 
     def model(self) -> Model:
-        """ Returns the model of this configuration """
-
         act = 'relu'
         conv_filters = [64, 256, 256]
         kernel_size = (3, 3)
@@ -65,7 +61,8 @@ class Simple2Configuration(TrainingConfiguration):
                       name='dense2')(concatenate([gru_2, gru_2b]))
         y_pred = Activation('softmax', name='softmax')(inner)
 
-        labels = Input(name='the_labels', shape=[self.absolute_maximum_string_length], dtype='float32')
+        labels = Input(name='the_labels', shape=[self.maximum_number_of_characters_in_longest_text_line],
+                       dtype='float32')
         input_length = Input(name='input_length', shape=[1], dtype='int64')
         label_length = Input(name='label_length', shape=[1], dtype='int64')
         # Keras doesn't currently support loss funcs with extra parameters
@@ -86,7 +83,7 @@ class Simple2Configuration(TrainingConfiguration):
 
 
 if __name__ == "__main__":
-    configuration = Simple2Configuration(1900, 64)
+    configuration = Simple2Configuration(1900, 64, 77, 146)
     classifier = configuration.model()
     classifier.summary()
     plot_model(classifier, to_file="{0}.png".format(configuration.name()))

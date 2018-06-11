@@ -35,11 +35,20 @@ def _get_randomized_sample_pairs(i_am_printed_directory: str, seed_for_reproduci
 
 
 def split_dataset_into_training_and_test_sets(dataset_directory: str = "data"):
+    """ Splits the dataset only into training/test sets with 80% and 20% respectively. """
     return split_dataset_into_training_validation_and_test_sets(dataset_directory, 0.8, 0.2)
 
 
 def split_dataset_into_training_validation_and_test_sets(dataset_directory: str = "data", training_precentage=0.6,
                                                          test_percentage=0.2):
+    """
+    Splits the provided dataset into three distinct sets for training, validation and test.
+    Defaults to a 60/20/20 split, unless otherwise specified. Only train/test are specified as inputs. The remaining
+    data will be used for the validation set.
+    :param training_precentage: Fraction of data to use for training
+    :param test_percentage: Fraction of data to use for testing
+    :return:
+    """
     i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
     training_directory = os.path.join(dataset_directory, "training")
     validation_directory = os.path.join(dataset_directory, "validation")
@@ -54,13 +63,6 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory: str 
     if os.path.exists(test_directory):
         shutil.rmtree(test_directory)
     os.makedirs(test_directory)
-
-    # remove wrong annotated image
-    try:
-        os.remove(os.path.join(i_am_printed_directory, "a04-006.png"))
-        os.remove(os.path.join(i_am_printed_directory, "a04-006.xml"))
-    except OSError:
-        pass
 
     randomized_files = _get_randomized_sample_pairs(i_am_printed_directory)
 

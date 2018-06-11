@@ -8,16 +8,19 @@ import annotation_loader
 import dataset_loader
 import editdistance
 
+
 def predict(dataset_directory: str, model_path: str, image_height: int, image_width: int,
-            absolute_max_string_length=146):
+            maximum_number_of_characters_in_longest_text_line=146):
     mapping = annotation_loader.load_mapping(dataset_directory)
     alphabet = annotation_loader.load_alphabet_from_samples(mapping)
 
     print("Loading model...")
+    # We are forced to provide a implementation for the lambda-operation, that was not serialized
     m = models.load_model(model_path, custom_objects={'<lambda>': lambda y_true, y_predict: y_predict})
 
-    inputs, _ = dataset_loader.load_dataset(dataset_directory, "test", mapping, image_width, image_height,
-                                            absolute_max_string_length)
+    inputs, _ = dataset_loader.load_dataset_split_into_memory(dataset_directory, "test", mapping, image_width,
+                                                              image_height,
+                                                              maximum_number_of_characters_in_longest_text_line)
     prediction = m.predict(inputs)
 
     softmax_activations = prediction[1]
@@ -99,8 +102,10 @@ if __name__ == "__main__":
                         help="The trained model")
     parser.add_argument("--height", default=64, type=int, help="Height of the input-images for the network in pixel")
     parser.add_argument("--width", default=1900, type=int, help="Width of the input-images for the network in pixel")
-    parser.add_argument("--absolute_max_string_length", default=146, type=int, help="Max length of strings")
+    parser.add_argument("--maximum_number_of_characters_in_longest_text_line", default=146, type=int,
+                        help="Max length of strings")
 
     flags, unparsed = parser.parse_known_args()
 
-    predict(flags.dataset_directory, flags.model_path, flags.height, flags.width, flags.absolute_max_string_length)
+    predict(flags.dataset_directory, flags.model_path, flags.height, flags.width,
+            flags.maximum_number_of_characters_in_longest_text_line)
