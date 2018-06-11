@@ -47,5 +47,4 @@ if __name__ == "__main__":
     model_path = train_model_for_ocr(dataset_directory, "simple", image_width, image_height, alphabet_length,
                                      maximum_number_of_characters_in_longest_text_line, text_line_image_to_text_mapping)
 
-    predict_and_evaluate(dataset_directory, model_path, image_height, image_width,
-                         maximum_number_of_characters_in_longest_text_line)
+    predict_and_evaluate(dataset_directory, model_path, maximum_number_of_characters_in_longest_text_line)

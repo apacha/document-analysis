@@ -27,13 +27,13 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
 
     softmax_activations = prediction[1]
 
-    word_quantity = 0
+    total_number_of_words_in_dataset = 0
 
     # create dictionary for spelling correction
     dictionary = set()
     for line in inputs['ground_truth']:
         ground_truth_line = line.split(" ")
-        word_quantity += len(ground_truth_line)
+        total_number_of_words_in_dataset += len(ground_truth_line)
         ground_truth_line = [
             x.replace('.', '') and x.replace('&quot;', '') and x.replace(',', '') and x.replace(';', '') for x in
             ground_truth_line]
@@ -41,8 +41,8 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
 
     dictionary.add('&quot')
 
-    total_without_spell_cor_edit_dist = 0
-    total_with_spell_cor_edit_dist = 0
+    total_edit_distance_without_spell_correction = 0
+    total_edit_distance_with_spell_correction = 0
 
     # Best path decoding
     print("Spelling correction...")
@@ -57,7 +57,7 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
                 decoded += (alphabet[c])
 
         ground_truth = inputs['ground_truth'][index]
-        edit_dist_without_spell_correction = editdistance.eval(decoded, ground_truth)
+        edit_distance_without_spell_correction = editdistance.eval(decoded, ground_truth)
 
         # proof if word exist
         # test_correct_elements = set(w for w in words if w in dictionary)
@@ -80,20 +80,20 @@ def predict_and_evaluate(dataset_directory: str, model_path: str,
 
             decoded_new = decoded_new.replace(w1, minDistWord)
 
-        edit_dist_with_spell_correction = editdistance.eval(decoded_new, ground_truth)
-        total_with_spell_cor_edit_dist += edit_dist_with_spell_correction
-        total_without_spell_cor_edit_dist += edit_dist_without_spell_correction
+        edit_distance_with_spell_correction = editdistance.eval(decoded_new, ground_truth)
+        total_edit_distance_with_spell_correction += edit_distance_with_spell_correction
+        total_edit_distance_without_spell_correction += edit_distance_without_spell_correction
 
         print("Decoded:  {0}\nDecoded-C:{1}\nGT:       {2}\ndist:  {3} {4}\n".format(decoded, decoded_new, ground_truth,
-                                                                                     edit_dist_without_spell_correction,
-                                                                                     edit_dist_with_spell_correction))
+                                                                                     edit_distance_without_spell_correction,
+                                                                                     edit_distance_with_spell_correction))
 
-    print("Error rate: dist without spell correction {0}/{1} - {2}%".format(total_without_spell_cor_edit_dist,
-                                                                            word_quantity,
-                                                                            total_without_spell_cor_edit_dist / word_quantity))
-    print("Error rate: dist with spell correction {0}/{1} - {2}%".format(total_with_spell_cor_edit_dist,
-                                                                         word_quantity,
-                                                                         total_with_spell_cor_edit_dist / word_quantity))
+    print("Error rate: dist without spell correction {0}/{1} - {2}%".format(total_edit_distance_without_spell_correction,
+                                                                            total_number_of_words_in_dataset,
+                                                                            total_edit_distance_without_spell_correction / total_number_of_words_in_dataset))
+    print("Error rate: dist with spell correction {0}/{1} - {2}%".format(total_edit_distance_with_spell_correction,
+                                                                         total_number_of_words_in_dataset,
+                                                                         total_edit_distance_with_spell_correction / total_number_of_words_in_dataset))
 
 
 if __name__ == "__main__":
