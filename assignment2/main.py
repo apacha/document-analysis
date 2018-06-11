@@ -10,7 +10,7 @@ from train import train_model_for_ocr
 
 
 def remove_samples_with_incorrect_annotations():
-    i_am_printed_directory = os.path.join(dataset_directory, "IAM printed")
+    i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
     try:
         os.remove(os.path.join(i_am_printed_directory, "a04-006.png"))
         os.remove(os.path.join(i_am_printed_directory, "a04-006.xml"))

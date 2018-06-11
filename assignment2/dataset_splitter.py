@@ -49,7 +49,7 @@ def split_dataset_into_training_validation_and_test_sets(dataset_directory: str 
     :param test_percentage: Fraction of data to use for testing
     :return:
     """
-    i_am_printed_directory = os.path.join(dataset_directory, "IAM printed")
+    i_am_printed_directory = os.path.join(dataset_directory, "I AM printed")
     training_directory = os.path.join(dataset_directory, "training")
     validation_directory = os.path.join(dataset_directory, "validation")
     test_directory = os.path.join(dataset_directory, "test")

@@ -10,7 +10,7 @@ from tqdm import tqdm
 def load_mapping(dataset_directory: str = "data") -> Dict[str, str]:
     text_line_image_to_text_mapping = {}
 
-    annotation_files = glob(os.path.join(dataset_directory, "IAM printed", "*.xml"))
+    annotation_files = glob(os.path.join(dataset_directory, "I AM printed", "*.xml"))
 
     for annotation_file in tqdm(annotation_files, desc="Loading annotations ..."):
         tree = ET.parse(annotation_file)
